@@ -1,0 +1,18 @@
+[package]
+name = "wasmvision"
+description = "Rust bindings for wasmVision platform host functions."
+version = "0.0.1"
+edition = "2021"
+license = "Apache-2.0"
+keywords = ["opencv", "wasm", "wasi", "vision", "wasmcv"]
+categories =["computer-vision", "wasm"]
+authors = ["deadprogram <ron@hybridgroup.com>"]
+repository = "https://github.com/wasmvision/wasmvision-sdk"
+readme = "README.md"
+
+[dependencies]
+wit-bindgen = "0.32.0"
+
+[lib]
+path = "src/imports.rs"
+crate-type = ["lib"]
