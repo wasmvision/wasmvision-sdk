@@ -1,0 +1,7 @@
+interface logging {
+    /// Log a message on the host.
+    log: func(msg: string);
+
+    /// Print a message on the host.
+    println: func(msg: string);
+}

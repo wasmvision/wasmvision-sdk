@@ -1,0 +1,8 @@
+interface config {
+    get-config: func(key: string) -> result<string, config-error>;
+
+    enum config-error {
+        /// The requested key does not exist in the configuration.
+        no-such-key,
+    }
+}
