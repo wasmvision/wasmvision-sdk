@@ -5,6 +5,162 @@ pub mod wasmvision {
   #[allow(dead_code)]
   pub mod platform {
     #[allow(dead_code, clippy::all)]
+    pub mod logging {
+      #[used]
+      #[doc(hidden)]
+      static __FORCE_SECTION_REF: fn() =
+      super::super::super::__link_custom_section_describing_imports;
+      
+      #[allow(unused_unsafe, clippy::all)]
+      /// Log a message on the host.
+      pub fn log(msg: &str,){
+        unsafe {
+          let vec0 = msg;
+          let ptr0 = vec0.as_ptr().cast::<u8>();
+          let len0 = vec0.len();
+
+          #[cfg(target_arch = "wasm32")]
+          #[link(wasm_import_module = "wasmvision:platform/logging")]
+          extern "C" {
+            #[link_name = "log"]
+            fn wit_import(_: *mut u8, _: usize, );
+          }
+
+          #[cfg(not(target_arch = "wasm32"))]
+          fn wit_import(_: *mut u8, _: usize, ){ unreachable!() }
+          wit_import(ptr0.cast_mut(), len0);
+        }
+      }
+      #[allow(unused_unsafe, clippy::all)]
+      /// Print a message on the host.
+      pub fn println(msg: &str,){
+        unsafe {
+          let vec0 = msg;
+          let ptr0 = vec0.as_ptr().cast::<u8>();
+          let len0 = vec0.len();
+
+          #[cfg(target_arch = "wasm32")]
+          #[link(wasm_import_module = "wasmvision:platform/logging")]
+          extern "C" {
+            #[link_name = "println"]
+            fn wit_import(_: *mut u8, _: usize, );
+          }
+
+          #[cfg(not(target_arch = "wasm32"))]
+          fn wit_import(_: *mut u8, _: usize, ){ unreachable!() }
+          wit_import(ptr0.cast_mut(), len0);
+        }
+      }
+
+    }
+
+    #[allow(dead_code, clippy::all)]
+    pub mod config {
+      #[used]
+      #[doc(hidden)]
+      static __FORCE_SECTION_REF: fn() =
+      super::super::super::__link_custom_section_describing_imports;
+      
+      use super::super::super::_rt;
+      #[repr(u8)]
+      #[derive(Clone, Copy, Eq, Ord, PartialEq, PartialOrd)]
+      pub enum ConfigError {
+        /// The requested key does not exist in the configuration.
+        NoSuchKey,
+      }
+      impl ConfigError{
+        pub fn name(&self) -> &'static str {
+          match self {
+            ConfigError::NoSuchKey => "no-such-key",
+          }
+        }
+        pub fn message(&self) -> &'static str {
+          match self {
+            ConfigError::NoSuchKey => "The requested key does not exist in the configuration.",
+          }
+        }
+      }
+      impl ::core::fmt::Debug for ConfigError{
+        fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+          f.debug_struct("ConfigError")
+          .field("code", &(*self as i32))
+          .field("name", &self.name())
+          .field("message", &self.message())
+          .finish()
+        }
+      }
+      impl ::core::fmt::Display for ConfigError{
+        fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+          write!(f, "{} (error {})", self.name(), *self as i32)
+        }
+      }
+
+      impl std::error::Error for ConfigError {}
+
+      impl ConfigError{
+        #[doc(hidden)]
+        pub unsafe fn _lift(val: u8) -> ConfigError{
+          if !cfg!(debug_assertions) {
+            return ::core::mem::transmute(val);
+          }
+
+          match val {
+            0 => ConfigError::NoSuchKey,
+
+            _ => panic!("invalid enum discriminant"),
+          }
+        }
+      }
+
+      #[allow(unused_unsafe, clippy::all)]
+      pub fn get_config(key: &str,) -> Result<_rt::String,ConfigError>{
+        unsafe {
+          #[repr(align(4))]
+          struct RetArea([::core::mem::MaybeUninit::<u8>; 12]);
+          let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+          let vec0 = key;
+          let ptr0 = vec0.as_ptr().cast::<u8>();
+          let len0 = vec0.len();
+          let ptr1 = ret_area.0.as_mut_ptr().cast::<u8>();
+          #[cfg(target_arch = "wasm32")]
+          #[link(wasm_import_module = "wasmvision:platform/config")]
+          extern "C" {
+            #[link_name = "get-config"]
+            fn wit_import(_: *mut u8, _: usize, _: *mut u8, );
+          }
+
+          #[cfg(not(target_arch = "wasm32"))]
+          fn wit_import(_: *mut u8, _: usize, _: *mut u8, ){ unreachable!() }
+          wit_import(ptr0.cast_mut(), len0, ptr1);
+          let l2 = i32::from(*ptr1.add(0).cast::<u8>());
+          match l2 {
+            0 => {
+              let e = {
+                let l3 = *ptr1.add(4).cast::<*mut u8>();
+                let l4 = *ptr1.add(8).cast::<usize>();
+                let len5 = l4;
+                let bytes5 = _rt::Vec::from_raw_parts(l3.cast(), len5, len5);
+
+                _rt::string_lift(bytes5)
+              };
+              Ok(e)
+            }
+            1 => {
+              let e = {
+                let l6 = i32::from(*ptr1.add(4).cast::<u8>());
+
+                ConfigError::_lift(l6 as u8)
+              };
+              Err(e)
+            }
+            _ => _rt::invalid_enum_discriminant(),
+          }
+        }
+      }
+
+    }
+
+    #[allow(dead_code, clippy::all)]
     pub mod key_value {
       #[used]
       #[doc(hidden)]
@@ -618,6 +774,8 @@ pub mod wasmvision {
       }
 
       #[allow(unused_unsafe, clippy::all)]
+      /// Get the content at the specified URL.
+      /// Returns either the content or an error.
       pub fn get(url: &str,) -> Result<_rt::Vec::<u8>,HttpError>{
         unsafe {
           #[repr(align(4))]
@@ -662,6 +820,8 @@ pub mod wasmvision {
         }
       }
       #[allow(unused_unsafe, clippy::all)]
+      /// Post the content to the specified URL.
+      /// Returns either the response content or an error.
       pub fn post(url: &str,content_type: &str,body: &[u8],) -> Result<_rt::Vec::<u8>,HttpError>{
         unsafe {
           #[repr(align(4))]
@@ -717,7 +877,23 @@ pub mod wasmvision {
   }
 }
 mod _rt {
-
+  pub use alloc_crate::string::String;
+  pub use alloc_crate::vec::Vec;
+  pub unsafe fn string_lift(bytes: Vec<u8>) -> String {
+    if cfg!(debug_assertions) {
+      String::from_utf8(bytes).unwrap()
+    } else {
+      String::from_utf8_unchecked(bytes)
+    }
+  }
+  pub unsafe fn invalid_enum_discriminant<T>() -> T {
+    if cfg!(debug_assertions) {
+      panic!("invalid enum discriminant")
+    } else {
+      core::hint::unreachable_unchecked()
+    }
+  }
+  
 
   use core::fmt;
   use core::marker;
@@ -813,22 +989,6 @@ mod _rt {
       }
     }
   }
-  pub use alloc_crate::string::String;
-  pub use alloc_crate::vec::Vec;
-  pub unsafe fn string_lift(bytes: Vec<u8>) -> String {
-    if cfg!(debug_assertions) {
-      String::from_utf8(bytes).unwrap()
-    } else {
-      String::from_utf8_unchecked(bytes)
-    }
-  }
-  pub unsafe fn invalid_enum_discriminant<T>() -> T {
-    if cfg!(debug_assertions) {
-      panic!("invalid enum discriminant")
-    } else {
-      core::hint::unreachable_unchecked()
-    }
-  }
   pub unsafe fn bool_lift(val: u8) -> bool {
     if cfg!(debug_assertions) {
       match val {
@@ -854,26 +1014,28 @@ mod _rt {
 #[cfg(target_arch = "wasm32")]
 #[link_section = "component-type:wit-bindgen:0.32.0:wasmvision:platform:imports:encoded world"]
 #[doc(hidden)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 848] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xd2\x05\x01A\x02\x01\
-A\x04\x01B\x19\x04\0\x05store\x03\x01\x01q\x04\x10store-table-full\0\0\x0dno-suc\
-h-store\0\0\x0daccess-denied\0\0\x05other\x01s\0\x04\0\x05error\x03\0\x01\x01i\0\
-\x01j\x01\x03\x01\x02\x01@\x01\x05labels\0\x04\x04\0\x12[static]store.open\x01\x05\
-\x01h\0\x01p}\x01k\x07\x01j\x01\x08\x01\x02\x01@\x02\x04self\x06\x03keys\0\x09\x04\
-\0\x11[method]store.get\x01\x0a\x01j\0\x01\x02\x01@\x03\x04self\x06\x03keys\x05v\
-alue\x07\0\x0b\x04\0\x11[method]store.set\x01\x0c\x01@\x02\x04self\x06\x03keys\0\
-\x0b\x04\0\x14[method]store.delete\x01\x0d\x01j\x01\x7f\x01\x02\x01@\x02\x04self\
-\x06\x03keys\0\x0e\x04\0\x14[method]store.exists\x01\x0f\x01ps\x01j\x01\x10\x01\x02\
-\x01@\x01\x04self\x06\0\x11\x04\0\x16[method]store.get-keys\x01\x12\x03\0\x1dwas\
-mvision:platform/key-value\x05\0\x01B\x0a\x01m\x06\x07success\x17destination-not\
--allowed\x0binvalid-url\x0drequest-error\x0druntime-error\x11too-many-requests\x04\
-\0\x0ahttp-error\x03\0\0\x01q\x04\x10store-table-full\0\0\x0dno-such-store\0\0\x0d\
-access-denied\0\0\x05other\x01s\0\x04\0\x05error\x03\0\x02\x01p}\x01j\x01\x04\x01\
-\x01\x01@\x01\x03urls\0\x05\x04\0\x03get\x01\x06\x01@\x03\x03urls\x0ccontent-typ\
-es\x04body\x04\0\x05\x04\0\x04post\x01\x07\x03\0\x18wasmvision:platform/http\x05\
-\x01\x04\0\x1bwasmvision:platform/imports\x04\0\x0b\x0d\x01\0\x07imports\x03\0\0\
-\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.217.0\x10wit-bind\
-gen-rust\x060.32.0";
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 937] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xab\x06\x01A\x02\x01\
+A\x08\x01B\x03\x01@\x01\x03msgs\x01\0\x04\0\x03log\x01\0\x04\0\x07println\x01\0\x03\
+\0\x1bwasmvision:platform/logging\x05\0\x01B\x05\x01m\x01\x0bno-such-key\x04\0\x0c\
+config-error\x03\0\0\x01j\x01s\x01\x01\x01@\x01\x03keys\0\x02\x04\0\x0aget-confi\
+g\x01\x03\x03\0\x1awasmvision:platform/config\x05\x01\x01B\x19\x04\0\x05store\x03\
+\x01\x01q\x04\x10store-table-full\0\0\x0dno-such-store\0\0\x0daccess-denied\0\0\x05\
+other\x01s\0\x04\0\x05error\x03\0\x01\x01i\0\x01j\x01\x03\x01\x02\x01@\x01\x05la\
+bels\0\x04\x04\0\x12[static]store.open\x01\x05\x01h\0\x01p}\x01k\x07\x01j\x01\x08\
+\x01\x02\x01@\x02\x04self\x06\x03keys\0\x09\x04\0\x11[method]store.get\x01\x0a\x01\
+j\0\x01\x02\x01@\x03\x04self\x06\x03keys\x05value\x07\0\x0b\x04\0\x11[method]sto\
+re.set\x01\x0c\x01@\x02\x04self\x06\x03keys\0\x0b\x04\0\x14[method]store.delete\x01\
+\x0d\x01j\x01\x7f\x01\x02\x01@\x02\x04self\x06\x03keys\0\x0e\x04\0\x14[method]st\
+ore.exists\x01\x0f\x01ps\x01j\x01\x10\x01\x02\x01@\x01\x04self\x06\0\x11\x04\0\x16\
+[method]store.get-keys\x01\x12\x03\0\x1dwasmvision:platform/key-value\x05\x02\x01\
+B\x08\x01m\x06\x07success\x17destination-not-allowed\x0binvalid-url\x0drequest-e\
+rror\x0druntime-error\x11too-many-requests\x04\0\x0ahttp-error\x03\0\0\x01p}\x01\
+j\x01\x02\x01\x01\x01@\x01\x03urls\0\x03\x04\0\x03get\x01\x04\x01@\x03\x03urls\x0c\
+content-types\x04body\x02\0\x03\x04\0\x04post\x01\x05\x03\0\x18wasmvision:platfo\
+rm/http\x05\x03\x04\0\x1bwasmvision:platform/imports\x04\0\x0b\x0d\x01\0\x07impo\
+rts\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.217.0\x10\
+wit-bindgen-rust\x060.32.0";
 
 #[inline(never)]
 #[doc(hidden)]

@@ -3,6 +3,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+// Imported Functions from `wasmvision:platform/logging`
+
+__attribute__((__import_module__("wasmvision:platform/logging"), __import_name__("log")))
+extern void __wasm_import_wasmvision_platform_logging_log(uint8_t *, size_t);
+
+__attribute__((__import_module__("wasmvision:platform/logging"), __import_name__("println")))
+extern void __wasm_import_wasmvision_platform_logging_println(uint8_t *, size_t);
+
+// Imported Functions from `wasmvision:platform/config`
+
+__attribute__((__import_module__("wasmvision:platform/config"), __import_name__("get-config")))
+extern void __wasm_import_wasmvision_platform_config_get_config(uint8_t *, size_t, uint8_t *);
+
 // Imported Functions from `wasmvision:platform/key-value`
 
 __attribute__((__import_module__("wasmvision:platform/key-value"), __import_name__("[static]store.open")))
@@ -43,6 +56,13 @@ void *cabi_realloc(void *ptr, size_t old_size, size_t align, size_t new_size) {
 }
 
 // Helper Functions
+
+void wasmvision_platform_config_result_string_config_error_free(wasmvision_platform_config_result_string_config_error_t *ptr) {
+  if (!ptr->is_err) {
+    imports_string_free(&ptr->val.ok);
+  } else {
+  }
+}
 
 __attribute__((__import_module__("wasmvision:platform/key-value"), __import_name__("[resource-drop]store")))
 extern void __wasm_import_wasmvision_platform_key_value_store_drop(int32_t handle);
@@ -128,15 +148,6 @@ void wasmvision_platform_key_value_result_list_string_error_free(wasmvision_plat
   }
 }
 
-void wasmvision_platform_http_error_free(wasmvision_platform_http_error_t *ptr) {
-  switch ((int32_t) ptr->tag) {
-    case 3: {
-      imports_string_free(&ptr->val.other);
-      break;
-    }
-  }
-}
-
 void wasmvision_platform_http_result_list_u8_http_error_free(wasmvision_platform_http_result_list_u8_http_error_t *ptr) {
   if (!ptr->is_err) {
     imports_list_u8_free(&ptr->val.ok);
@@ -164,6 +175,41 @@ void imports_string_free(imports_string_t *ret) {
 }
 
 // Component Adapters
+
+void wasmvision_platform_logging_log(imports_string_t *msg) {
+  __wasm_import_wasmvision_platform_logging_log((uint8_t *) (*msg).ptr, (*msg).len);
+}
+
+void wasmvision_platform_logging_println(imports_string_t *msg) {
+  __wasm_import_wasmvision_platform_logging_println((uint8_t *) (*msg).ptr, (*msg).len);
+}
+
+bool wasmvision_platform_config_get_config(imports_string_t *key, imports_string_t *ret, wasmvision_platform_config_config_error_t *err) {
+  __attribute__((__aligned__(4)))
+  uint8_t ret_area[12];
+  uint8_t *ptr = (uint8_t *) &ret_area;
+  __wasm_import_wasmvision_platform_config_get_config((uint8_t *) (*key).ptr, (*key).len, ptr);
+  wasmvision_platform_config_result_string_config_error_t result;
+  switch ((int32_t) *((uint8_t*) (ptr + 0))) {
+    case 0: {
+      result.is_err = false;
+      result.val.ok = (imports_string_t) { (uint8_t*)(*((uint8_t **) (ptr + 4))), (*((size_t*) (ptr + 8))) };
+      break;
+    }
+    case 1: {
+      result.is_err = true;
+      result.val.err = (int32_t) *((uint8_t*) (ptr + 4));
+      break;
+    }
+  }
+  if (!result.is_err) {
+    *ret = result.val.ok;
+    return 1;
+  } else {
+    *err = result.val.err;
+    return 0;
+  }
+}
 
 bool wasmvision_platform_key_value_static_store_open(imports_string_t *label, wasmvision_platform_key_value_own_store_t *ret, wasmvision_platform_key_value_error_t *err) {
   __attribute__((__aligned__(4)))

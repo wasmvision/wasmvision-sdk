@@ -44,84 +44,10 @@ func (e HTTPError) String() string {
 	return stringsHTTPError[e]
 }
 
-// Error represents the variant "wasmvision:platform/http#error".
-//
-// The set of errors which may be raised by functions in this interface
-//
-//	variant error {
-//		store-table-full,
-//		no-such-store,
-//		access-denied,
-//		other(string),
-//	}
-type Error cm.Variant[uint8, string, string]
-
-// ErrorStoreTableFull returns a [Error] of case "store-table-full".
-//
-// Too many stores have been opened simultaneously. Closing one or more
-// stores prior to retrying may address this.
-func ErrorStoreTableFull() Error {
-	var data struct{}
-	return cm.New[Error](0, data)
-}
-
-// StoreTableFull returns true if [Error] represents the variant case "store-table-full".
-func (self *Error) StoreTableFull() bool {
-	return self.Tag() == 0
-}
-
-// ErrorNoSuchStore returns a [Error] of case "no-such-store".
-//
-// The host does not recognize the store label requested.
-func ErrorNoSuchStore() Error {
-	var data struct{}
-	return cm.New[Error](1, data)
-}
-
-// NoSuchStore returns true if [Error] represents the variant case "no-such-store".
-func (self *Error) NoSuchStore() bool {
-	return self.Tag() == 1
-}
-
-// ErrorAccessDenied returns a [Error] of case "access-denied".
-//
-// The requesting component does not have access to the specified store
-// (which may or may not exist).
-func ErrorAccessDenied() Error {
-	var data struct{}
-	return cm.New[Error](2, data)
-}
-
-// AccessDenied returns true if [Error] represents the variant case "access-denied".
-func (self *Error) AccessDenied() bool {
-	return self.Tag() == 2
-}
-
-// ErrorOther returns a [Error] of case "other".
-//
-// Some implementation-specific error has occurred (e.g. I/O)
-func ErrorOther(data string) Error {
-	return cm.New[Error](3, data)
-}
-
-// Other returns a non-nil *[string] if [Error] represents the variant case "other".
-func (self *Error) Other() *string {
-	return cm.Case[string](self, 3)
-}
-
-var stringsError = [4]string{
-	"store-table-full",
-	"no-such-store",
-	"access-denied",
-	"other",
-}
-
-// String implements [fmt.Stringer], returning the variant case name of v.
-func (v Error) String() string {
-	return stringsError[v.Tag()]
-}
-
 // Get represents the imported function "get".
+//
+// Get the content at the specified URL.
+// Returns either the content or an error.
 //
 //	get: func(url: string) -> result<list<u8>, http-error>
 //
@@ -137,6 +63,9 @@ func Get(url string) (result cm.Result[cm.List[uint8], cm.List[uint8], HTTPError
 func wasmimport_Get(url0 *uint8, url1 uint32, result *cm.Result[cm.List[uint8], cm.List[uint8], HTTPError])
 
 // Post represents the imported function "post".
+//
+// Post the content to the specified URL.
+// Returns either the response content or an error.
 //
 //	post: func(url: string, content-type: string, body: list<u8>) -> result<list<u8>,
 //	http-error>

@@ -14,6 +14,19 @@ typedef struct imports_string_t {
   size_t len;
 } imports_string_t;
 
+typedef uint8_t wasmvision_platform_config_config_error_t;
+
+// The requested key does not exist in the configuration.
+#define WASMVISION_PLATFORM_CONFIG_CONFIG_ERROR_NO_SUCH_KEY 0
+
+typedef struct {
+  bool is_err;
+  union {
+    imports_string_t ok;
+    wasmvision_platform_config_config_error_t err;
+  } val;
+} wasmvision_platform_config_result_string_config_error_t;
+
 typedef struct wasmvision_platform_key_value_own_store_t {
   int32_t __handle;
 } wasmvision_platform_key_value_own_store_t;
@@ -105,25 +118,6 @@ typedef uint8_t wasmvision_platform_http_http_error_t;
 #define WASMVISION_PLATFORM_HTTP_HTTP_ERROR_RUNTIME_ERROR 4
 #define WASMVISION_PLATFORM_HTTP_HTTP_ERROR_TOO_MANY_REQUESTS 5
 
-// The set of errors which may be raised by functions in this interface
-typedef struct wasmvision_platform_http_error_t {
-  uint8_t tag;
-  union {
-    imports_string_t     other;
-  } val;
-} wasmvision_platform_http_error_t;
-
-// Too many stores have been opened simultaneously. Closing one or more
-// stores prior to retrying may address this.
-#define WASMVISION_PLATFORM_HTTP_ERROR_STORE_TABLE_FULL 0
-// The host does not recognize the store label requested.
-#define WASMVISION_PLATFORM_HTTP_ERROR_NO_SUCH_STORE 1
-// The requesting component does not have access to the specified store
-// (which may or may not exist).
-#define WASMVISION_PLATFORM_HTTP_ERROR_ACCESS_DENIED 2
-// Some implementation-specific error has occurred (e.g. I/O)
-#define WASMVISION_PLATFORM_HTTP_ERROR_OTHER 3
-
 typedef struct {
   bool is_err;
   union {
@@ -131,6 +125,15 @@ typedef struct {
     wasmvision_platform_http_http_error_t err;
   } val;
 } wasmvision_platform_http_result_list_u8_http_error_t;
+
+// Imported Functions from `wasmvision:platform/logging`
+// Log a message on the host.
+extern void wasmvision_platform_logging_log(imports_string_t *msg);
+// Print a message on the host.
+extern void wasmvision_platform_logging_println(imports_string_t *msg);
+
+// Imported Functions from `wasmvision:platform/config`
+extern bool wasmvision_platform_config_get_config(imports_string_t *key, imports_string_t *ret, wasmvision_platform_config_config_error_t *err);
 
 // Imported Functions from `wasmvision:platform/key-value`
 // Open the store with the specified label.
@@ -155,10 +158,16 @@ extern bool wasmvision_platform_key_value_method_store_exists(wasmvision_platfor
 extern bool wasmvision_platform_key_value_method_store_get_keys(wasmvision_platform_key_value_borrow_store_t self, imports_list_string_t *ret, wasmvision_platform_key_value_error_t *err);
 
 // Imported Functions from `wasmvision:platform/http`
+// Get the content at the specified URL.
+// Returns either the content or an error.
 extern bool wasmvision_platform_http_get(imports_string_t *url, imports_list_u8_t *ret, wasmvision_platform_http_http_error_t *err);
+// Post the content to the specified URL.
+// Returns either the response content or an error.
 extern bool wasmvision_platform_http_post(imports_string_t *url, imports_string_t *content_type, imports_list_u8_t *body, imports_list_u8_t *ret, wasmvision_platform_http_http_error_t *err);
 
 // Helper Functions
+
+void wasmvision_platform_config_result_string_config_error_free(wasmvision_platform_config_result_string_config_error_t *ptr);
 
 extern void wasmvision_platform_key_value_store_drop_own(wasmvision_platform_key_value_own_store_t handle);
 
@@ -181,8 +190,6 @@ void wasmvision_platform_key_value_result_bool_error_free(wasmvision_platform_ke
 void imports_list_string_free(imports_list_string_t *ptr);
 
 void wasmvision_platform_key_value_result_list_string_error_free(wasmvision_platform_key_value_result_list_string_error_t *ptr);
-
-void wasmvision_platform_http_error_free(wasmvision_platform_http_error_t *ptr);
 
 void wasmvision_platform_http_result_list_u8_http_error_free(wasmvision_platform_http_result_list_u8_http_error_t *ptr);
 
