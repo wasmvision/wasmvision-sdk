@@ -16,8 +16,10 @@ typedef struct imports_string_t {
 
 typedef uint8_t wasmvision_platform_config_config_error_t;
 
+// success, all is well.
+#define WASMVISION_PLATFORM_CONFIG_CONFIG_ERROR_SUCCESS 0
 // The requested key does not exist in the configuration.
-#define WASMVISION_PLATFORM_CONFIG_CONFIG_ERROR_NO_SUCH_KEY 0
+#define WASMVISION_PLATFORM_CONFIG_CONFIG_ERROR_NO_SUCH_KEY 1
 
 typedef struct {
   bool is_err;

@@ -65,17 +65,21 @@ pub mod wasmvision {
       #[repr(u8)]
       #[derive(Clone, Copy, Eq, Ord, PartialEq, PartialOrd)]
       pub enum ConfigError {
+        /// success, all is well.
+        Success,
         /// The requested key does not exist in the configuration.
         NoSuchKey,
       }
       impl ConfigError{
         pub fn name(&self) -> &'static str {
           match self {
+            ConfigError::Success => "success",
             ConfigError::NoSuchKey => "no-such-key",
           }
         }
         pub fn message(&self) -> &'static str {
           match self {
+            ConfigError::Success => "success, all is well.",
             ConfigError::NoSuchKey => "The requested key does not exist in the configuration.",
           }
         }
@@ -105,7 +109,8 @@ pub mod wasmvision {
           }
 
           match val {
-            0 => ConfigError::NoSuchKey,
+            0 => ConfigError::Success,
+            1 => ConfigError::NoSuchKey,
 
             _ => panic!("invalid enum discriminant"),
           }
@@ -1014,28 +1019,28 @@ mod _rt {
 #[cfg(target_arch = "wasm32")]
 #[link_section = "component-type:wit-bindgen:0.32.0:wasmvision:platform:imports:encoded world"]
 #[doc(hidden)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 937] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xab\x06\x01A\x02\x01\
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 945] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xb3\x06\x01A\x02\x01\
 A\x08\x01B\x03\x01@\x01\x03msgs\x01\0\x04\0\x03log\x01\0\x04\0\x07println\x01\0\x03\
-\0\x1bwasmvision:platform/logging\x05\0\x01B\x05\x01m\x01\x0bno-such-key\x04\0\x0c\
-config-error\x03\0\0\x01j\x01s\x01\x01\x01@\x01\x03keys\0\x02\x04\0\x0aget-confi\
-g\x01\x03\x03\0\x1awasmvision:platform/config\x05\x01\x01B\x19\x04\0\x05store\x03\
-\x01\x01q\x04\x10store-table-full\0\0\x0dno-such-store\0\0\x0daccess-denied\0\0\x05\
-other\x01s\0\x04\0\x05error\x03\0\x01\x01i\0\x01j\x01\x03\x01\x02\x01@\x01\x05la\
-bels\0\x04\x04\0\x12[static]store.open\x01\x05\x01h\0\x01p}\x01k\x07\x01j\x01\x08\
-\x01\x02\x01@\x02\x04self\x06\x03keys\0\x09\x04\0\x11[method]store.get\x01\x0a\x01\
-j\0\x01\x02\x01@\x03\x04self\x06\x03keys\x05value\x07\0\x0b\x04\0\x11[method]sto\
-re.set\x01\x0c\x01@\x02\x04self\x06\x03keys\0\x0b\x04\0\x14[method]store.delete\x01\
-\x0d\x01j\x01\x7f\x01\x02\x01@\x02\x04self\x06\x03keys\0\x0e\x04\0\x14[method]st\
-ore.exists\x01\x0f\x01ps\x01j\x01\x10\x01\x02\x01@\x01\x04self\x06\0\x11\x04\0\x16\
-[method]store.get-keys\x01\x12\x03\0\x1dwasmvision:platform/key-value\x05\x02\x01\
-B\x08\x01m\x06\x07success\x17destination-not-allowed\x0binvalid-url\x0drequest-e\
-rror\x0druntime-error\x11too-many-requests\x04\0\x0ahttp-error\x03\0\0\x01p}\x01\
-j\x01\x02\x01\x01\x01@\x01\x03urls\0\x03\x04\0\x03get\x01\x04\x01@\x03\x03urls\x0c\
-content-types\x04body\x02\0\x03\x04\0\x04post\x01\x05\x03\0\x18wasmvision:platfo\
-rm/http\x05\x03\x04\0\x1bwasmvision:platform/imports\x04\0\x0b\x0d\x01\0\x07impo\
-rts\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.217.0\x10\
-wit-bindgen-rust\x060.32.0";
+\0\x1bwasmvision:platform/logging\x05\0\x01B\x05\x01m\x02\x07success\x0bno-such-\
+key\x04\0\x0cconfig-error\x03\0\0\x01j\x01s\x01\x01\x01@\x01\x03keys\0\x02\x04\0\
+\x0aget-config\x01\x03\x03\0\x1awasmvision:platform/config\x05\x01\x01B\x19\x04\0\
+\x05store\x03\x01\x01q\x04\x10store-table-full\0\0\x0dno-such-store\0\0\x0dacces\
+s-denied\0\0\x05other\x01s\0\x04\0\x05error\x03\0\x01\x01i\0\x01j\x01\x03\x01\x02\
+\x01@\x01\x05labels\0\x04\x04\0\x12[static]store.open\x01\x05\x01h\0\x01p}\x01k\x07\
+\x01j\x01\x08\x01\x02\x01@\x02\x04self\x06\x03keys\0\x09\x04\0\x11[method]store.\
+get\x01\x0a\x01j\0\x01\x02\x01@\x03\x04self\x06\x03keys\x05value\x07\0\x0b\x04\0\
+\x11[method]store.set\x01\x0c\x01@\x02\x04self\x06\x03keys\0\x0b\x04\0\x14[metho\
+d]store.delete\x01\x0d\x01j\x01\x7f\x01\x02\x01@\x02\x04self\x06\x03keys\0\x0e\x04\
+\0\x14[method]store.exists\x01\x0f\x01ps\x01j\x01\x10\x01\x02\x01@\x01\x04self\x06\
+\0\x11\x04\0\x16[method]store.get-keys\x01\x12\x03\0\x1dwasmvision:platform/key-\
+value\x05\x02\x01B\x08\x01m\x06\x07success\x17destination-not-allowed\x0binvalid\
+-url\x0drequest-error\x0druntime-error\x11too-many-requests\x04\0\x0ahttp-error\x03\
+\0\0\x01p}\x01j\x01\x02\x01\x01\x01@\x01\x03urls\0\x03\x04\0\x03get\x01\x04\x01@\
+\x03\x03urls\x0ccontent-types\x04body\x02\0\x03\x04\0\x04post\x01\x05\x03\0\x18w\
+asmvision:platform/http\x05\x03\x04\0\x1bwasmvision:platform/imports\x04\0\x0b\x0d\
+\x01\0\x07imports\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-compone\
+nt\x070.217.0\x10wit-bindgen-rust\x060.32.0";
 
 #[inline(never)]
 #[doc(hidden)]
