@@ -2,6 +2,8 @@ interface config {
     get-config: func(key: string) -> result<string, config-error>;
 
     enum config-error {
+        /// success, all is well.
+        success,
         /// The requested key does not exist in the configuration.
         no-such-key,
     }
