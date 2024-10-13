@@ -6,7 +6,7 @@
 // Imported Functions from `wasmvision:platform/time`
 
 __attribute__((__import_module__("wasmvision:platform/time"), __import_name__("now")))
-extern int64_t __wasm_import_wasmvision_platform_time_now(void);
+extern int64_t __wasm_import_wasmvision_platform_time_now(int32_t);
 
 // Imported Functions from `wasmvision:platform/logging`
 
@@ -87,8 +87,8 @@ void imports_string_free(imports_string_t *ret) {
 
 // Component Adapters
 
-uint64_t wasmvision_platform_time_now(void) {
-  int64_t ret = __wasm_import_wasmvision_platform_time_now();
+uint64_t wasmvision_platform_time_now(uint32_t tz) {
+  int64_t ret = __wasm_import_wasmvision_platform_time_now((int32_t) (tz));
   return (uint64_t) (ret);
 }
 

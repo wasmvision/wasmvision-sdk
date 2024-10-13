@@ -11,21 +11,22 @@ pub mod wasmvision {
       static __FORCE_SECTION_REF: fn() =
       super::super::super::__link_custom_section_describing_imports;
       
+      use super::super::super::_rt;
       #[allow(unused_unsafe, clippy::all)]
-      /// Get the current time in milliseconds since the Unix epoch.
-      pub fn now() -> u64{
+      /// Get the current time in milliseconds since the Unix epoch. Use 0 for the `tz` parameter for now.
+      pub fn now(tz: u32,) -> u64{
         unsafe {
 
           #[cfg(target_arch = "wasm32")]
           #[link(wasm_import_module = "wasmvision:platform/time")]
           extern "C" {
             #[link_name = "now"]
-            fn wit_import() -> i64;
+            fn wit_import(_: i32, ) -> i64;
           }
 
           #[cfg(not(target_arch = "wasm32"))]
-          fn wit_import() -> i64{ unreachable!() }
-          let ret = wit_import();
+          fn wit_import(_: i32, ) -> i64{ unreachable!() }
+          let ret = wit_import(_rt::as_i32(&tz));
           ret as u64
         }
       }
@@ -375,6 +376,76 @@ pub mod wasmvision {
   }
 }
 mod _rt {
+
+  pub fn as_i32<T: AsI32>(t: T) -> i32 {
+    t.as_i32()
+  }
+
+  pub trait AsI32 {
+    fn as_i32(self) -> i32;
+  }
+
+  impl<'a, T: Copy + AsI32> AsI32 for &'a T {
+    fn as_i32(self) -> i32 {
+      (*self).as_i32()
+    }
+  }
+  
+  impl AsI32 for i32 {
+    #[inline]
+    fn as_i32(self) -> i32 {
+      self as i32
+    }
+  }
+  
+  impl AsI32 for u32 {
+    #[inline]
+    fn as_i32(self) -> i32 {
+      self as i32
+    }
+  }
+  
+  impl AsI32 for i16 {
+    #[inline]
+    fn as_i32(self) -> i32 {
+      self as i32
+    }
+  }
+  
+  impl AsI32 for u16 {
+    #[inline]
+    fn as_i32(self) -> i32 {
+      self as i32
+    }
+  }
+  
+  impl AsI32 for i8 {
+    #[inline]
+    fn as_i32(self) -> i32 {
+      self as i32
+    }
+  }
+  
+  impl AsI32 for u8 {
+    #[inline]
+    fn as_i32(self) -> i32 {
+      self as i32
+    }
+  }
+  
+  impl AsI32 for char {
+    #[inline]
+    fn as_i32(self) -> i32 {
+      self as i32
+    }
+  }
+  
+  impl AsI32 for usize {
+    #[inline]
+    fn as_i32(self) -> i32 {
+      self as i32
+    }
+  }
   pub use alloc_crate::string::String;
   pub use alloc_crate::vec::Vec;
   pub unsafe fn string_lift(bytes: Vec<u8>) -> String {
@@ -397,20 +468,20 @@ mod _rt {
 #[cfg(target_arch = "wasm32")]
 #[link_section = "component-type:wit-bindgen:0.32.0:wasmvision:platform:imports:encoded world"]
 #[doc(hidden)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 587] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xcd\x03\x01A\x02\x01\
-A\x08\x01B\x02\x01@\0\0w\x04\0\x03now\x01\0\x03\0\x18wasmvision:platform/time\x05\
-\0\x01B\x03\x01@\x01\x03msgs\x01\0\x04\0\x03log\x01\0\x04\0\x07println\x01\0\x03\
-\0\x1bwasmvision:platform/logging\x05\x01\x01B\x05\x01m\x02\x07success\x0bno-suc\
-h-key\x04\0\x0cconfig-error\x03\0\0\x01j\x01s\x01\x01\x01@\x01\x03keys\0\x02\x04\
-\0\x0aget-config\x01\x03\x03\0\x1awasmvision:platform/config\x05\x02\x01B\x08\x01\
-m\x06\x07success\x17destination-not-allowed\x0binvalid-url\x0drequest-error\x0dr\
-untime-error\x11too-many-requests\x04\0\x0ahttp-error\x03\0\0\x01p}\x01j\x01\x02\
-\x01\x01\x01@\x01\x03urls\0\x03\x04\0\x03get\x01\x04\x01@\x03\x03urls\x0ccontent\
--types\x04body\x02\0\x03\x04\0\x04post\x01\x05\x03\0\x18wasmvision:platform/http\
-\x05\x03\x04\0\x1bwasmvision:platform/imports\x04\0\x0b\x0d\x01\0\x07imports\x03\
-\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.217.0\x10wit-\
-bindgen-rust\x060.32.0";
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 591] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xd1\x03\x01A\x02\x01\
+A\x08\x01B\x02\x01@\x01\x02tzy\0w\x04\0\x03now\x01\0\x03\0\x18wasmvision:platfor\
+m/time\x05\0\x01B\x03\x01@\x01\x03msgs\x01\0\x04\0\x03log\x01\0\x04\0\x07println\
+\x01\0\x03\0\x1bwasmvision:platform/logging\x05\x01\x01B\x05\x01m\x02\x07success\
+\x0bno-such-key\x04\0\x0cconfig-error\x03\0\0\x01j\x01s\x01\x01\x01@\x01\x03keys\
+\0\x02\x04\0\x0aget-config\x01\x03\x03\0\x1awasmvision:platform/config\x05\x02\x01\
+B\x08\x01m\x06\x07success\x17destination-not-allowed\x0binvalid-url\x0drequest-e\
+rror\x0druntime-error\x11too-many-requests\x04\0\x0ahttp-error\x03\0\0\x01p}\x01\
+j\x01\x02\x01\x01\x01@\x01\x03urls\0\x03\x04\0\x03get\x01\x04\x01@\x03\x03urls\x0c\
+content-types\x04body\x02\0\x03\x04\0\x04post\x01\x05\x03\0\x18wasmvision:platfo\
+rm/http\x05\x03\x04\0\x1bwasmvision:platform/imports\x04\0\x0b\x0d\x01\0\x07impo\
+rts\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.217.0\x10\
+wit-bindgen-rust\x060.32.0";
 
 #[inline(never)]
 #[doc(hidden)]

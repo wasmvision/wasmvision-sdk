@@ -53,8 +53,8 @@ typedef struct {
 } wasmvision_platform_http_result_list_u8_http_error_t;
 
 // Imported Functions from `wasmvision:platform/time`
-// Get the current time in milliseconds since the Unix epoch.
-extern uint64_t wasmvision_platform_time_now(void);
+// Get the current time in milliseconds since the Unix epoch. Use 0 for the `tz` parameter for now.
+extern uint64_t wasmvision_platform_time_now(uint32_t tz);
 
 // Imported Functions from `wasmvision:platform/logging`
 // Log a message on the host.
