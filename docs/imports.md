@@ -17,7 +17,11 @@ wasmvision is a WebAssembly guest module interface for host functions provided b
 
 #### <a id="now"></a>`now: func`
 
-Get the current time in milliseconds since the Unix epoch.
+Get the current time in milliseconds since the Unix epoch. Use 0 for the `tz` parameter for now.
+
+##### Params
+
+- <a id="now.tz"></a>`tz`: `u32`
 
 ##### Return values
 
