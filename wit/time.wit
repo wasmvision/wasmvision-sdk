@@ -1,0 +1,4 @@
+interface time {
+    /// Get the current time in milliseconds since the Unix epoch.
+    now: func() -> u64;
+}
