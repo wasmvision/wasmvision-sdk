@@ -2,8 +2,8 @@ package wasmvision:platform;
 /// wasmvision is a WebAssembly guest module interface for host functions provided by the wasmVision runtime.
 ///
 world imports {
+    import time;
     import logging;
     import config;
-    import key-value;
     import http;
 }
