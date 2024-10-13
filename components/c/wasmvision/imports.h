@@ -29,87 +29,6 @@ typedef struct {
   } val;
 } wasmvision_platform_config_result_string_config_error_t;
 
-typedef struct wasmvision_platform_key_value_own_store_t {
-  int32_t __handle;
-} wasmvision_platform_key_value_own_store_t;
-
-typedef struct wasmvision_platform_key_value_borrow_store_t {
-  int32_t __handle;
-} wasmvision_platform_key_value_borrow_store_t;
-
-// The set of errors which may be raised by functions in this interface
-typedef struct wasmvision_platform_key_value_error_t {
-  uint8_t tag;
-  union {
-    imports_string_t     other;
-  } val;
-} wasmvision_platform_key_value_error_t;
-
-// Too many stores have been opened simultaneously. Closing one or more
-// stores prior to retrying may address this.
-#define WASMVISION_PLATFORM_KEY_VALUE_ERROR_STORE_TABLE_FULL 0
-// The host does not recognize the store label requested.
-#define WASMVISION_PLATFORM_KEY_VALUE_ERROR_NO_SUCH_STORE 1
-// The requesting component does not have access to the specified store
-// (which may or may not exist).
-#define WASMVISION_PLATFORM_KEY_VALUE_ERROR_ACCESS_DENIED 2
-// Some implementation-specific error has occurred (e.g. I/O)
-#define WASMVISION_PLATFORM_KEY_VALUE_ERROR_OTHER 3
-
-typedef struct {
-  bool is_err;
-  union {
-    wasmvision_platform_key_value_own_store_t ok;
-    wasmvision_platform_key_value_error_t err;
-  } val;
-} wasmvision_platform_key_value_result_own_store_error_t;
-
-typedef struct {
-  uint8_t *ptr;
-  size_t len;
-} imports_list_u8_t;
-
-typedef struct {
-  bool is_some;
-  imports_list_u8_t val;
-} imports_option_list_u8_t;
-
-typedef struct {
-  bool is_err;
-  union {
-    imports_option_list_u8_t ok;
-    wasmvision_platform_key_value_error_t err;
-  } val;
-} wasmvision_platform_key_value_result_option_list_u8_error_t;
-
-typedef struct {
-  bool is_err;
-  union {
-    wasmvision_platform_key_value_error_t err;
-  } val;
-} wasmvision_platform_key_value_result_void_error_t;
-
-typedef struct {
-  bool is_err;
-  union {
-    bool ok;
-    wasmvision_platform_key_value_error_t err;
-  } val;
-} wasmvision_platform_key_value_result_bool_error_t;
-
-typedef struct {
-  imports_string_t *ptr;
-  size_t len;
-} imports_list_string_t;
-
-typedef struct {
-  bool is_err;
-  union {
-    imports_list_string_t ok;
-    wasmvision_platform_key_value_error_t err;
-  } val;
-} wasmvision_platform_key_value_result_list_string_error_t;
-
 // HTTP errors returned by the runtime.
 typedef uint8_t wasmvision_platform_http_http_error_t;
 
@@ -121,12 +40,21 @@ typedef uint8_t wasmvision_platform_http_http_error_t;
 #define WASMVISION_PLATFORM_HTTP_HTTP_ERROR_TOO_MANY_REQUESTS 5
 
 typedef struct {
+  uint8_t *ptr;
+  size_t len;
+} imports_list_u8_t;
+
+typedef struct {
   bool is_err;
   union {
     imports_list_u8_t ok;
     wasmvision_platform_http_http_error_t err;
   } val;
 } wasmvision_platform_http_result_list_u8_http_error_t;
+
+// Imported Functions from `wasmvision:platform/time`
+// Get the current time in milliseconds since the Unix epoch.
+extern uint64_t wasmvision_platform_time_now(void);
 
 // Imported Functions from `wasmvision:platform/logging`
 // Log a message on the host.
@@ -136,28 +64,6 @@ extern void wasmvision_platform_logging_println(imports_string_t *msg);
 
 // Imported Functions from `wasmvision:platform/config`
 extern bool wasmvision_platform_config_get_config(imports_string_t *key, imports_string_t *ret, wasmvision_platform_config_config_error_t *err);
-
-// Imported Functions from `wasmvision:platform/key-value`
-// Open the store with the specified label.
-// 
-// `label` must refer to a store allowed in the spin.toml manifest.
-// 
-// `error::no-such-store` will be raised if the `label` is not recognized.
-extern bool wasmvision_platform_key_value_static_store_open(imports_string_t *label, wasmvision_platform_key_value_own_store_t *ret, wasmvision_platform_key_value_error_t *err);
-// Get the value associated with the specified `key`
-// 
-// Returns `ok(none)` if the key does not exist.
-extern bool wasmvision_platform_key_value_method_store_get(wasmvision_platform_key_value_borrow_store_t self, imports_string_t *key, imports_option_list_u8_t *ret, wasmvision_platform_key_value_error_t *err);
-// Set the `value` associated with the specified `key` overwriting any existing value.
-extern bool wasmvision_platform_key_value_method_store_set(wasmvision_platform_key_value_borrow_store_t self, imports_string_t *key, imports_list_u8_t *value, wasmvision_platform_key_value_error_t *err);
-// Delete the tuple with the specified `key`
-// 
-// No error is raised if a tuple did not previously exist for `key`.
-extern bool wasmvision_platform_key_value_method_store_delete(wasmvision_platform_key_value_borrow_store_t self, imports_string_t *key, wasmvision_platform_key_value_error_t *err);
-// Return whether a tuple exists for the specified `key`
-extern bool wasmvision_platform_key_value_method_store_exists(wasmvision_platform_key_value_borrow_store_t self, imports_string_t *key, bool *ret, wasmvision_platform_key_value_error_t *err);
-// Return a list of all the keys
-extern bool wasmvision_platform_key_value_method_store_get_keys(wasmvision_platform_key_value_borrow_store_t self, imports_list_string_t *ret, wasmvision_platform_key_value_error_t *err);
 
 // Imported Functions from `wasmvision:platform/http`
 // Get the content at the specified URL.
@@ -171,27 +77,7 @@ extern bool wasmvision_platform_http_post(imports_string_t *url, imports_string_
 
 void wasmvision_platform_config_result_string_config_error_free(wasmvision_platform_config_result_string_config_error_t *ptr);
 
-extern void wasmvision_platform_key_value_store_drop_own(wasmvision_platform_key_value_own_store_t handle);
-
-extern wasmvision_platform_key_value_borrow_store_t wasmvision_platform_key_value_borrow_store(wasmvision_platform_key_value_own_store_t handle);
-
-void wasmvision_platform_key_value_error_free(wasmvision_platform_key_value_error_t *ptr);
-
-void wasmvision_platform_key_value_result_own_store_error_free(wasmvision_platform_key_value_result_own_store_error_t *ptr);
-
 void imports_list_u8_free(imports_list_u8_t *ptr);
-
-void imports_option_list_u8_free(imports_option_list_u8_t *ptr);
-
-void wasmvision_platform_key_value_result_option_list_u8_error_free(wasmvision_platform_key_value_result_option_list_u8_error_t *ptr);
-
-void wasmvision_platform_key_value_result_void_error_free(wasmvision_platform_key_value_result_void_error_t *ptr);
-
-void wasmvision_platform_key_value_result_bool_error_free(wasmvision_platform_key_value_result_bool_error_t *ptr);
-
-void imports_list_string_free(imports_list_string_t *ptr);
-
-void wasmvision_platform_key_value_result_list_string_error_free(wasmvision_platform_key_value_result_list_string_error_t *ptr);
 
 void wasmvision_platform_http_result_list_u8_http_error_free(wasmvision_platform_http_result_list_u8_http_error_t *ptr);
 
