@@ -3,12 +3,21 @@
 <ul>
 <li>Imports:
 <ul>
+<li>interface <a href="#wasmvision_platform_time"><code>wasmvision:platform/time</code></a></li>
 <li>interface <a href="#wasmvision_platform_logging"><code>wasmvision:platform/logging</code></a></li>
 <li>interface <a href="#wasmvision_platform_config"><code>wasmvision:platform/config</code></a></li>
-<li>interface <a href="#wasmvision_platform_key_value"><code>wasmvision:platform/key-value</code></a></li>
 <li>interface <a href="#wasmvision_platform_http"><code>wasmvision:platform/http</code></a></li>
 </ul>
 </li>
+</ul>
+<h2><a id="wasmvision_platform_time"></a>Import interface wasmvision:platform/time</h2>
+<hr />
+<h3>Functions</h3>
+<h4><a id="now"></a><code>now: func</code></h4>
+<p>Get the current time in milliseconds since the Unix epoch.</p>
+<h5>Return values</h5>
+<ul>
+<li><a id="now.0"></a> <code>u64</code></li>
 </ul>
 <h2><a id="wasmvision_platform_logging"></a>Import interface wasmvision:platform/logging</h2>
 <hr />
@@ -31,7 +40,13 @@
 <h4><a id="config_error"></a><code>enum config-error</code></h4>
 <h5>Enum Cases</h5>
 <ul>
-<li><a id="config_error.no_such_key"></a><code>no-such-key</code><p>The requested key does not exist in the configuration.
+<li>
+<p><a id="config_error.success"></a><code>success</code></p>
+<p>success, all is well.
+</li>
+<li>
+<p><a id="config_error.no_such_key"></a><code>no-such-key</code></p>
+<p>The requested key does not exist in the configuration.
 </li>
 </ul>
 <hr />
@@ -44,105 +59,6 @@
 <h5>Return values</h5>
 <ul>
 <li><a id="get_config.0"></a> result&lt;<code>string</code>, <a href="#config_error"><a href="#config_error"><code>config-error</code></a></a>&gt;</li>
-</ul>
-<h2><a id="wasmvision_platform_key_value"></a>Import interface wasmvision:platform/key-value</h2>
-<hr />
-<h3>Types</h3>
-<h4><a id="store"></a><code>resource store</code></h4>
-<p>An open key-value store</p>
-<h4><a id="error"></a><code>variant error</code></h4>
-<p>The set of errors which may be raised by functions in this interface</p>
-<h5>Variant Cases</h5>
-<ul>
-<li>
-<p><a id="error.store_table_full"></a><code>store-table-full</code></p>
-<p>Too many stores have been opened simultaneously. Closing one or more
-stores prior to retrying may address this.
-</li>
-<li>
-<p><a id="error.no_such_store"></a><code>no-such-store</code></p>
-<p>The host does not recognize the store label requested.
-</li>
-<li>
-<p><a id="error.access_denied"></a><code>access-denied</code></p>
-<p>The requesting component does not have access to the specified store
-(which may or may not exist).
-</li>
-<li>
-<p><a id="error.other"></a><code>other</code>: <code>string</code></p>
-<p>Some implementation-specific error has occurred (e.g. I/O)
-</li>
-</ul>
-<hr />
-<h3>Functions</h3>
-<h4><a id="static_store_open"></a><code>[static]store.open: func</code></h4>
-<p>Open the store with the specified label.</p>
-<p><code>label</code> must refer to a store allowed in the spin.toml manifest.</p>
-<p><a href="#error.no_such_store"><code>error::no-such-store</code></a> will be raised if the <code>label</code> is not recognized.</p>
-<h5>Params</h5>
-<ul>
-<li><a id="static_store_open.label"></a><code>label</code>: <code>string</code></li>
-</ul>
-<h5>Return values</h5>
-<ul>
-<li><a id="static_store_open.0"></a> result&lt;own&lt;<a href="#store"><a href="#store"><code>store</code></a></a>&gt;, <a href="#error"><a href="#error"><code>error</code></a></a>&gt;</li>
-</ul>
-<h4><a id="method_store_get"></a><code>[method]store.get: func</code></h4>
-<p>Get the value associated with the specified <code>key</code></p>
-<p>Returns <code>ok(none)</code> if the key does not exist.</p>
-<h5>Params</h5>
-<ul>
-<li><a id="method_store_get.self"></a><code>self</code>: borrow&lt;<a href="#store"><a href="#store"><code>store</code></a></a>&gt;</li>
-<li><a id="method_store_get.key"></a><code>key</code>: <code>string</code></li>
-</ul>
-<h5>Return values</h5>
-<ul>
-<li><a id="method_store_get.0"></a> result&lt;option&lt;list&lt;<code>u8</code>&gt;&gt;, <a href="#error"><a href="#error"><code>error</code></a></a>&gt;</li>
-</ul>
-<h4><a id="method_store_set"></a><code>[method]store.set: func</code></h4>
-<p>Set the <code>value</code> associated with the specified <code>key</code> overwriting any existing value.</p>
-<h5>Params</h5>
-<ul>
-<li><a id="method_store_set.self"></a><code>self</code>: borrow&lt;<a href="#store"><a href="#store"><code>store</code></a></a>&gt;</li>
-<li><a id="method_store_set.key"></a><code>key</code>: <code>string</code></li>
-<li><a id="method_store_set.value"></a><code>value</code>: list&lt;<code>u8</code>&gt;</li>
-</ul>
-<h5>Return values</h5>
-<ul>
-<li><a id="method_store_set.0"></a> result&lt;_, <a href="#error"><a href="#error"><code>error</code></a></a>&gt;</li>
-</ul>
-<h4><a id="method_store_delete"></a><code>[method]store.delete: func</code></h4>
-<p>Delete the tuple with the specified <code>key</code></p>
-<p>No error is raised if a tuple did not previously exist for <code>key</code>.</p>
-<h5>Params</h5>
-<ul>
-<li><a id="method_store_delete.self"></a><code>self</code>: borrow&lt;<a href="#store"><a href="#store"><code>store</code></a></a>&gt;</li>
-<li><a id="method_store_delete.key"></a><code>key</code>: <code>string</code></li>
-</ul>
-<h5>Return values</h5>
-<ul>
-<li><a id="method_store_delete.0"></a> result&lt;_, <a href="#error"><a href="#error"><code>error</code></a></a>&gt;</li>
-</ul>
-<h4><a id="method_store_exists"></a><code>[method]store.exists: func</code></h4>
-<p>Return whether a tuple exists for the specified <code>key</code></p>
-<h5>Params</h5>
-<ul>
-<li><a id="method_store_exists.self"></a><code>self</code>: borrow&lt;<a href="#store"><a href="#store"><code>store</code></a></a>&gt;</li>
-<li><a id="method_store_exists.key"></a><code>key</code>: <code>string</code></li>
-</ul>
-<h5>Return values</h5>
-<ul>
-<li><a id="method_store_exists.0"></a> result&lt;<code>bool</code>, <a href="#error"><a href="#error"><code>error</code></a></a>&gt;</li>
-</ul>
-<h4><a id="method_store_get_keys"></a><code>[method]store.get-keys: func</code></h4>
-<p>Return a list of all the keys</p>
-<h5>Params</h5>
-<ul>
-<li><a id="method_store_get_keys.self"></a><code>self</code>: borrow&lt;<a href="#store"><a href="#store"><code>store</code></a></a>&gt;</li>
-</ul>
-<h5>Return values</h5>
-<ul>
-<li><a id="method_store_get_keys.0"></a> result&lt;list&lt;<code>string</code>&gt;, <a href="#error"><a href="#error"><code>error</code></a></a>&gt;</li>
 </ul>
 <h2><a id="wasmvision_platform_http"></a>Import interface wasmvision:platform/http</h2>
 <hr />
