@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+// Imported Functions from `wasmvision:platform/time`
+
+__attribute__((__import_module__("wasmvision:platform/time"), __import_name__("now")))
+extern int64_t __wasm_import_wasmvision_platform_time_now(void);
+
 // Imported Functions from `wasmvision:platform/logging`
 
 __attribute__((__import_module__("wasmvision:platform/logging"), __import_name__("log")))
@@ -15,26 +20,6 @@ extern void __wasm_import_wasmvision_platform_logging_println(uint8_t *, size_t)
 
 __attribute__((__import_module__("wasmvision:platform/config"), __import_name__("get-config")))
 extern void __wasm_import_wasmvision_platform_config_get_config(uint8_t *, size_t, uint8_t *);
-
-// Imported Functions from `wasmvision:platform/key-value`
-
-__attribute__((__import_module__("wasmvision:platform/key-value"), __import_name__("[static]store.open")))
-extern void __wasm_import_wasmvision_platform_key_value_static_store_open(uint8_t *, size_t, uint8_t *);
-
-__attribute__((__import_module__("wasmvision:platform/key-value"), __import_name__("[method]store.get")))
-extern void __wasm_import_wasmvision_platform_key_value_method_store_get(int32_t, uint8_t *, size_t, uint8_t *);
-
-__attribute__((__import_module__("wasmvision:platform/key-value"), __import_name__("[method]store.set")))
-extern void __wasm_import_wasmvision_platform_key_value_method_store_set(int32_t, uint8_t *, size_t, uint8_t *, size_t, uint8_t *);
-
-__attribute__((__import_module__("wasmvision:platform/key-value"), __import_name__("[method]store.delete")))
-extern void __wasm_import_wasmvision_platform_key_value_method_store_delete(int32_t, uint8_t *, size_t, uint8_t *);
-
-__attribute__((__import_module__("wasmvision:platform/key-value"), __import_name__("[method]store.exists")))
-extern void __wasm_import_wasmvision_platform_key_value_method_store_exists(int32_t, uint8_t *, size_t, uint8_t *);
-
-__attribute__((__import_module__("wasmvision:platform/key-value"), __import_name__("[method]store.get-keys")))
-extern void __wasm_import_wasmvision_platform_key_value_method_store_get_keys(int32_t, uint8_t *);
 
 // Imported Functions from `wasmvision:platform/http`
 
@@ -64,33 +49,6 @@ void wasmvision_platform_config_result_string_config_error_free(wasmvision_platf
   }
 }
 
-__attribute__((__import_module__("wasmvision:platform/key-value"), __import_name__("[resource-drop]store")))
-extern void __wasm_import_wasmvision_platform_key_value_store_drop(int32_t handle);
-
-void wasmvision_platform_key_value_store_drop_own(wasmvision_platform_key_value_own_store_t handle) {
-  __wasm_import_wasmvision_platform_key_value_store_drop(handle.__handle);
-}
-
-wasmvision_platform_key_value_borrow_store_t wasmvision_platform_key_value_borrow_store(wasmvision_platform_key_value_own_store_t arg) {
-  return (wasmvision_platform_key_value_borrow_store_t) { arg.__handle };
-}
-
-void wasmvision_platform_key_value_error_free(wasmvision_platform_key_value_error_t *ptr) {
-  switch ((int32_t) ptr->tag) {
-    case 3: {
-      imports_string_free(&ptr->val.other);
-      break;
-    }
-  }
-}
-
-void wasmvision_platform_key_value_result_own_store_error_free(wasmvision_platform_key_value_result_own_store_error_t *ptr) {
-  if (!ptr->is_err) {
-  } else {
-    wasmvision_platform_key_value_error_free(&ptr->val.err);
-  }
-}
-
 void imports_list_u8_free(imports_list_u8_t *ptr) {
   size_t list_len = ptr->len;
   if (list_len > 0) {
@@ -98,53 +56,6 @@ void imports_list_u8_free(imports_list_u8_t *ptr) {
     for (size_t i = 0; i < list_len; i++) {
     }
     free(list_ptr);
-  }
-}
-
-void imports_option_list_u8_free(imports_option_list_u8_t *ptr) {
-  if (ptr->is_some) {
-    imports_list_u8_free(&ptr->val);
-  }
-}
-
-void wasmvision_platform_key_value_result_option_list_u8_error_free(wasmvision_platform_key_value_result_option_list_u8_error_t *ptr) {
-  if (!ptr->is_err) {
-    imports_option_list_u8_free(&ptr->val.ok);
-  } else {
-    wasmvision_platform_key_value_error_free(&ptr->val.err);
-  }
-}
-
-void wasmvision_platform_key_value_result_void_error_free(wasmvision_platform_key_value_result_void_error_t *ptr) {
-  if (!ptr->is_err) {
-  } else {
-    wasmvision_platform_key_value_error_free(&ptr->val.err);
-  }
-}
-
-void wasmvision_platform_key_value_result_bool_error_free(wasmvision_platform_key_value_result_bool_error_t *ptr) {
-  if (!ptr->is_err) {
-  } else {
-    wasmvision_platform_key_value_error_free(&ptr->val.err);
-  }
-}
-
-void imports_list_string_free(imports_list_string_t *ptr) {
-  size_t list_len = ptr->len;
-  if (list_len > 0) {
-    imports_string_t *list_ptr = ptr->ptr;
-    for (size_t i = 0; i < list_len; i++) {
-      imports_string_free(&list_ptr[i]);
-    }
-    free(list_ptr);
-  }
-}
-
-void wasmvision_platform_key_value_result_list_string_error_free(wasmvision_platform_key_value_result_list_string_error_t *ptr) {
-  if (!ptr->is_err) {
-    imports_list_string_free(&ptr->val.ok);
-  } else {
-    wasmvision_platform_key_value_error_free(&ptr->val.err);
   }
 }
 
@@ -176,6 +87,11 @@ void imports_string_free(imports_string_t *ret) {
 
 // Component Adapters
 
+uint64_t wasmvision_platform_time_now(void) {
+  int64_t ret = __wasm_import_wasmvision_platform_time_now();
+  return (uint64_t) (ret);
+}
+
 void wasmvision_platform_logging_log(imports_string_t *msg) {
   __wasm_import_wasmvision_platform_logging_log((uint8_t *) (*msg).ptr, (*msg).len);
 }
@@ -199,285 +115,6 @@ bool wasmvision_platform_config_get_config(imports_string_t *key, imports_string
     case 1: {
       result.is_err = true;
       result.val.err = (int32_t) *((uint8_t*) (ptr + 4));
-      break;
-    }
-  }
-  if (!result.is_err) {
-    *ret = result.val.ok;
-    return 1;
-  } else {
-    *err = result.val.err;
-    return 0;
-  }
-}
-
-bool wasmvision_platform_key_value_static_store_open(imports_string_t *label, wasmvision_platform_key_value_own_store_t *ret, wasmvision_platform_key_value_error_t *err) {
-  __attribute__((__aligned__(4)))
-  uint8_t ret_area[16];
-  uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_key_value_static_store_open((uint8_t *) (*label).ptr, (*label).len, ptr);
-  wasmvision_platform_key_value_result_own_store_error_t result;
-  switch ((int32_t) *((uint8_t*) (ptr + 0))) {
-    case 0: {
-      result.is_err = false;
-      result.val.ok = (wasmvision_platform_key_value_own_store_t) { *((int32_t*) (ptr + 4)) };
-      break;
-    }
-    case 1: {
-      result.is_err = true;
-      wasmvision_platform_key_value_error_t variant;
-      variant.tag = (int32_t) *((uint8_t*) (ptr + 4));
-      switch ((int32_t) variant.tag) {
-        case 0: {
-          break;
-        }
-        case 1: {
-          break;
-        }
-        case 2: {
-          break;
-        }
-        case 3: {
-          variant.val.other = (imports_string_t) { (uint8_t*)(*((uint8_t **) (ptr + 8))), (*((size_t*) (ptr + 12))) };
-          break;
-        }
-      }
-
-      result.val.err = variant;
-      break;
-    }
-  }
-  if (!result.is_err) {
-    *ret = result.val.ok;
-    return 1;
-  } else {
-    *err = result.val.err;
-    return 0;
-  }
-}
-
-bool wasmvision_platform_key_value_method_store_get(wasmvision_platform_key_value_borrow_store_t self, imports_string_t *key, imports_option_list_u8_t *ret, wasmvision_platform_key_value_error_t *err) {
-  __attribute__((__aligned__(4)))
-  uint8_t ret_area[16];
-  uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_key_value_method_store_get((self).__handle, (uint8_t *) (*key).ptr, (*key).len, ptr);
-  wasmvision_platform_key_value_result_option_list_u8_error_t result;
-  switch ((int32_t) *((uint8_t*) (ptr + 0))) {
-    case 0: {
-      result.is_err = false;
-      imports_option_list_u8_t option;
-      switch ((int32_t) *((uint8_t*) (ptr + 4))) {
-        case 0: {
-          option.is_some = false;
-          break;
-        }
-        case 1: {
-          option.is_some = true;
-          option.val = (imports_list_u8_t) { (uint8_t*)(*((uint8_t **) (ptr + 8))), (*((size_t*) (ptr + 12))) };
-          break;
-        }
-      }
-
-      result.val.ok = option;
-      break;
-    }
-    case 1: {
-      result.is_err = true;
-      wasmvision_platform_key_value_error_t variant;
-      variant.tag = (int32_t) *((uint8_t*) (ptr + 4));
-      switch ((int32_t) variant.tag) {
-        case 0: {
-          break;
-        }
-        case 1: {
-          break;
-        }
-        case 2: {
-          break;
-        }
-        case 3: {
-          variant.val.other = (imports_string_t) { (uint8_t*)(*((uint8_t **) (ptr + 8))), (*((size_t*) (ptr + 12))) };
-          break;
-        }
-      }
-
-      result.val.err = variant;
-      break;
-    }
-  }
-  if (!result.is_err) {
-    *ret = result.val.ok;
-    return 1;
-  } else {
-    *err = result.val.err;
-    return 0;
-  }
-}
-
-bool wasmvision_platform_key_value_method_store_set(wasmvision_platform_key_value_borrow_store_t self, imports_string_t *key, imports_list_u8_t *value, wasmvision_platform_key_value_error_t *err) {
-  __attribute__((__aligned__(4)))
-  uint8_t ret_area[16];
-  uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_key_value_method_store_set((self).__handle, (uint8_t *) (*key).ptr, (*key).len, (uint8_t *) (*value).ptr, (*value).len, ptr);
-  wasmvision_platform_key_value_result_void_error_t result;
-  switch ((int32_t) *((uint8_t*) (ptr + 0))) {
-    case 0: {
-      result.is_err = false;
-      break;
-    }
-    case 1: {
-      result.is_err = true;
-      wasmvision_platform_key_value_error_t variant;
-      variant.tag = (int32_t) *((uint8_t*) (ptr + 4));
-      switch ((int32_t) variant.tag) {
-        case 0: {
-          break;
-        }
-        case 1: {
-          break;
-        }
-        case 2: {
-          break;
-        }
-        case 3: {
-          variant.val.other = (imports_string_t) { (uint8_t*)(*((uint8_t **) (ptr + 8))), (*((size_t*) (ptr + 12))) };
-          break;
-        }
-      }
-
-      result.val.err = variant;
-      break;
-    }
-  }
-  if (!result.is_err) {
-    return 1;
-  } else {
-    *err = result.val.err;
-    return 0;
-  }
-}
-
-bool wasmvision_platform_key_value_method_store_delete(wasmvision_platform_key_value_borrow_store_t self, imports_string_t *key, wasmvision_platform_key_value_error_t *err) {
-  __attribute__((__aligned__(4)))
-  uint8_t ret_area[16];
-  uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_key_value_method_store_delete((self).__handle, (uint8_t *) (*key).ptr, (*key).len, ptr);
-  wasmvision_platform_key_value_result_void_error_t result;
-  switch ((int32_t) *((uint8_t*) (ptr + 0))) {
-    case 0: {
-      result.is_err = false;
-      break;
-    }
-    case 1: {
-      result.is_err = true;
-      wasmvision_platform_key_value_error_t variant;
-      variant.tag = (int32_t) *((uint8_t*) (ptr + 4));
-      switch ((int32_t) variant.tag) {
-        case 0: {
-          break;
-        }
-        case 1: {
-          break;
-        }
-        case 2: {
-          break;
-        }
-        case 3: {
-          variant.val.other = (imports_string_t) { (uint8_t*)(*((uint8_t **) (ptr + 8))), (*((size_t*) (ptr + 12))) };
-          break;
-        }
-      }
-
-      result.val.err = variant;
-      break;
-    }
-  }
-  if (!result.is_err) {
-    return 1;
-  } else {
-    *err = result.val.err;
-    return 0;
-  }
-}
-
-bool wasmvision_platform_key_value_method_store_exists(wasmvision_platform_key_value_borrow_store_t self, imports_string_t *key, bool *ret, wasmvision_platform_key_value_error_t *err) {
-  __attribute__((__aligned__(4)))
-  uint8_t ret_area[16];
-  uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_key_value_method_store_exists((self).__handle, (uint8_t *) (*key).ptr, (*key).len, ptr);
-  wasmvision_platform_key_value_result_bool_error_t result;
-  switch ((int32_t) *((uint8_t*) (ptr + 0))) {
-    case 0: {
-      result.is_err = false;
-      result.val.ok = (int32_t) *((uint8_t*) (ptr + 4));
-      break;
-    }
-    case 1: {
-      result.is_err = true;
-      wasmvision_platform_key_value_error_t variant;
-      variant.tag = (int32_t) *((uint8_t*) (ptr + 4));
-      switch ((int32_t) variant.tag) {
-        case 0: {
-          break;
-        }
-        case 1: {
-          break;
-        }
-        case 2: {
-          break;
-        }
-        case 3: {
-          variant.val.other = (imports_string_t) { (uint8_t*)(*((uint8_t **) (ptr + 8))), (*((size_t*) (ptr + 12))) };
-          break;
-        }
-      }
-
-      result.val.err = variant;
-      break;
-    }
-  }
-  if (!result.is_err) {
-    *ret = result.val.ok;
-    return 1;
-  } else {
-    *err = result.val.err;
-    return 0;
-  }
-}
-
-bool wasmvision_platform_key_value_method_store_get_keys(wasmvision_platform_key_value_borrow_store_t self, imports_list_string_t *ret, wasmvision_platform_key_value_error_t *err) {
-  __attribute__((__aligned__(4)))
-  uint8_t ret_area[16];
-  uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_key_value_method_store_get_keys((self).__handle, ptr);
-  wasmvision_platform_key_value_result_list_string_error_t result;
-  switch ((int32_t) *((uint8_t*) (ptr + 0))) {
-    case 0: {
-      result.is_err = false;
-      result.val.ok = (imports_list_string_t) { (imports_string_t*)(*((uint8_t **) (ptr + 4))), (*((size_t*) (ptr + 8))) };
-      break;
-    }
-    case 1: {
-      result.is_err = true;
-      wasmvision_platform_key_value_error_t variant;
-      variant.tag = (int32_t) *((uint8_t*) (ptr + 4));
-      switch ((int32_t) variant.tag) {
-        case 0: {
-          break;
-        }
-        case 1: {
-          break;
-        }
-        case 2: {
-          break;
-        }
-        case 3: {
-          variant.val.other = (imports_string_t) { (uint8_t*)(*((uint8_t **) (ptr + 8))), (*((size_t*) (ptr + 12))) };
-          break;
-        }
-      }
-
-      result.val.err = variant;
       break;
     }
   }
