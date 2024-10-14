@@ -134,3 +134,25 @@ Returns either the response content or an error.
 
 - <a id="post.0"></a> result<list<`u8`>, [`http-error`](#http_error)>
 
+#### <a id="post_image"></a>`post-image: func`
+
+Post the image to the specified URL.
+Template is the template to use to send the image.
+If the content-type is image/jpeg or image/png, the template is ignored, and the image is simply converted and sent in that format.
+Otherwise, the template is used to convert the image to the desired format using simple substitution of the symbol %IMAGE%
+after base64 encoding the image.
+The response-item is the item in the response to return. Usually this will be a JSON element that will be parsed.
+Mat is the reference to to the Mat to use.
+
+##### Params
+
+- <a id="post_image.url"></a>`url`: `string`
+- <a id="post_image.content_type"></a>`content-type`: `string`
+- <a id="post_image.request_template"></a>`request-template`: list<`u8`>
+- <a id="post_image.response_item"></a>`response-item`: `string`
+- <a id="post_image.mat"></a>`mat`: `u32`
+
+##### Return values
+
+- <a id="post_image.0"></a> result<list<`u8`>, [`http-error`](#http_error)>
+
