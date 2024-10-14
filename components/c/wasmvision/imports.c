@@ -29,6 +29,9 @@ extern void __wasm_import_wasmvision_platform_http_get(uint8_t *, size_t, uint8_
 __attribute__((__import_module__("wasmvision:platform/http"), __import_name__("post")))
 extern void __wasm_import_wasmvision_platform_http_post(uint8_t *, size_t, uint8_t *, size_t, uint8_t *, size_t, uint8_t *);
 
+__attribute__((__import_module__("wasmvision:platform/http"), __import_name__("post-image")))
+extern void __wasm_import_wasmvision_platform_http_post_image(uint8_t *, size_t, uint8_t *, size_t, uint8_t *, size_t, uint8_t *, size_t, int32_t, uint8_t *);
+
 // Canonical ABI intrinsics
 
 __attribute__((__weak__, __export_name__("cabi_realloc")))
@@ -159,6 +162,33 @@ bool wasmvision_platform_http_post(imports_string_t *url, imports_string_t *cont
   uint8_t ret_area[12];
   uint8_t *ptr = (uint8_t *) &ret_area;
   __wasm_import_wasmvision_platform_http_post((uint8_t *) (*url).ptr, (*url).len, (uint8_t *) (*content_type).ptr, (*content_type).len, (uint8_t *) (*body).ptr, (*body).len, ptr);
+  wasmvision_platform_http_result_list_u8_http_error_t result;
+  switch ((int32_t) *((uint8_t*) (ptr + 0))) {
+    case 0: {
+      result.is_err = false;
+      result.val.ok = (imports_list_u8_t) { (uint8_t*)(*((uint8_t **) (ptr + 4))), (*((size_t*) (ptr + 8))) };
+      break;
+    }
+    case 1: {
+      result.is_err = true;
+      result.val.err = (int32_t) *((uint8_t*) (ptr + 4));
+      break;
+    }
+  }
+  if (!result.is_err) {
+    *ret = result.val.ok;
+    return 1;
+  } else {
+    *err = result.val.err;
+    return 0;
+  }
+}
+
+bool wasmvision_platform_http_post_image(imports_string_t *url, imports_string_t *content_type, imports_list_u8_t *request_template, imports_string_t *response_item, uint32_t mat, imports_list_u8_t *ret, wasmvision_platform_http_http_error_t *err) {
+  __attribute__((__aligned__(4)))
+  uint8_t ret_area[12];
+  uint8_t *ptr = (uint8_t *) &ret_area;
+  __wasm_import_wasmvision_platform_http_post_image((uint8_t *) (*url).ptr, (*url).len, (uint8_t *) (*content_type).ptr, (*content_type).len, (uint8_t *) (*request_template).ptr, (*request_template).len, (uint8_t *) (*response_item).ptr, (*response_item).len, (int32_t) (mat), ptr);
   wasmvision_platform_http_result_list_u8_http_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {

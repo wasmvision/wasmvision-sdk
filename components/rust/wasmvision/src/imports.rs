@@ -370,6 +370,66 @@ pub mod wasmvision {
           }
         }
       }
+      #[allow(unused_unsafe, clippy::all)]
+      /// Post the image to the specified URL.
+      /// Template is the template to use to send the image.
+      /// If the content-type is image/jpeg or image/png, the template is ignored, and the image is simply converted and sent in that format.
+      /// Otherwise, the template is used to convert the image to the desired format using simple substitution of the symbol %IMAGE%
+      /// after base64 encoding the image.
+      /// The response-item is the item in the response to return. Usually this will be a JSON element that will be parsed.
+      /// Mat is the reference to to the Mat to use.
+      pub fn post_image(url: &str,content_type: &str,request_template: &[u8],response_item: &str,mat: u32,) -> Result<_rt::Vec::<u8>,HttpError>{
+        unsafe {
+          #[repr(align(4))]
+          struct RetArea([::core::mem::MaybeUninit::<u8>; 12]);
+          let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+          let vec0 = url;
+          let ptr0 = vec0.as_ptr().cast::<u8>();
+          let len0 = vec0.len();
+          let vec1 = content_type;
+          let ptr1 = vec1.as_ptr().cast::<u8>();
+          let len1 = vec1.len();
+          let vec2 = request_template;
+          let ptr2 = vec2.as_ptr().cast::<u8>();
+          let len2 = vec2.len();
+          let vec3 = response_item;
+          let ptr3 = vec3.as_ptr().cast::<u8>();
+          let len3 = vec3.len();
+          let ptr4 = ret_area.0.as_mut_ptr().cast::<u8>();
+          #[cfg(target_arch = "wasm32")]
+          #[link(wasm_import_module = "wasmvision:platform/http")]
+          extern "C" {
+            #[link_name = "post-image"]
+            fn wit_import(_: *mut u8, _: usize, _: *mut u8, _: usize, _: *mut u8, _: usize, _: *mut u8, _: usize, _: i32, _: *mut u8, );
+          }
+
+          #[cfg(not(target_arch = "wasm32"))]
+          fn wit_import(_: *mut u8, _: usize, _: *mut u8, _: usize, _: *mut u8, _: usize, _: *mut u8, _: usize, _: i32, _: *mut u8, ){ unreachable!() }
+          wit_import(ptr0.cast_mut(), len0, ptr1.cast_mut(), len1, ptr2.cast_mut(), len2, ptr3.cast_mut(), len3, _rt::as_i32(&mat), ptr4);
+          let l5 = i32::from(*ptr4.add(0).cast::<u8>());
+          match l5 {
+            0 => {
+              let e = {
+                let l6 = *ptr4.add(4).cast::<*mut u8>();
+                let l7 = *ptr4.add(8).cast::<usize>();
+                let len8 = l7;
+
+                _rt::Vec::from_raw_parts(l6.cast(), len8, len8)
+              };
+              Ok(e)
+            }
+            1 => {
+              let e = {
+                let l9 = i32::from(*ptr4.add(4).cast::<u8>());
+
+                HttpError::_lift(l9 as u8)
+              };
+              Err(e)
+            }
+            _ => _rt::invalid_enum_discriminant(),
+          }
+        }
+      }
 
     }
 
@@ -468,20 +528,21 @@ mod _rt {
 #[cfg(target_arch = "wasm32")]
 #[link_section = "component-type:wit-bindgen:0.32.0:wasmvision:platform:imports:encoded world"]
 #[doc(hidden)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 591] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xd1\x03\x01A\x02\x01\
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 668] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\x9e\x04\x01A\x02\x01\
 A\x08\x01B\x02\x01@\x01\x02tzy\0w\x04\0\x03now\x01\0\x03\0\x18wasmvision:platfor\
 m/time\x05\0\x01B\x03\x01@\x01\x03msgs\x01\0\x04\0\x03log\x01\0\x04\0\x07println\
 \x01\0\x03\0\x1bwasmvision:platform/logging\x05\x01\x01B\x05\x01m\x02\x07success\
 \x0bno-such-key\x04\0\x0cconfig-error\x03\0\0\x01j\x01s\x01\x01\x01@\x01\x03keys\
 \0\x02\x04\0\x0aget-config\x01\x03\x03\0\x1awasmvision:platform/config\x05\x02\x01\
-B\x08\x01m\x06\x07success\x17destination-not-allowed\x0binvalid-url\x0drequest-e\
+B\x0a\x01m\x06\x07success\x17destination-not-allowed\x0binvalid-url\x0drequest-e\
 rror\x0druntime-error\x11too-many-requests\x04\0\x0ahttp-error\x03\0\0\x01p}\x01\
 j\x01\x02\x01\x01\x01@\x01\x03urls\0\x03\x04\0\x03get\x01\x04\x01@\x03\x03urls\x0c\
-content-types\x04body\x02\0\x03\x04\0\x04post\x01\x05\x03\0\x18wasmvision:platfo\
-rm/http\x05\x03\x04\0\x1bwasmvision:platform/imports\x04\0\x0b\x0d\x01\0\x07impo\
-rts\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.217.0\x10\
-wit-bindgen-rust\x060.32.0";
+content-types\x04body\x02\0\x03\x04\0\x04post\x01\x05\x01@\x05\x03urls\x0cconten\
+t-types\x10request-template\x02\x0dresponse-items\x03maty\0\x03\x04\0\x0apost-im\
+age\x01\x06\x03\0\x18wasmvision:platform/http\x05\x03\x04\0\x1bwasmvision:platfo\
+rm/imports\x04\0\x0b\x0d\x01\0\x07imports\x03\0\0\0G\x09producers\x01\x0cprocess\
+ed-by\x02\x0dwit-component\x070.217.0\x10wit-bindgen-rust\x060.32.0";
 
 #[inline(never)]
 #[doc(hidden)]

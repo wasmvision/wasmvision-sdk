@@ -72,6 +72,14 @@ extern bool wasmvision_platform_http_get(imports_string_t *url, imports_list_u8_
 // Post the content to the specified URL.
 // Returns either the response content or an error.
 extern bool wasmvision_platform_http_post(imports_string_t *url, imports_string_t *content_type, imports_list_u8_t *body, imports_list_u8_t *ret, wasmvision_platform_http_http_error_t *err);
+// Post the image to the specified URL.
+// Template is the template to use to send the image.
+// If the content-type is image/jpeg or image/png, the template is ignored, and the image is simply converted and sent in that format.
+// Otherwise, the template is used to convert the image to the desired format using simple substitution of the symbol %IMAGE%
+// after base64 encoding the image.
+// The response-item is the item in the response to return. Usually this will be a JSON element that will be parsed.
+// Mat is the reference to to the Mat to use.
+extern bool wasmvision_platform_http_post_image(imports_string_t *url, imports_string_t *content_type, imports_list_u8_t *request_template, imports_string_t *response_item, uint32_t mat, imports_list_u8_t *ret, wasmvision_platform_http_http_error_t *err);
 
 // Helper Functions
 
