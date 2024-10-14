@@ -7,6 +7,15 @@ interface http {
     /// Returns either the response content or an error.
     post: func(url: string, content-type: string, body: list<u8>) -> result<list<u8>, http-error>;
 
+    /// Post the image to the specified URL.
+    /// Template is the template to use to send the image.
+    /// If the content-type is image/jpeg or image/png, the template is ignored, and the image is simply converted and sent in that format.
+    /// Otherwise, the template is used to convert the image to the desired format using simple substitution of the symbol %IMAGE%
+    /// after base64 encoding the image.
+    /// The response-item is the item in the response to return. Usually this will be a JSON element that will be parsed.
+    /// Mat is the reference to to the Mat to use.
+    post-image: func(url: string, content-type: string, request-template: list<u8>, response-item: string, mat: u32) -> result<list<u8>, http-error>;
+
     // HTTP errors returned by the runtime.
     enum http-error {
         success,
