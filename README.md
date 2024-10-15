@@ -10,8 +10,9 @@ These interface definitions are then used to generate WASM bindings for TinyGo, 
 
 There are already several capabilities implemented in wasmVision for processors to use.
 
-- Logging
 - Config
+- HTTP outgoing requests
+- Logging
 
 [Documentation for the wasmVision platform SDK is located here](./docs/imports.md)
 
@@ -23,9 +24,9 @@ This TinyGo module uses both logging and config.
 package main
 
 import (
+	"strconv"
 	"unsafe"
 
-	"github.com/hybridgroup/mechanoid/convert"
 	"github.com/wasmvision/wasmvision-sdk-go/config"
 	"github.com/wasmvision/wasmvision-sdk-go/logging"
 	"wasmcv.org/wasm/cv/mat"
@@ -47,13 +48,13 @@ func process(image mat.Mat) mat.Mat {
 	}
 
 	logging.Log("Cols: " +
-		convert.IntToString(int(image.Cols())) +
+		strconv.Itoa(int(image.Cols())) +
 		" Rows: " +
-		convert.IntToString(int(image.Rows())) +
+		strconv.Itoa(int(image.Rows())) +
 		" Type: " +
-		convert.IntToString(int(image.Mattype())) +
+		strconv.Itoa(int(image.Mattype())) +
 		" Size: " +
-		convert.IntToString(int(image.Size().Len())))
+		strconv.Itoa(int(image.Size().Len())))
 
 	return image
 }
@@ -91,9 +92,7 @@ This Rust module uses the wasmVision platform SDK logging capability.
 #![no_std]
 
 extern crate core;
-extern crate wee_alloc;
 extern crate alloc;
-extern crate wasmcv;
 
 use alloc::string::ToString;
 use wasmcv::wasm::cv;
@@ -122,4 +121,23 @@ You can then compile this module using the Rust compiler.
 
 ```shell
 cargo build --target wasm32-unknown-unknown --release
+```
+
+### C Language
+
+This C module uses the wasmVision platform SDK logging capability.
+
+```c
+#include <wasmcv/imports.h>
+#include <wasmvision/platform.h>
+
+wasm_cv_mat_own_mat_t process(wasm_cv_mat_own_mat_t image) {
+    wasm_cv_cv_size_t size = {.x = 25, .y = 25};
+    wasm_cv_mat_own_mat_t out_mat = wasm_cv_cv_blur(image, &size);
+
+    platform_string_t msg = {(unsigned char *)"Blurc processor called", 23};
+    wasmvision_platform_logging_log(&msg);
+
+    return out_mat;
+}
 ```
