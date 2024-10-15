@@ -6,7 +6,7 @@ generate-rust:
 	wit-bindgen rust --out-dir ./components/rust/wasmvision/src -w imports ./wit/
 
 generate-c:
-	wit-bindgen c --out-dir ./components/c/wasmvision -w imports ./wit/
+	wit-bindgen c --out-dir ./components/c/wasmvision --rename-world platform ./wit/
 
 generate-docs:
 	wit-bindgen markdown --out-dir ./docs -w imports ./wit/
