@@ -36,15 +36,48 @@ Get the current time in milliseconds since the Unix epoch. Use 0 for the `tz` pa
 
 #### <a id="log"></a>`log: func`
 
-Log a message on the host.
+DEPRECATED: Log a message on the host.
+Instead use error, warn, info, or debug.
 
 ##### Params
 
 - <a id="log.msg"></a>`msg`: `string`
 
+#### <a id="error"></a>`error: func`
+
+Log an error on the host.
+
+##### Params
+
+- <a id="error.msg"></a>`msg`: `string`
+
+#### <a id="warn"></a>`warn: func`
+
+Log a warning on the host.
+
+##### Params
+
+- <a id="warn.msg"></a>`msg`: `string`
+
+#### <a id="info"></a>`info: func`
+
+Log some non-critical information on the host.
+
+##### Params
+
+- <a id="info.msg"></a>`msg`: `string`
+
+#### <a id="debug"></a>`debug: func`
+
+Log some debugging info on the host.
+
+##### Params
+
+- <a id="debug.msg"></a>`msg`: `string`
+
 #### <a id="println"></a>`println: func`
 
-Print a message on the host.
+Print a message on the host. Intended to bypassing the normal logging system.
 
 ##### Params
 
