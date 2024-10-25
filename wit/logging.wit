@@ -1,7 +1,20 @@
 interface logging {
-    /// Log a message on the host.
+    /// DEPRECATED: Log a message on the host.
+    /// Instead use error, warn, info, or debug.
     log: func(msg: string);
 
-    /// Print a message on the host.
+    /// Log an error on the host.
+    error: func(msg: string);
+
+    /// Log a warning on the host.
+    warn: func(msg: string);
+
+    /// Log some non-critical information on the host.
+    info: func(msg: string);
+
+    /// Log some debugging info on the host.
+    debug: func(msg: string);
+
+    /// Print a message on the host. Intended to bypassing the normal logging system.
     println: func(msg: string);
 }
