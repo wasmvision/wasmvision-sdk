@@ -27,13 +27,38 @@
 <hr />
 <h3>Functions</h3>
 <h4><a id="log"></a><code>log: func</code></h4>
-<p>Log a message on the host.</p>
+<p>DEPRECATED: Log a message on the host.
+Instead use error, warn, info, or debug.</p>
 <h5>Params</h5>
 <ul>
 <li><a id="log.msg"></a><code>msg</code>: <code>string</code></li>
 </ul>
+<h4><a id="error"></a><code>error: func</code></h4>
+<p>Log an error on the host.</p>
+<h5>Params</h5>
+<ul>
+<li><a id="error.msg"></a><code>msg</code>: <code>string</code></li>
+</ul>
+<h4><a id="warn"></a><code>warn: func</code></h4>
+<p>Log a warning on the host.</p>
+<h5>Params</h5>
+<ul>
+<li><a id="warn.msg"></a><code>msg</code>: <code>string</code></li>
+</ul>
+<h4><a id="info"></a><code>info: func</code></h4>
+<p>Log some non-critical information on the host.</p>
+<h5>Params</h5>
+<ul>
+<li><a id="info.msg"></a><code>msg</code>: <code>string</code></li>
+</ul>
+<h4><a id="debug"></a><code>debug: func</code></h4>
+<p>Log some debugging info on the host.</p>
+<h5>Params</h5>
+<ul>
+<li><a id="debug.msg"></a><code>msg</code>: <code>string</code></li>
+</ul>
 <h4><a id="println"></a><code>println: func</code></h4>
-<p>Print a message on the host.</p>
+<p>Print a message on the host. Intended to bypassing the normal logging system.</p>
 <h5>Params</h5>
 <ul>
 <li><a id="println.msg"></a><code>msg</code>: <code>string</code></li>
