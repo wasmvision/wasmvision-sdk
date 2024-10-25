@@ -57,9 +57,18 @@ typedef struct {
 extern uint64_t wasmvision_platform_time_now(uint32_t tz);
 
 // Imported Functions from `wasmvision:platform/logging`
-// Log a message on the host.
+// DEPRECATED: Log a message on the host.
+// Instead use error, warn, info, or debug.
 extern void wasmvision_platform_logging_log(platform_string_t *msg);
-// Print a message on the host.
+// Log an error on the host.
+extern void wasmvision_platform_logging_error(platform_string_t *msg);
+// Log a warning on the host.
+extern void wasmvision_platform_logging_warn(platform_string_t *msg);
+// Log some non-critical information on the host.
+extern void wasmvision_platform_logging_info(platform_string_t *msg);
+// Log some debugging info on the host.
+extern void wasmvision_platform_logging_debug(platform_string_t *msg);
+// Print a message on the host. Intended to bypassing the normal logging system.
 extern void wasmvision_platform_logging_println(platform_string_t *msg);
 
 // Imported Functions from `wasmvision:platform/config`

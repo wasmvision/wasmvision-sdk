@@ -41,7 +41,8 @@ pub mod wasmvision {
       super::super::super::__link_custom_section_describing_imports;
       
       #[allow(unused_unsafe, clippy::all)]
-      /// Log a message on the host.
+      /// DEPRECATED: Log a message on the host.
+      /// Instead use error, warn, info, or debug.
       pub fn log(msg: &str,){
         unsafe {
           let vec0 = msg;
@@ -61,7 +62,87 @@ pub mod wasmvision {
         }
       }
       #[allow(unused_unsafe, clippy::all)]
-      /// Print a message on the host.
+      /// Log an error on the host.
+      pub fn error(msg: &str,){
+        unsafe {
+          let vec0 = msg;
+          let ptr0 = vec0.as_ptr().cast::<u8>();
+          let len0 = vec0.len();
+
+          #[cfg(target_arch = "wasm32")]
+          #[link(wasm_import_module = "wasmvision:platform/logging")]
+          extern "C" {
+            #[link_name = "error"]
+            fn wit_import(_: *mut u8, _: usize, );
+          }
+
+          #[cfg(not(target_arch = "wasm32"))]
+          fn wit_import(_: *mut u8, _: usize, ){ unreachable!() }
+          wit_import(ptr0.cast_mut(), len0);
+        }
+      }
+      #[allow(unused_unsafe, clippy::all)]
+      /// Log a warning on the host.
+      pub fn warn(msg: &str,){
+        unsafe {
+          let vec0 = msg;
+          let ptr0 = vec0.as_ptr().cast::<u8>();
+          let len0 = vec0.len();
+
+          #[cfg(target_arch = "wasm32")]
+          #[link(wasm_import_module = "wasmvision:platform/logging")]
+          extern "C" {
+            #[link_name = "warn"]
+            fn wit_import(_: *mut u8, _: usize, );
+          }
+
+          #[cfg(not(target_arch = "wasm32"))]
+          fn wit_import(_: *mut u8, _: usize, ){ unreachable!() }
+          wit_import(ptr0.cast_mut(), len0);
+        }
+      }
+      #[allow(unused_unsafe, clippy::all)]
+      /// Log some non-critical information on the host.
+      pub fn info(msg: &str,){
+        unsafe {
+          let vec0 = msg;
+          let ptr0 = vec0.as_ptr().cast::<u8>();
+          let len0 = vec0.len();
+
+          #[cfg(target_arch = "wasm32")]
+          #[link(wasm_import_module = "wasmvision:platform/logging")]
+          extern "C" {
+            #[link_name = "info"]
+            fn wit_import(_: *mut u8, _: usize, );
+          }
+
+          #[cfg(not(target_arch = "wasm32"))]
+          fn wit_import(_: *mut u8, _: usize, ){ unreachable!() }
+          wit_import(ptr0.cast_mut(), len0);
+        }
+      }
+      #[allow(unused_unsafe, clippy::all)]
+      /// Log some debugging info on the host.
+      pub fn debug(msg: &str,){
+        unsafe {
+          let vec0 = msg;
+          let ptr0 = vec0.as_ptr().cast::<u8>();
+          let len0 = vec0.len();
+
+          #[cfg(target_arch = "wasm32")]
+          #[link(wasm_import_module = "wasmvision:platform/logging")]
+          extern "C" {
+            #[link_name = "debug"]
+            fn wit_import(_: *mut u8, _: usize, );
+          }
+
+          #[cfg(not(target_arch = "wasm32"))]
+          fn wit_import(_: *mut u8, _: usize, ){ unreachable!() }
+          wit_import(ptr0.cast_mut(), len0);
+        }
+      }
+      #[allow(unused_unsafe, clippy::all)]
+      /// Print a message on the host. Intended to bypassing the normal logging system.
       pub fn println(msg: &str,){
         unsafe {
           let vec0 = msg;
@@ -528,10 +609,11 @@ mod _rt {
 #[cfg(target_arch = "wasm32")]
 #[link_section = "component-type:wit-bindgen:0.32.0:wasmvision:platform:imports:encoded world"]
 #[doc(hidden)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 668] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\x9e\x04\x01A\x02\x01\
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 706] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xc4\x04\x01A\x02\x01\
 A\x08\x01B\x02\x01@\x01\x02tzy\0w\x04\0\x03now\x01\0\x03\0\x18wasmvision:platfor\
-m/time\x05\0\x01B\x03\x01@\x01\x03msgs\x01\0\x04\0\x03log\x01\0\x04\0\x07println\
+m/time\x05\0\x01B\x07\x01@\x01\x03msgs\x01\0\x04\0\x03log\x01\0\x04\0\x05error\x01\
+\0\x04\0\x04warn\x01\0\x04\0\x04info\x01\0\x04\0\x05debug\x01\0\x04\0\x07println\
 \x01\0\x03\0\x1bwasmvision:platform/logging\x05\x01\x01B\x05\x01m\x02\x07success\
 \x0bno-such-key\x04\0\x0cconfig-error\x03\0\0\x01j\x01s\x01\x01\x01@\x01\x03keys\
 \0\x02\x04\0\x0aget-config\x01\x03\x03\0\x1awasmvision:platform/config\x05\x02\x01\
