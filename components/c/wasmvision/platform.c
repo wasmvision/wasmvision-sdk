@@ -13,6 +13,18 @@ extern int64_t __wasm_import_wasmvision_platform_time_now(int32_t);
 __attribute__((__import_module__("wasmvision:platform/logging"), __import_name__("log")))
 extern void __wasm_import_wasmvision_platform_logging_log(uint8_t *, size_t);
 
+__attribute__((__import_module__("wasmvision:platform/logging"), __import_name__("error")))
+extern void __wasm_import_wasmvision_platform_logging_error(uint8_t *, size_t);
+
+__attribute__((__import_module__("wasmvision:platform/logging"), __import_name__("warn")))
+extern void __wasm_import_wasmvision_platform_logging_warn(uint8_t *, size_t);
+
+__attribute__((__import_module__("wasmvision:platform/logging"), __import_name__("info")))
+extern void __wasm_import_wasmvision_platform_logging_info(uint8_t *, size_t);
+
+__attribute__((__import_module__("wasmvision:platform/logging"), __import_name__("debug")))
+extern void __wasm_import_wasmvision_platform_logging_debug(uint8_t *, size_t);
+
 __attribute__((__import_module__("wasmvision:platform/logging"), __import_name__("println")))
 extern void __wasm_import_wasmvision_platform_logging_println(uint8_t *, size_t);
 
@@ -97,6 +109,22 @@ uint64_t wasmvision_platform_time_now(uint32_t tz) {
 
 void wasmvision_platform_logging_log(platform_string_t *msg) {
   __wasm_import_wasmvision_platform_logging_log((uint8_t *) (*msg).ptr, (*msg).len);
+}
+
+void wasmvision_platform_logging_error(platform_string_t *msg) {
+  __wasm_import_wasmvision_platform_logging_error((uint8_t *) (*msg).ptr, (*msg).len);
+}
+
+void wasmvision_platform_logging_warn(platform_string_t *msg) {
+  __wasm_import_wasmvision_platform_logging_warn((uint8_t *) (*msg).ptr, (*msg).len);
+}
+
+void wasmvision_platform_logging_info(platform_string_t *msg) {
+  __wasm_import_wasmvision_platform_logging_info((uint8_t *) (*msg).ptr, (*msg).len);
+}
+
+void wasmvision_platform_logging_debug(platform_string_t *msg) {
+  __wasm_import_wasmvision_platform_logging_debug((uint8_t *) (*msg).ptr, (*msg).len);
 }
 
 void wasmvision_platform_logging_println(platform_string_t *msg) {
