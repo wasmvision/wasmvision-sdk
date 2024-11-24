@@ -7,6 +7,7 @@ wasmvision is a WebAssembly guest module interface for host functions provided b
     - interface `wasmvision:platform/logging`
     - interface `wasmvision:platform/config`
     - interface `wasmvision:platform/http`
+    - interface `wasmvision:platform/datastore`
 
 ## <a id="wasmvision_platform_time"></a>Import interface wasmvision:platform/time
 
@@ -188,4 +189,195 @@ Mat is the reference to to the Mat to use.
 ##### Return values
 
 - <a id="post_image.0"></a> result<list<`u8`>, [`http-error`](#http_error)>
+
+## <a id="wasmvision_platform_datastore"></a>Import interface wasmvision:platform/datastore
+
+
+----
+
+### Types
+
+#### <a id="framedata"></a>`resource framedata`
+
+An open key-value store
+#### <a id="processordata"></a>`resource processordata`
+
+#### <a id="datastore_error"></a>`enum datastore-error`
+
+datastore errors returned by the runtime.
+
+##### Enum Cases
+
+- <a id="datastore_error.success"></a>`success`
+- <a id="datastore_error.no_such_store"></a>`no-such-store`
+- <a id="datastore_error.runtime_error"></a>`runtime-error`
+----
+
+### Functions
+
+#### <a id="static_framedata_open"></a>`[static]framedata.open: func`
+
+Open the frame datastore for the specified frame.
+
+`error::no-such-store` will be raised if the `frame` is not recognized.
+
+##### Params
+
+- <a id="static_framedata_open.frame"></a>`frame`: `u32`
+
+##### Return values
+
+- <a id="static_framedata_open.0"></a> result<own<[`framedata`](#framedata)>, [`datastore-error`](#datastore_error)>
+
+#### <a id="method_framedata_get"></a>`[method]framedata.get: func`
+
+Get the value associated with the specified `key`
+
+Returns `ok(none)` if the key does not exist.
+
+##### Params
+
+- <a id="method_framedata_get.self"></a>`self`: borrow<[`framedata`](#framedata)>
+- <a id="method_framedata_get.key"></a>`key`: `string`
+
+##### Return values
+
+- <a id="method_framedata_get.0"></a> result<list<`u8`>, [`datastore-error`](#datastore_error)>
+
+#### <a id="method_framedata_set"></a>`[method]framedata.set: func`
+
+Set the `value` associated with the specified `key` overwriting any existing value.
+
+##### Params
+
+- <a id="method_framedata_set.self"></a>`self`: borrow<[`framedata`](#framedata)>
+- <a id="method_framedata_set.key"></a>`key`: `string`
+- <a id="method_framedata_set.value"></a>`value`: list<`u8`>
+
+##### Return values
+
+- <a id="method_framedata_set.0"></a> result<_, [`datastore-error`](#datastore_error)>
+
+#### <a id="method_framedata_delete"></a>`[method]framedata.delete: func`
+
+Delete the tuple with the specified `key`
+
+No error is raised if a tuple did not previously exist for `key`.
+
+##### Params
+
+- <a id="method_framedata_delete.self"></a>`self`: borrow<[`framedata`](#framedata)>
+- <a id="method_framedata_delete.key"></a>`key`: `string`
+
+##### Return values
+
+- <a id="method_framedata_delete.0"></a> result<_, [`datastore-error`](#datastore_error)>
+
+#### <a id="method_framedata_exists"></a>`[method]framedata.exists: func`
+
+Return whether a tuple exists for the specified `key`
+
+##### Params
+
+- <a id="method_framedata_exists.self"></a>`self`: borrow<[`framedata`](#framedata)>
+- <a id="method_framedata_exists.key"></a>`key`: `string`
+
+##### Return values
+
+- <a id="method_framedata_exists.0"></a> result<`bool`, [`datastore-error`](#datastore_error)>
+
+#### <a id="method_framedata_get_keys"></a>`[method]framedata.get-keys: func`
+
+Return a list of all the keys
+
+##### Params
+
+- <a id="method_framedata_get_keys.self"></a>`self`: borrow<[`framedata`](#framedata)>
+
+##### Return values
+
+- <a id="method_framedata_get_keys.0"></a> result<list<`string`>, [`datastore-error`](#datastore_error)>
+
+#### <a id="static_processordata_open"></a>`[static]processordata.open: func`
+
+Open the processor datastore for the specified processor
+
+`error::no-such-store` will be raised if the `processor` is not recognized.
+
+##### Params
+
+- <a id="static_processordata_open.processor"></a>`processor`: `string`
+
+##### Return values
+
+- <a id="static_processordata_open.0"></a> result<own<[`processordata`](#processordata)>, [`datastore-error`](#datastore_error)>
+
+#### <a id="method_processordata_get"></a>`[method]processordata.get: func`
+
+Get the value associated with the specified `key`
+
+Returns `ok(none)` if the key does not exist.
+
+##### Params
+
+- <a id="method_processordata_get.self"></a>`self`: borrow<[`processordata`](#processordata)>
+- <a id="method_processordata_get.key"></a>`key`: `string`
+
+##### Return values
+
+- <a id="method_processordata_get.0"></a> result<list<`u8`>, [`datastore-error`](#datastore_error)>
+
+#### <a id="method_processordata_set"></a>`[method]processordata.set: func`
+
+Set the `value` associated with the specified `key` overwriting any existing value.
+
+##### Params
+
+- <a id="method_processordata_set.self"></a>`self`: borrow<[`processordata`](#processordata)>
+- <a id="method_processordata_set.key"></a>`key`: `string`
+- <a id="method_processordata_set.value"></a>`value`: list<`u8`>
+
+##### Return values
+
+- <a id="method_processordata_set.0"></a> result<_, [`datastore-error`](#datastore_error)>
+
+#### <a id="method_processordata_delete"></a>`[method]processordata.delete: func`
+
+Delete the tuple with the specified `key`
+
+No error is raised if a tuple did not previously exist for `key`.
+
+##### Params
+
+- <a id="method_processordata_delete.self"></a>`self`: borrow<[`processordata`](#processordata)>
+- <a id="method_processordata_delete.key"></a>`key`: `string`
+
+##### Return values
+
+- <a id="method_processordata_delete.0"></a> result<_, [`datastore-error`](#datastore_error)>
+
+#### <a id="method_processordata_exists"></a>`[method]processordata.exists: func`
+
+Return whether a tuple exists for the specified `key`
+
+##### Params
+
+- <a id="method_processordata_exists.self"></a>`self`: borrow<[`processordata`](#processordata)>
+- <a id="method_processordata_exists.key"></a>`key`: `string`
+
+##### Return values
+
+- <a id="method_processordata_exists.0"></a> result<`bool`, [`datastore-error`](#datastore_error)>
+
+#### <a id="method_processordata_get_keys"></a>`[method]processordata.get-keys: func`
+
+Return a list of all the keys
+
+##### Params
+
+- <a id="method_processordata_get_keys.self"></a>`self`: borrow<[`processordata`](#processordata)>
+
+##### Return values
+
+- <a id="method_processordata_get_keys.0"></a> result<list<`string`>, [`datastore-error`](#datastore_error)>
 

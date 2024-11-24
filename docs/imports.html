@@ -7,6 +7,7 @@
 <li>interface <a href="#wasmvision_platform_logging"><code>wasmvision:platform/logging</code></a></li>
 <li>interface <a href="#wasmvision_platform_config"><code>wasmvision:platform/config</code></a></li>
 <li>interface <a href="#wasmvision_platform_http"><code>wasmvision:platform/http</code></a></li>
+<li>interface <a href="#wasmvision_platform_datastore"><code>wasmvision:platform/datastore</code></a></li>
 </ul>
 </li>
 </ul>
@@ -148,4 +149,156 @@ Mat is the reference to to the Mat to use.</p>
 <h5>Return values</h5>
 <ul>
 <li><a id="post_image.0"></a> result&lt;list&lt;<code>u8</code>&gt;, <a href="#http_error"><a href="#http_error"><code>http-error</code></a></a>&gt;</li>
+</ul>
+<h2><a id="wasmvision_platform_datastore"></a>Import interface wasmvision:platform/datastore</h2>
+<hr />
+<h3>Types</h3>
+<h4><a id="framedata"></a><code>resource framedata</code></h4>
+<p>An open key-value store</p>
+<h4><a id="processordata"></a><code>resource processordata</code></h4>
+<h4><a id="datastore_error"></a><code>enum datastore-error</code></h4>
+<p>datastore errors returned by the runtime.</p>
+<h5>Enum Cases</h5>
+<ul>
+<li><a id="datastore_error.success"></a><code>success</code></li>
+<li><a id="datastore_error.no_such_store"></a><code>no-such-store</code></li>
+<li><a id="datastore_error.runtime_error"></a><code>runtime-error</code></li>
+</ul>
+<hr />
+<h3>Functions</h3>
+<h4><a id="static_framedata_open"></a><code>[static]framedata.open: func</code></h4>
+<p>Open the frame datastore for the specified frame.</p>
+<p><code>error::no-such-store</code> will be raised if the <code>frame</code> is not recognized.</p>
+<h5>Params</h5>
+<ul>
+<li><a id="static_framedata_open.frame"></a><code>frame</code>: <code>u32</code></li>
+</ul>
+<h5>Return values</h5>
+<ul>
+<li><a id="static_framedata_open.0"></a> result&lt;own&lt;<a href="#framedata"><a href="#framedata"><code>framedata</code></a></a>&gt;, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+</ul>
+<h4><a id="method_framedata_get"></a><code>[method]framedata.get: func</code></h4>
+<p>Get the value associated with the specified <code>key</code></p>
+<p>Returns <code>ok(none)</code> if the key does not exist.</p>
+<h5>Params</h5>
+<ul>
+<li><a id="method_framedata_get.self"></a><code>self</code>: borrow&lt;<a href="#framedata"><a href="#framedata"><code>framedata</code></a></a>&gt;</li>
+<li><a id="method_framedata_get.key"></a><code>key</code>: <code>string</code></li>
+</ul>
+<h5>Return values</h5>
+<ul>
+<li><a id="method_framedata_get.0"></a> result&lt;list&lt;<code>u8</code>&gt;, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+</ul>
+<h4><a id="method_framedata_set"></a><code>[method]framedata.set: func</code></h4>
+<p>Set the <code>value</code> associated with the specified <code>key</code> overwriting any existing value.</p>
+<h5>Params</h5>
+<ul>
+<li><a id="method_framedata_set.self"></a><code>self</code>: borrow&lt;<a href="#framedata"><a href="#framedata"><code>framedata</code></a></a>&gt;</li>
+<li><a id="method_framedata_set.key"></a><code>key</code>: <code>string</code></li>
+<li><a id="method_framedata_set.value"></a><code>value</code>: list&lt;<code>u8</code>&gt;</li>
+</ul>
+<h5>Return values</h5>
+<ul>
+<li><a id="method_framedata_set.0"></a> result&lt;_, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+</ul>
+<h4><a id="method_framedata_delete"></a><code>[method]framedata.delete: func</code></h4>
+<p>Delete the tuple with the specified <code>key</code></p>
+<p>No error is raised if a tuple did not previously exist for <code>key</code>.</p>
+<h5>Params</h5>
+<ul>
+<li><a id="method_framedata_delete.self"></a><code>self</code>: borrow&lt;<a href="#framedata"><a href="#framedata"><code>framedata</code></a></a>&gt;</li>
+<li><a id="method_framedata_delete.key"></a><code>key</code>: <code>string</code></li>
+</ul>
+<h5>Return values</h5>
+<ul>
+<li><a id="method_framedata_delete.0"></a> result&lt;_, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+</ul>
+<h4><a id="method_framedata_exists"></a><code>[method]framedata.exists: func</code></h4>
+<p>Return whether a tuple exists for the specified <code>key</code></p>
+<h5>Params</h5>
+<ul>
+<li><a id="method_framedata_exists.self"></a><code>self</code>: borrow&lt;<a href="#framedata"><a href="#framedata"><code>framedata</code></a></a>&gt;</li>
+<li><a id="method_framedata_exists.key"></a><code>key</code>: <code>string</code></li>
+</ul>
+<h5>Return values</h5>
+<ul>
+<li><a id="method_framedata_exists.0"></a> result&lt;<code>bool</code>, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+</ul>
+<h4><a id="method_framedata_get_keys"></a><code>[method]framedata.get-keys: func</code></h4>
+<p>Return a list of all the keys</p>
+<h5>Params</h5>
+<ul>
+<li><a id="method_framedata_get_keys.self"></a><code>self</code>: borrow&lt;<a href="#framedata"><a href="#framedata"><code>framedata</code></a></a>&gt;</li>
+</ul>
+<h5>Return values</h5>
+<ul>
+<li><a id="method_framedata_get_keys.0"></a> result&lt;list&lt;<code>string</code>&gt;, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+</ul>
+<h4><a id="static_processordata_open"></a><code>[static]processordata.open: func</code></h4>
+<p>Open the processor datastore for the specified processor</p>
+<p><code>error::no-such-store</code> will be raised if the <code>processor</code> is not recognized.</p>
+<h5>Params</h5>
+<ul>
+<li><a id="static_processordata_open.processor"></a><code>processor</code>: <code>string</code></li>
+</ul>
+<h5>Return values</h5>
+<ul>
+<li><a id="static_processordata_open.0"></a> result&lt;own&lt;<a href="#processordata"><a href="#processordata"><code>processordata</code></a></a>&gt;, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+</ul>
+<h4><a id="method_processordata_get"></a><code>[method]processordata.get: func</code></h4>
+<p>Get the value associated with the specified <code>key</code></p>
+<p>Returns <code>ok(none)</code> if the key does not exist.</p>
+<h5>Params</h5>
+<ul>
+<li><a id="method_processordata_get.self"></a><code>self</code>: borrow&lt;<a href="#processordata"><a href="#processordata"><code>processordata</code></a></a>&gt;</li>
+<li><a id="method_processordata_get.key"></a><code>key</code>: <code>string</code></li>
+</ul>
+<h5>Return values</h5>
+<ul>
+<li><a id="method_processordata_get.0"></a> result&lt;list&lt;<code>u8</code>&gt;, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+</ul>
+<h4><a id="method_processordata_set"></a><code>[method]processordata.set: func</code></h4>
+<p>Set the <code>value</code> associated with the specified <code>key</code> overwriting any existing value.</p>
+<h5>Params</h5>
+<ul>
+<li><a id="method_processordata_set.self"></a><code>self</code>: borrow&lt;<a href="#processordata"><a href="#processordata"><code>processordata</code></a></a>&gt;</li>
+<li><a id="method_processordata_set.key"></a><code>key</code>: <code>string</code></li>
+<li><a id="method_processordata_set.value"></a><code>value</code>: list&lt;<code>u8</code>&gt;</li>
+</ul>
+<h5>Return values</h5>
+<ul>
+<li><a id="method_processordata_set.0"></a> result&lt;_, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+</ul>
+<h4><a id="method_processordata_delete"></a><code>[method]processordata.delete: func</code></h4>
+<p>Delete the tuple with the specified <code>key</code></p>
+<p>No error is raised if a tuple did not previously exist for <code>key</code>.</p>
+<h5>Params</h5>
+<ul>
+<li><a id="method_processordata_delete.self"></a><code>self</code>: borrow&lt;<a href="#processordata"><a href="#processordata"><code>processordata</code></a></a>&gt;</li>
+<li><a id="method_processordata_delete.key"></a><code>key</code>: <code>string</code></li>
+</ul>
+<h5>Return values</h5>
+<ul>
+<li><a id="method_processordata_delete.0"></a> result&lt;_, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+</ul>
+<h4><a id="method_processordata_exists"></a><code>[method]processordata.exists: func</code></h4>
+<p>Return whether a tuple exists for the specified <code>key</code></p>
+<h5>Params</h5>
+<ul>
+<li><a id="method_processordata_exists.self"></a><code>self</code>: borrow&lt;<a href="#processordata"><a href="#processordata"><code>processordata</code></a></a>&gt;</li>
+<li><a id="method_processordata_exists.key"></a><code>key</code>: <code>string</code></li>
+</ul>
+<h5>Return values</h5>
+<ul>
+<li><a id="method_processordata_exists.0"></a> result&lt;<code>bool</code>, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+</ul>
+<h4><a id="method_processordata_get_keys"></a><code>[method]processordata.get-keys: func</code></h4>
+<p>Return a list of all the keys</p>
+<h5>Params</h5>
+<ul>
+<li><a id="method_processordata_get_keys.self"></a><code>self</code>: borrow&lt;<a href="#processordata"><a href="#processordata"><code>processordata</code></a></a>&gt;</li>
+</ul>
+<h5>Return values</h5>
+<ul>
+<li><a id="method_processordata_get_keys.0"></a> result&lt;list&lt;<code>string</code>&gt;, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
 </ul>
