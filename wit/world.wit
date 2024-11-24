@@ -6,4 +6,5 @@ world imports {
     import logging;
     import config;
     import http;
+    import datastore;
 }
