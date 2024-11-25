@@ -1,61 +1,58 @@
 interface datastore {
-	/// An open key-value store
-	resource framedata {
-		/// Open the frame datastore for the specified frame.
-		///
-		/// `error::no-such-store` will be raised if the `frame` is not recognized.
-		open: static func(frame: u32) -> result<framedata, datastore-error>;
-
-		/// Get the value associated with the specified `key`
-		///
-		/// Returns `ok(none)` if the key does not exist.
-		get: func(key: string) -> result<list<u8>, datastore-error>;
-
-		/// Set the `value` associated with the specified `key` overwriting any existing value.
-		set: func(key: string, value: list<u8>) -> result<_, datastore-error>;
-
-		/// Delete the tuple with the specified `key`
-		///
-		/// No error is raised if a tuple did not previously exist for `key`.
-		delete: func(key: string) -> result<_, datastore-error>;
-
-		/// Return whether a tuple exists for the specified `key`
-		exists: func(key: string) -> result<bool, datastore-error>;
-
-		/// Return a list of all the keys
-		get-keys: func() -> result<list<string>, datastore-error>;
-	}
-
-	resource processordata {
-		/// Open the processor datastore for the specified processor
-		///
-		/// `error::no-such-store` will be raised if the `processor` is not recognized.
-		open: static func(processor: string) -> result<processordata, datastore-error>;
-
-		/// Get the value associated with the specified `key`
-		///
-		/// Returns `ok(none)` if the key does not exist.
-		get: func(key: string) -> result<list<u8>, datastore-error>;
-
-		/// Set the `value` associated with the specified `key` overwriting any existing value.
-		set: func(key: string, value: list<u8>) -> result<_, datastore-error>;
-
-		/// Delete the tuple with the specified `key`
-		///
-		/// No error is raised if a tuple did not previously exist for `key`.
-		delete: func(key: string) -> result<_, datastore-error>;
-
-		/// Return whether a tuple exists for the specified `key`
-		exists: func(key: string) -> result<bool, datastore-error>;
-
-		/// Return a list of all the keys
-		get-keys: func() -> result<list<string>, datastore-error>;
-	}
-
     /// datastore errors returned by the runtime.
     enum datastore-error {
         success,
         no-such-store,
         runtime-error,
+    }
+    
+    /// frame-store is the interface for storing data associated with a specific frame.
+    resource frame-store {
+        // The id param is currently ignored
+        constructor(id: u32);
+
+        /// Get the value associated with the specified `key`
+        ///
+        /// Returns `ok(none)` if the key does not exist.
+        get: func(frame: u32, key: string) -> result<list<u8>, datastore-error>;
+
+        /// Set the `value` associated with the specified `key` overwriting any existing value.
+        set: func(frame: u32, key: string, value: list<u8>) -> result<_, datastore-error>;
+
+        /// Delete the tuple with the specified `key`
+        ///
+        /// No error is raised if a tuple did not previously exist for `key`.
+        delete: func(frame: u32, key: string) -> result<_, datastore-error>;
+
+        /// Return whether a tuple exists for the specified `key`
+        exists: func(frame: u32, key: string) -> result<bool, datastore-error>;
+
+        /// Return a list of all the keys
+        get-keys: func(frame: u32) -> result<list<string>, datastore-error>;
+    }
+
+    /// processor-store is the interface for storing data associated with a processor.
+    resource processor-store {
+        // The id param is currently ignored
+        constructor(id: u32);
+
+        /// Get the value associated with the specified `key`
+        ///
+        /// Returns `ok(none)` if the key does not exist.
+        get: func(processor: string, key: string) -> result<list<u8>, datastore-error>;
+
+        /// Set the `value` associated with the specified `key` overwriting any existing value.
+        set: func(processor: string, key: string, value: list<u8>) -> result<_, datastore-error>;
+
+        /// Delete the tuple with the specified `key`
+        ///
+        /// No error is raised if a tuple did not previously exist for `key`.
+        delete: func(processor: string, key: string) -> result<_, datastore-error>;
+
+        /// Return whether a tuple exists for the specified `key`
+        exists: func(processor: string, key: string) -> result<bool, datastore-error>;
+
+        /// Return a list of all the keys
+        get-keys: func(processor: string) -> result<list<string>, datastore-error>;
     }
 }
