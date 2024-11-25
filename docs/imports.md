@@ -197,11 +197,6 @@ Mat is the reference to to the Mat to use.
 
 ### Types
 
-#### <a id="framedata"></a>`resource framedata`
-
-An open key-value store
-#### <a id="processordata"></a>`resource processordata`
-
 #### <a id="datastore_error"></a>`enum datastore-error`
 
 datastore errors returned by the runtime.
@@ -211,25 +206,29 @@ datastore errors returned by the runtime.
 - <a id="datastore_error.success"></a>`success`
 - <a id="datastore_error.no_such_store"></a>`no-such-store`
 - <a id="datastore_error.runtime_error"></a>`runtime-error`
+#### <a id="frame_store"></a>`resource frame-store`
+
+frame-store is the interface for storing data associated with a specific frame.
+#### <a id="processor_store"></a>`resource processor-store`
+
+processor-store is the interface for storing data associated with a processor.
 ----
 
 ### Functions
 
-#### <a id="static_framedata_open"></a>`[static]framedata.open: func`
+#### <a id="constructor_frame_store"></a>`[constructor]frame-store: func`
 
-Open the frame datastore for the specified frame.
-
-`error::no-such-store` will be raised if the `frame` is not recognized.
+The id param is currently ignored
 
 ##### Params
 
-- <a id="static_framedata_open.frame"></a>`frame`: `u32`
+- <a id="constructor_frame_store.id"></a>`id`: `u32`
 
 ##### Return values
 
-- <a id="static_framedata_open.0"></a> result<own<[`framedata`](#framedata)>, [`datastore-error`](#datastore_error)>
+- <a id="constructor_frame_store.0"></a> own<[`frame-store`](#frame_store)>
 
-#### <a id="method_framedata_get"></a>`[method]framedata.get: func`
+#### <a id="method_frame_store_get"></a>`[method]frame-store.get: func`
 
 Get the value associated with the specified `key`
 
@@ -237,28 +236,30 @@ Returns `ok(none)` if the key does not exist.
 
 ##### Params
 
-- <a id="method_framedata_get.self"></a>`self`: borrow<[`framedata`](#framedata)>
-- <a id="method_framedata_get.key"></a>`key`: `string`
+- <a id="method_frame_store_get.self"></a>`self`: borrow<[`frame-store`](#frame_store)>
+- <a id="method_frame_store_get.frame"></a>`frame`: `u32`
+- <a id="method_frame_store_get.key"></a>`key`: `string`
 
 ##### Return values
 
-- <a id="method_framedata_get.0"></a> result<list<`u8`>, [`datastore-error`](#datastore_error)>
+- <a id="method_frame_store_get.0"></a> result<list<`u8`>, [`datastore-error`](#datastore_error)>
 
-#### <a id="method_framedata_set"></a>`[method]framedata.set: func`
+#### <a id="method_frame_store_set"></a>`[method]frame-store.set: func`
 
 Set the `value` associated with the specified `key` overwriting any existing value.
 
 ##### Params
 
-- <a id="method_framedata_set.self"></a>`self`: borrow<[`framedata`](#framedata)>
-- <a id="method_framedata_set.key"></a>`key`: `string`
-- <a id="method_framedata_set.value"></a>`value`: list<`u8`>
+- <a id="method_frame_store_set.self"></a>`self`: borrow<[`frame-store`](#frame_store)>
+- <a id="method_frame_store_set.frame"></a>`frame`: `u32`
+- <a id="method_frame_store_set.key"></a>`key`: `string`
+- <a id="method_frame_store_set.value"></a>`value`: list<`u8`>
 
 ##### Return values
 
-- <a id="method_framedata_set.0"></a> result<_, [`datastore-error`](#datastore_error)>
+- <a id="method_frame_store_set.0"></a> result<_, [`datastore-error`](#datastore_error)>
 
-#### <a id="method_framedata_delete"></a>`[method]framedata.delete: func`
+#### <a id="method_frame_store_delete"></a>`[method]frame-store.delete: func`
 
 Delete the tuple with the specified `key`
 
@@ -266,53 +267,54 @@ No error is raised if a tuple did not previously exist for `key`.
 
 ##### Params
 
-- <a id="method_framedata_delete.self"></a>`self`: borrow<[`framedata`](#framedata)>
-- <a id="method_framedata_delete.key"></a>`key`: `string`
+- <a id="method_frame_store_delete.self"></a>`self`: borrow<[`frame-store`](#frame_store)>
+- <a id="method_frame_store_delete.frame"></a>`frame`: `u32`
+- <a id="method_frame_store_delete.key"></a>`key`: `string`
 
 ##### Return values
 
-- <a id="method_framedata_delete.0"></a> result<_, [`datastore-error`](#datastore_error)>
+- <a id="method_frame_store_delete.0"></a> result<_, [`datastore-error`](#datastore_error)>
 
-#### <a id="method_framedata_exists"></a>`[method]framedata.exists: func`
+#### <a id="method_frame_store_exists"></a>`[method]frame-store.exists: func`
 
 Return whether a tuple exists for the specified `key`
 
 ##### Params
 
-- <a id="method_framedata_exists.self"></a>`self`: borrow<[`framedata`](#framedata)>
-- <a id="method_framedata_exists.key"></a>`key`: `string`
+- <a id="method_frame_store_exists.self"></a>`self`: borrow<[`frame-store`](#frame_store)>
+- <a id="method_frame_store_exists.frame"></a>`frame`: `u32`
+- <a id="method_frame_store_exists.key"></a>`key`: `string`
 
 ##### Return values
 
-- <a id="method_framedata_exists.0"></a> result<`bool`, [`datastore-error`](#datastore_error)>
+- <a id="method_frame_store_exists.0"></a> result<`bool`, [`datastore-error`](#datastore_error)>
 
-#### <a id="method_framedata_get_keys"></a>`[method]framedata.get-keys: func`
+#### <a id="method_frame_store_get_keys"></a>`[method]frame-store.get-keys: func`
 
 Return a list of all the keys
 
 ##### Params
 
-- <a id="method_framedata_get_keys.self"></a>`self`: borrow<[`framedata`](#framedata)>
+- <a id="method_frame_store_get_keys.self"></a>`self`: borrow<[`frame-store`](#frame_store)>
+- <a id="method_frame_store_get_keys.frame"></a>`frame`: `u32`
 
 ##### Return values
 
-- <a id="method_framedata_get_keys.0"></a> result<list<`string`>, [`datastore-error`](#datastore_error)>
+- <a id="method_frame_store_get_keys.0"></a> result<list<`string`>, [`datastore-error`](#datastore_error)>
 
-#### <a id="static_processordata_open"></a>`[static]processordata.open: func`
+#### <a id="constructor_processor_store"></a>`[constructor]processor-store: func`
 
-Open the processor datastore for the specified processor
-
-`error::no-such-store` will be raised if the `processor` is not recognized.
+The id param is currently ignored
 
 ##### Params
 
-- <a id="static_processordata_open.processor"></a>`processor`: `string`
+- <a id="constructor_processor_store.id"></a>`id`: `u32`
 
 ##### Return values
 
-- <a id="static_processordata_open.0"></a> result<own<[`processordata`](#processordata)>, [`datastore-error`](#datastore_error)>
+- <a id="constructor_processor_store.0"></a> own<[`processor-store`](#processor_store)>
 
-#### <a id="method_processordata_get"></a>`[method]processordata.get: func`
+#### <a id="method_processor_store_get"></a>`[method]processor-store.get: func`
 
 Get the value associated with the specified `key`
 
@@ -320,28 +322,30 @@ Returns `ok(none)` if the key does not exist.
 
 ##### Params
 
-- <a id="method_processordata_get.self"></a>`self`: borrow<[`processordata`](#processordata)>
-- <a id="method_processordata_get.key"></a>`key`: `string`
+- <a id="method_processor_store_get.self"></a>`self`: borrow<[`processor-store`](#processor_store)>
+- <a id="method_processor_store_get.processor"></a>`processor`: `string`
+- <a id="method_processor_store_get.key"></a>`key`: `string`
 
 ##### Return values
 
-- <a id="method_processordata_get.0"></a> result<list<`u8`>, [`datastore-error`](#datastore_error)>
+- <a id="method_processor_store_get.0"></a> result<list<`u8`>, [`datastore-error`](#datastore_error)>
 
-#### <a id="method_processordata_set"></a>`[method]processordata.set: func`
+#### <a id="method_processor_store_set"></a>`[method]processor-store.set: func`
 
 Set the `value` associated with the specified `key` overwriting any existing value.
 
 ##### Params
 
-- <a id="method_processordata_set.self"></a>`self`: borrow<[`processordata`](#processordata)>
-- <a id="method_processordata_set.key"></a>`key`: `string`
-- <a id="method_processordata_set.value"></a>`value`: list<`u8`>
+- <a id="method_processor_store_set.self"></a>`self`: borrow<[`processor-store`](#processor_store)>
+- <a id="method_processor_store_set.processor"></a>`processor`: `string`
+- <a id="method_processor_store_set.key"></a>`key`: `string`
+- <a id="method_processor_store_set.value"></a>`value`: list<`u8`>
 
 ##### Return values
 
-- <a id="method_processordata_set.0"></a> result<_, [`datastore-error`](#datastore_error)>
+- <a id="method_processor_store_set.0"></a> result<_, [`datastore-error`](#datastore_error)>
 
-#### <a id="method_processordata_delete"></a>`[method]processordata.delete: func`
+#### <a id="method_processor_store_delete"></a>`[method]processor-store.delete: func`
 
 Delete the tuple with the specified `key`
 
@@ -349,35 +353,38 @@ No error is raised if a tuple did not previously exist for `key`.
 
 ##### Params
 
-- <a id="method_processordata_delete.self"></a>`self`: borrow<[`processordata`](#processordata)>
-- <a id="method_processordata_delete.key"></a>`key`: `string`
+- <a id="method_processor_store_delete.self"></a>`self`: borrow<[`processor-store`](#processor_store)>
+- <a id="method_processor_store_delete.processor"></a>`processor`: `string`
+- <a id="method_processor_store_delete.key"></a>`key`: `string`
 
 ##### Return values
 
-- <a id="method_processordata_delete.0"></a> result<_, [`datastore-error`](#datastore_error)>
+- <a id="method_processor_store_delete.0"></a> result<_, [`datastore-error`](#datastore_error)>
 
-#### <a id="method_processordata_exists"></a>`[method]processordata.exists: func`
+#### <a id="method_processor_store_exists"></a>`[method]processor-store.exists: func`
 
 Return whether a tuple exists for the specified `key`
 
 ##### Params
 
-- <a id="method_processordata_exists.self"></a>`self`: borrow<[`processordata`](#processordata)>
-- <a id="method_processordata_exists.key"></a>`key`: `string`
+- <a id="method_processor_store_exists.self"></a>`self`: borrow<[`processor-store`](#processor_store)>
+- <a id="method_processor_store_exists.processor"></a>`processor`: `string`
+- <a id="method_processor_store_exists.key"></a>`key`: `string`
 
 ##### Return values
 
-- <a id="method_processordata_exists.0"></a> result<`bool`, [`datastore-error`](#datastore_error)>
+- <a id="method_processor_store_exists.0"></a> result<`bool`, [`datastore-error`](#datastore_error)>
 
-#### <a id="method_processordata_get_keys"></a>`[method]processordata.get-keys: func`
+#### <a id="method_processor_store_get_keys"></a>`[method]processor-store.get-keys: func`
 
 Return a list of all the keys
 
 ##### Params
 
-- <a id="method_processordata_get_keys.self"></a>`self`: borrow<[`processordata`](#processordata)>
+- <a id="method_processor_store_get_keys.self"></a>`self`: borrow<[`processor-store`](#processor_store)>
+- <a id="method_processor_store_get_keys.processor"></a>`processor`: `string`
 
 ##### Return values
 
-- <a id="method_processordata_get_keys.0"></a> result<list<`string`>, [`datastore-error`](#datastore_error)>
+- <a id="method_processor_store_get_keys.0"></a> result<list<`string`>, [`datastore-error`](#datastore_error)>
 
