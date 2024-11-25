@@ -46,41 +46,41 @@ extern void __wasm_import_wasmvision_platform_http_post_image(uint8_t *, size_t,
 
 // Imported Functions from `wasmvision:platform/datastore`
 
-__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[static]framedata.open")))
-extern void __wasm_import_wasmvision_platform_datastore_static_framedata_open(int32_t, uint8_t *);
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[constructor]frame-store")))
+extern int32_t __wasm_import_wasmvision_platform_datastore_constructor_frame_store(int32_t);
 
-__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]framedata.get")))
-extern void __wasm_import_wasmvision_platform_datastore_method_framedata_get(int32_t, uint8_t *, size_t, uint8_t *);
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]frame-store.get")))
+extern void __wasm_import_wasmvision_platform_datastore_method_frame_store_get(int32_t, int32_t, uint8_t *, size_t, uint8_t *);
 
-__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]framedata.set")))
-extern void __wasm_import_wasmvision_platform_datastore_method_framedata_set(int32_t, uint8_t *, size_t, uint8_t *, size_t, uint8_t *);
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]frame-store.set")))
+extern void __wasm_import_wasmvision_platform_datastore_method_frame_store_set(int32_t, int32_t, uint8_t *, size_t, uint8_t *, size_t, uint8_t *);
 
-__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]framedata.delete")))
-extern void __wasm_import_wasmvision_platform_datastore_method_framedata_delete(int32_t, uint8_t *, size_t, uint8_t *);
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]frame-store.delete")))
+extern void __wasm_import_wasmvision_platform_datastore_method_frame_store_delete(int32_t, int32_t, uint8_t *, size_t, uint8_t *);
 
-__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]framedata.exists")))
-extern void __wasm_import_wasmvision_platform_datastore_method_framedata_exists(int32_t, uint8_t *, size_t, uint8_t *);
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]frame-store.exists")))
+extern void __wasm_import_wasmvision_platform_datastore_method_frame_store_exists(int32_t, int32_t, uint8_t *, size_t, uint8_t *);
 
-__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]framedata.get-keys")))
-extern void __wasm_import_wasmvision_platform_datastore_method_framedata_get_keys(int32_t, uint8_t *);
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]frame-store.get-keys")))
+extern void __wasm_import_wasmvision_platform_datastore_method_frame_store_get_keys(int32_t, int32_t, uint8_t *);
 
-__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[static]processordata.open")))
-extern void __wasm_import_wasmvision_platform_datastore_static_processordata_open(uint8_t *, size_t, uint8_t *);
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[constructor]processor-store")))
+extern int32_t __wasm_import_wasmvision_platform_datastore_constructor_processor_store(int32_t);
 
-__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]processordata.get")))
-extern void __wasm_import_wasmvision_platform_datastore_method_processordata_get(int32_t, uint8_t *, size_t, uint8_t *);
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]processor-store.get")))
+extern void __wasm_import_wasmvision_platform_datastore_method_processor_store_get(int32_t, uint8_t *, size_t, uint8_t *, size_t, uint8_t *);
 
-__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]processordata.set")))
-extern void __wasm_import_wasmvision_platform_datastore_method_processordata_set(int32_t, uint8_t *, size_t, uint8_t *, size_t, uint8_t *);
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]processor-store.set")))
+extern void __wasm_import_wasmvision_platform_datastore_method_processor_store_set(int32_t, uint8_t *, size_t, uint8_t *, size_t, uint8_t *, size_t, uint8_t *);
 
-__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]processordata.delete")))
-extern void __wasm_import_wasmvision_platform_datastore_method_processordata_delete(int32_t, uint8_t *, size_t, uint8_t *);
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]processor-store.delete")))
+extern void __wasm_import_wasmvision_platform_datastore_method_processor_store_delete(int32_t, uint8_t *, size_t, uint8_t *, size_t, uint8_t *);
 
-__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]processordata.exists")))
-extern void __wasm_import_wasmvision_platform_datastore_method_processordata_exists(int32_t, uint8_t *, size_t, uint8_t *);
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]processor-store.exists")))
+extern void __wasm_import_wasmvision_platform_datastore_method_processor_store_exists(int32_t, uint8_t *, size_t, uint8_t *, size_t, uint8_t *);
 
-__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]processordata.get-keys")))
-extern void __wasm_import_wasmvision_platform_datastore_method_processordata_get_keys(int32_t, uint8_t *);
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]processor-store.get-keys")))
+extern void __wasm_import_wasmvision_platform_datastore_method_processor_store_get_keys(int32_t, uint8_t *, size_t, uint8_t *);
 
 // Canonical ABI intrinsics
 
@@ -119,32 +119,26 @@ void wasmvision_platform_http_result_list_u8_http_error_free(wasmvision_platform
   }
 }
 
-__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[resource-drop]framedata")))
-extern void __wasm_import_wasmvision_platform_datastore_framedata_drop(int32_t handle);
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[resource-drop]frame-store")))
+extern void __wasm_import_wasmvision_platform_datastore_frame_store_drop(int32_t handle);
 
-void wasmvision_platform_datastore_framedata_drop_own(wasmvision_platform_datastore_own_framedata_t handle) {
-  __wasm_import_wasmvision_platform_datastore_framedata_drop(handle.__handle);
+void wasmvision_platform_datastore_frame_store_drop_own(wasmvision_platform_datastore_own_frame_store_t handle) {
+  __wasm_import_wasmvision_platform_datastore_frame_store_drop(handle.__handle);
 }
 
-wasmvision_platform_datastore_borrow_framedata_t wasmvision_platform_datastore_borrow_framedata(wasmvision_platform_datastore_own_framedata_t arg) {
-  return (wasmvision_platform_datastore_borrow_framedata_t) { arg.__handle };
+wasmvision_platform_datastore_borrow_frame_store_t wasmvision_platform_datastore_borrow_frame_store(wasmvision_platform_datastore_own_frame_store_t arg) {
+  return (wasmvision_platform_datastore_borrow_frame_store_t) { arg.__handle };
 }
 
-__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[resource-drop]processordata")))
-extern void __wasm_import_wasmvision_platform_datastore_processordata_drop(int32_t handle);
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[resource-drop]processor-store")))
+extern void __wasm_import_wasmvision_platform_datastore_processor_store_drop(int32_t handle);
 
-void wasmvision_platform_datastore_processordata_drop_own(wasmvision_platform_datastore_own_processordata_t handle) {
-  __wasm_import_wasmvision_platform_datastore_processordata_drop(handle.__handle);
+void wasmvision_platform_datastore_processor_store_drop_own(wasmvision_platform_datastore_own_processor_store_t handle) {
+  __wasm_import_wasmvision_platform_datastore_processor_store_drop(handle.__handle);
 }
 
-wasmvision_platform_datastore_borrow_processordata_t wasmvision_platform_datastore_borrow_processordata(wasmvision_platform_datastore_own_processordata_t arg) {
-  return (wasmvision_platform_datastore_borrow_processordata_t) { arg.__handle };
-}
-
-void wasmvision_platform_datastore_result_own_framedata_datastore_error_free(wasmvision_platform_datastore_result_own_framedata_datastore_error_t *ptr) {
-  if (!ptr->is_err) {
-  } else {
-  }
+wasmvision_platform_datastore_borrow_processor_store_t wasmvision_platform_datastore_borrow_processor_store(wasmvision_platform_datastore_own_processor_store_t arg) {
+  return (wasmvision_platform_datastore_borrow_processor_store_t) { arg.__handle };
 }
 
 void wasmvision_platform_datastore_result_list_u8_datastore_error_free(wasmvision_platform_datastore_result_list_u8_datastore_error_t *ptr) {
@@ -180,12 +174,6 @@ void platform_list_string_free(platform_list_string_t *ptr) {
 void wasmvision_platform_datastore_result_list_string_datastore_error_free(wasmvision_platform_datastore_result_list_string_datastore_error_t *ptr) {
   if (!ptr->is_err) {
     platform_list_string_free(&ptr->val.ok);
-  } else {
-  }
-}
-
-void wasmvision_platform_datastore_result_own_processordata_datastore_error_free(wasmvision_platform_datastore_result_own_processordata_datastore_error_t *ptr) {
-  if (!ptr->is_err) {
   } else {
   }
 }
@@ -348,38 +336,16 @@ bool wasmvision_platform_http_post_image(platform_string_t *url, platform_string
   }
 }
 
-bool wasmvision_platform_datastore_static_framedata_open(uint32_t frame, wasmvision_platform_datastore_own_framedata_t *ret, wasmvision_platform_datastore_datastore_error_t *err) {
-  __attribute__((__aligned__(4)))
-  uint8_t ret_area[8];
-  uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_datastore_static_framedata_open((int32_t) (frame), ptr);
-  wasmvision_platform_datastore_result_own_framedata_datastore_error_t result;
-  switch ((int32_t) *((uint8_t*) (ptr + 0))) {
-    case 0: {
-      result.is_err = false;
-      result.val.ok = (wasmvision_platform_datastore_own_framedata_t) { *((int32_t*) (ptr + 4)) };
-      break;
-    }
-    case 1: {
-      result.is_err = true;
-      result.val.err = (int32_t) *((uint8_t*) (ptr + 4));
-      break;
-    }
-  }
-  if (!result.is_err) {
-    *ret = result.val.ok;
-    return 1;
-  } else {
-    *err = result.val.err;
-    return 0;
-  }
+wasmvision_platform_datastore_own_frame_store_t wasmvision_platform_datastore_constructor_frame_store(uint32_t id) {
+  int32_t ret = __wasm_import_wasmvision_platform_datastore_constructor_frame_store((int32_t) (id));
+  return (wasmvision_platform_datastore_own_frame_store_t) { ret };
 }
 
-bool wasmvision_platform_datastore_method_framedata_get(wasmvision_platform_datastore_borrow_framedata_t self, platform_string_t *key, platform_list_u8_t *ret, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_frame_store_get(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_list_u8_t *ret, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(4)))
   uint8_t ret_area[12];
   uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_datastore_method_framedata_get((self).__handle, (uint8_t *) (*key).ptr, (*key).len, ptr);
+  __wasm_import_wasmvision_platform_datastore_method_frame_store_get((self).__handle, (int32_t) (frame), (uint8_t *) (*key).ptr, (*key).len, ptr);
   wasmvision_platform_datastore_result_list_u8_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
@@ -402,11 +368,11 @@ bool wasmvision_platform_datastore_method_framedata_get(wasmvision_platform_data
   }
 }
 
-bool wasmvision_platform_datastore_method_framedata_set(wasmvision_platform_datastore_borrow_framedata_t self, platform_string_t *key, platform_list_u8_t *value, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_frame_store_set(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_list_u8_t *value, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(1)))
   uint8_t ret_area[2];
   uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_datastore_method_framedata_set((self).__handle, (uint8_t *) (*key).ptr, (*key).len, (uint8_t *) (*value).ptr, (*value).len, ptr);
+  __wasm_import_wasmvision_platform_datastore_method_frame_store_set((self).__handle, (int32_t) (frame), (uint8_t *) (*key).ptr, (*key).len, (uint8_t *) (*value).ptr, (*value).len, ptr);
   wasmvision_platform_datastore_result_void_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
@@ -427,11 +393,11 @@ bool wasmvision_platform_datastore_method_framedata_set(wasmvision_platform_data
   }
 }
 
-bool wasmvision_platform_datastore_method_framedata_delete(wasmvision_platform_datastore_borrow_framedata_t self, platform_string_t *key, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_frame_store_delete(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(1)))
   uint8_t ret_area[2];
   uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_datastore_method_framedata_delete((self).__handle, (uint8_t *) (*key).ptr, (*key).len, ptr);
+  __wasm_import_wasmvision_platform_datastore_method_frame_store_delete((self).__handle, (int32_t) (frame), (uint8_t *) (*key).ptr, (*key).len, ptr);
   wasmvision_platform_datastore_result_void_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
@@ -452,11 +418,11 @@ bool wasmvision_platform_datastore_method_framedata_delete(wasmvision_platform_d
   }
 }
 
-bool wasmvision_platform_datastore_method_framedata_exists(wasmvision_platform_datastore_borrow_framedata_t self, platform_string_t *key, bool *ret, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_frame_store_exists(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, bool *ret, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(1)))
   uint8_t ret_area[2];
   uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_datastore_method_framedata_exists((self).__handle, (uint8_t *) (*key).ptr, (*key).len, ptr);
+  __wasm_import_wasmvision_platform_datastore_method_frame_store_exists((self).__handle, (int32_t) (frame), (uint8_t *) (*key).ptr, (*key).len, ptr);
   wasmvision_platform_datastore_result_bool_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
@@ -479,11 +445,11 @@ bool wasmvision_platform_datastore_method_framedata_exists(wasmvision_platform_d
   }
 }
 
-bool wasmvision_platform_datastore_method_framedata_get_keys(wasmvision_platform_datastore_borrow_framedata_t self, platform_list_string_t *ret, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_frame_store_get_keys(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_list_string_t *ret, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(4)))
   uint8_t ret_area[12];
   uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_datastore_method_framedata_get_keys((self).__handle, ptr);
+  __wasm_import_wasmvision_platform_datastore_method_frame_store_get_keys((self).__handle, (int32_t) (frame), ptr);
   wasmvision_platform_datastore_result_list_string_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
@@ -506,38 +472,16 @@ bool wasmvision_platform_datastore_method_framedata_get_keys(wasmvision_platform
   }
 }
 
-bool wasmvision_platform_datastore_static_processordata_open(platform_string_t *processor, wasmvision_platform_datastore_own_processordata_t *ret, wasmvision_platform_datastore_datastore_error_t *err) {
-  __attribute__((__aligned__(4)))
-  uint8_t ret_area[8];
-  uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_datastore_static_processordata_open((uint8_t *) (*processor).ptr, (*processor).len, ptr);
-  wasmvision_platform_datastore_result_own_processordata_datastore_error_t result;
-  switch ((int32_t) *((uint8_t*) (ptr + 0))) {
-    case 0: {
-      result.is_err = false;
-      result.val.ok = (wasmvision_platform_datastore_own_processordata_t) { *((int32_t*) (ptr + 4)) };
-      break;
-    }
-    case 1: {
-      result.is_err = true;
-      result.val.err = (int32_t) *((uint8_t*) (ptr + 4));
-      break;
-    }
-  }
-  if (!result.is_err) {
-    *ret = result.val.ok;
-    return 1;
-  } else {
-    *err = result.val.err;
-    return 0;
-  }
+wasmvision_platform_datastore_own_processor_store_t wasmvision_platform_datastore_constructor_processor_store(uint32_t id) {
+  int32_t ret = __wasm_import_wasmvision_platform_datastore_constructor_processor_store((int32_t) (id));
+  return (wasmvision_platform_datastore_own_processor_store_t) { ret };
 }
 
-bool wasmvision_platform_datastore_method_processordata_get(wasmvision_platform_datastore_borrow_processordata_t self, platform_string_t *key, platform_list_u8_t *ret, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_processor_store_get(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_list_u8_t *ret, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(4)))
   uint8_t ret_area[12];
   uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_datastore_method_processordata_get((self).__handle, (uint8_t *) (*key).ptr, (*key).len, ptr);
+  __wasm_import_wasmvision_platform_datastore_method_processor_store_get((self).__handle, (uint8_t *) (*processor).ptr, (*processor).len, (uint8_t *) (*key).ptr, (*key).len, ptr);
   wasmvision_platform_datastore_result_list_u8_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
@@ -560,11 +504,11 @@ bool wasmvision_platform_datastore_method_processordata_get(wasmvision_platform_
   }
 }
 
-bool wasmvision_platform_datastore_method_processordata_set(wasmvision_platform_datastore_borrow_processordata_t self, platform_string_t *key, platform_list_u8_t *value, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_processor_store_set(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_list_u8_t *value, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(1)))
   uint8_t ret_area[2];
   uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_datastore_method_processordata_set((self).__handle, (uint8_t *) (*key).ptr, (*key).len, (uint8_t *) (*value).ptr, (*value).len, ptr);
+  __wasm_import_wasmvision_platform_datastore_method_processor_store_set((self).__handle, (uint8_t *) (*processor).ptr, (*processor).len, (uint8_t *) (*key).ptr, (*key).len, (uint8_t *) (*value).ptr, (*value).len, ptr);
   wasmvision_platform_datastore_result_void_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
@@ -585,11 +529,11 @@ bool wasmvision_platform_datastore_method_processordata_set(wasmvision_platform_
   }
 }
 
-bool wasmvision_platform_datastore_method_processordata_delete(wasmvision_platform_datastore_borrow_processordata_t self, platform_string_t *key, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_processor_store_delete(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(1)))
   uint8_t ret_area[2];
   uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_datastore_method_processordata_delete((self).__handle, (uint8_t *) (*key).ptr, (*key).len, ptr);
+  __wasm_import_wasmvision_platform_datastore_method_processor_store_delete((self).__handle, (uint8_t *) (*processor).ptr, (*processor).len, (uint8_t *) (*key).ptr, (*key).len, ptr);
   wasmvision_platform_datastore_result_void_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
@@ -610,11 +554,11 @@ bool wasmvision_platform_datastore_method_processordata_delete(wasmvision_platfo
   }
 }
 
-bool wasmvision_platform_datastore_method_processordata_exists(wasmvision_platform_datastore_borrow_processordata_t self, platform_string_t *key, bool *ret, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_processor_store_exists(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, bool *ret, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(1)))
   uint8_t ret_area[2];
   uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_datastore_method_processordata_exists((self).__handle, (uint8_t *) (*key).ptr, (*key).len, ptr);
+  __wasm_import_wasmvision_platform_datastore_method_processor_store_exists((self).__handle, (uint8_t *) (*processor).ptr, (*processor).len, (uint8_t *) (*key).ptr, (*key).len, ptr);
   wasmvision_platform_datastore_result_bool_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
@@ -637,11 +581,11 @@ bool wasmvision_platform_datastore_method_processordata_exists(wasmvision_platfo
   }
 }
 
-bool wasmvision_platform_datastore_method_processordata_get_keys(wasmvision_platform_datastore_borrow_processordata_t self, platform_list_string_t *ret, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_processor_store_get_keys(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_list_string_t *ret, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(4)))
   uint8_t ret_area[12];
   uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_datastore_method_processordata_get_keys((self).__handle, ptr);
+  __wasm_import_wasmvision_platform_datastore_method_processor_store_get_keys((self).__handle, (uint8_t *) (*processor).ptr, (*processor).len, ptr);
   wasmvision_platform_datastore_result_list_string_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
