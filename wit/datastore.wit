@@ -17,18 +17,18 @@ interface datastore {
         get: func(frame: u32, key: string) -> result<list<u8>, datastore-error>;
 
         /// Set the `value` associated with the specified `key` overwriting any existing value.
-        set: func(frame: u32, key: string, value: list<u8>) -> result<bool, datastore-error>;
+        set: func(frame: u32, key: string, value: list<u8>) -> result<_, datastore-error>;
 
         /// Delete the tuple with the specified `key`
         ///
         /// No error is raised if a tuple did not previously exist for `key`.
-        delete: func(frame: u32, key: string) -> result<bool, datastore-error>;
+        delete: func(frame: u32, key: string) -> result<_, datastore-error>;
 
-        /// Return whether a tuple exists for the specified `key`
-        exists: func(frame: u32, key: string) -> result<bool, datastore-error>;
+        /// Return whether data exists for the specified `frame`
+        exists: func(frame: u32) -> result<bool, datastore-error>;
 
-        /// Return a list of all the keys
-        get-keys: func(frame: u32) -> result<list<string>, datastore-error>;
+        /// Return a list of all the keys. returns empty list if no keys are present.
+        get-keys: func(frame: u32) -> list<string>;
     }
 
     /// processor-store is the interface for storing data associated with a processor.
@@ -42,17 +42,17 @@ interface datastore {
         get: func(processor: string, key: string) -> result<list<u8>, datastore-error>;
 
         /// Set the `value` associated with the specified `key` overwriting any existing value.
-        set: func(processor: string, key: string, value: list<u8>) -> result<bool, datastore-error>;
+        set: func(processor: string, key: string, value: list<u8>) -> result<_, datastore-error>;
 
         /// Delete the tuple with the specified `key`
         ///
         /// No error is raised if a tuple did not previously exist for `key`.
-        delete: func(processor: string, key: string) -> result<bool, datastore-error>;
+        delete: func(processor: string, key: string) -> result<_, datastore-error>;
 
-        /// Return whether a tuple exists for the specified `key`
+        /// Return whether data exists for the specified `processor`.
         exists: func(processor: string, key: string) -> result<bool, datastore-error>;
 
-        /// Return a list of all the keys
-        get-keys: func(processor: string) -> result<list<string>, datastore-error>;
+        /// Return a list of all the keys. returns empty list if no keys are present.
+        get-keys: func(processor: string) -> list<string>;
     }
 }
