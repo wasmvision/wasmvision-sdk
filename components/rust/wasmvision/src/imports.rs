@@ -755,7 +755,7 @@ pub mod wasmvision {
       impl FrameStore {
         #[allow(unused_unsafe, clippy::all)]
         /// Set the `value` associated with the specified `key` overwriting any existing value.
-        pub fn set(&self,frame: u32,key: &str,value: &[u8],) -> Result<bool,DatastoreError>{
+        pub fn set(&self,frame: u32,key: &str,value: &[u8],) -> Result<(),DatastoreError>{
           unsafe {
             #[repr(align(1))]
             struct RetArea([::core::mem::MaybeUninit::<u8>; 2]);
@@ -778,26 +778,22 @@ pub mod wasmvision {
             extern "C" fn wit_import3(_: i32, _: i32, _: *mut u8, _: usize, _: *mut u8, _: usize, _: *mut u8, ){ unreachable!() }
             wit_import3((self).handle() as i32, _rt::as_i32(&frame), ptr0.cast_mut(), len0, ptr1.cast_mut(), len1, ptr2);
             let l4 = i32::from(*ptr2.add(0).cast::<u8>());
-            let result7 = match l4 {
+            let result6 = match l4 {
               0 => {
-                let e = {
-                  let l5 = i32::from(*ptr2.add(1).cast::<u8>());
-
-                  _rt::bool_lift(l5 as u8)
-                };
+                let e = ();
                 Ok(e)
               }
               1 => {
                 let e = {
-                  let l6 = i32::from(*ptr2.add(1).cast::<u8>());
+                  let l5 = i32::from(*ptr2.add(1).cast::<u8>());
 
-                  DatastoreError::_lift(l6 as u8)
+                  DatastoreError::_lift(l5 as u8)
                 };
                 Err(e)
               }
               _ => _rt::invalid_enum_discriminant(),
             };
-            result7
+            result6
           }
         }
       }
@@ -806,7 +802,7 @@ pub mod wasmvision {
         /// Delete the tuple with the specified `key`
         ///
         /// No error is raised if a tuple did not previously exist for `key`.
-        pub fn delete(&self,frame: u32,key: &str,) -> Result<bool,DatastoreError>{
+        pub fn delete(&self,frame: u32,key: &str,) -> Result<(),DatastoreError>{
           unsafe {
             #[repr(align(1))]
             struct RetArea([::core::mem::MaybeUninit::<u8>; 2]);
@@ -826,83 +822,76 @@ pub mod wasmvision {
             extern "C" fn wit_import2(_: i32, _: i32, _: *mut u8, _: usize, _: *mut u8, ){ unreachable!() }
             wit_import2((self).handle() as i32, _rt::as_i32(&frame), ptr0.cast_mut(), len0, ptr1);
             let l3 = i32::from(*ptr1.add(0).cast::<u8>());
-            let result6 = match l3 {
+            let result5 = match l3 {
               0 => {
-                let e = {
-                  let l4 = i32::from(*ptr1.add(1).cast::<u8>());
-
-                  _rt::bool_lift(l4 as u8)
-                };
+                let e = ();
                 Ok(e)
               }
               1 => {
                 let e = {
-                  let l5 = i32::from(*ptr1.add(1).cast::<u8>());
+                  let l4 = i32::from(*ptr1.add(1).cast::<u8>());
 
-                  DatastoreError::_lift(l5 as u8)
+                  DatastoreError::_lift(l4 as u8)
                 };
                 Err(e)
               }
               _ => _rt::invalid_enum_discriminant(),
             };
-            result6
+            result5
           }
         }
       }
       impl FrameStore {
         #[allow(unused_unsafe, clippy::all)]
-        /// Return whether a tuple exists for the specified `key`
-        pub fn exists(&self,frame: u32,key: &str,) -> Result<bool,DatastoreError>{
+        /// Return whether data exists for the specified `frame`
+        pub fn exists(&self,frame: u32,) -> Result<bool,DatastoreError>{
           unsafe {
             #[repr(align(1))]
             struct RetArea([::core::mem::MaybeUninit::<u8>; 2]);
             let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
-            let vec0 = key;
-            let ptr0 = vec0.as_ptr().cast::<u8>();
-            let len0 = vec0.len();
-            let ptr1 = ret_area.0.as_mut_ptr().cast::<u8>();
+            let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
             #[cfg(target_arch = "wasm32")]
             #[link(wasm_import_module = "wasmvision:platform/datastore")]
             extern "C" {
               #[link_name = "[method]frame-store.exists"]
-              fn wit_import2(_: i32, _: i32, _: *mut u8, _: usize, _: *mut u8, );
+              fn wit_import1(_: i32, _: i32, _: *mut u8, );
             }
 
             #[cfg(not(target_arch = "wasm32"))]
-            extern "C" fn wit_import2(_: i32, _: i32, _: *mut u8, _: usize, _: *mut u8, ){ unreachable!() }
-            wit_import2((self).handle() as i32, _rt::as_i32(&frame), ptr0.cast_mut(), len0, ptr1);
-            let l3 = i32::from(*ptr1.add(0).cast::<u8>());
-            let result6 = match l3 {
+            extern "C" fn wit_import1(_: i32, _: i32, _: *mut u8, ){ unreachable!() }
+            wit_import1((self).handle() as i32, _rt::as_i32(&frame), ptr0);
+            let l2 = i32::from(*ptr0.add(0).cast::<u8>());
+            let result5 = match l2 {
               0 => {
                 let e = {
-                  let l4 = i32::from(*ptr1.add(1).cast::<u8>());
+                  let l3 = i32::from(*ptr0.add(1).cast::<u8>());
 
-                  _rt::bool_lift(l4 as u8)
+                  _rt::bool_lift(l3 as u8)
                 };
                 Ok(e)
               }
               1 => {
                 let e = {
-                  let l5 = i32::from(*ptr1.add(1).cast::<u8>());
+                  let l4 = i32::from(*ptr0.add(1).cast::<u8>());
 
-                  DatastoreError::_lift(l5 as u8)
+                  DatastoreError::_lift(l4 as u8)
                 };
                 Err(e)
               }
               _ => _rt::invalid_enum_discriminant(),
             };
-            result6
+            result5
           }
         }
       }
       impl FrameStore {
         #[allow(unused_unsafe, clippy::all)]
-        /// Return a list of all the keys
-        pub fn get_keys(&self,frame: u32,) -> Result<_rt::Vec::<_rt::String>,DatastoreError>{
+        /// Return a list of all the keys. returns empty list if no keys are present.
+        pub fn get_keys(&self,frame: u32,) -> _rt::Vec::<_rt::String>{
           unsafe {
             #[repr(align(4))]
-            struct RetArea([::core::mem::MaybeUninit::<u8>; 12]);
-            let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+            struct RetArea([::core::mem::MaybeUninit::<u8>; 8]);
+            let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
             let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
             #[cfg(target_arch = "wasm32")]
             #[link(wasm_import_module = "wasmvision:platform/datastore")]
@@ -914,44 +903,26 @@ pub mod wasmvision {
             #[cfg(not(target_arch = "wasm32"))]
             extern "C" fn wit_import1(_: i32, _: i32, _: *mut u8, ){ unreachable!() }
             wit_import1((self).handle() as i32, _rt::as_i32(&frame), ptr0);
-            let l2 = i32::from(*ptr0.add(0).cast::<u8>());
-            let result10 = match l2 {
-              0 => {
-                let e = {
-                  let l3 = *ptr0.add(4).cast::<*mut u8>();
-                  let l4 = *ptr0.add(8).cast::<usize>();
-                  let base8 = l3;
-                  let len8 = l4;
-                  let mut result8 = _rt::Vec::with_capacity(len8);
-                  for i in 0..len8 {
-                    let base = base8.add(i * 8);
-                    let e8 = {
-                      let l5 = *base.add(0).cast::<*mut u8>();
-                      let l6 = *base.add(4).cast::<usize>();
-                      let len7 = l6;
-                      let bytes7 = _rt::Vec::from_raw_parts(l5.cast(), len7, len7);
+            let l2 = *ptr0.add(0).cast::<*mut u8>();
+            let l3 = *ptr0.add(4).cast::<usize>();
+            let base7 = l2;
+            let len7 = l3;
+            let mut result7 = _rt::Vec::with_capacity(len7);
+            for i in 0..len7 {
+              let base = base7.add(i * 8);
+              let e7 = {
+                let l4 = *base.add(0).cast::<*mut u8>();
+                let l5 = *base.add(4).cast::<usize>();
+                let len6 = l5;
+                let bytes6 = _rt::Vec::from_raw_parts(l4.cast(), len6, len6);
 
-                      _rt::string_lift(bytes7)
-                    };
-                    result8.push(e8);
-                  }
-                  _rt::cabi_dealloc(base8, len8 * 8, 4);
-
-                  result8
-                };
-                Ok(e)
-              }
-              1 => {
-                let e = {
-                  let l9 = i32::from(*ptr0.add(4).cast::<u8>());
-
-                  DatastoreError::_lift(l9 as u8)
-                };
-                Err(e)
-              }
-              _ => _rt::invalid_enum_discriminant(),
-            };
-            result10
+                _rt::string_lift(bytes6)
+              };
+              result7.push(e7);
+            }
+            _rt::cabi_dealloc(base7, len7 * 8, 4);
+            let result8 = result7;
+            result8
           }
         }
       }
@@ -1031,7 +1002,7 @@ pub mod wasmvision {
       impl ProcessorStore {
         #[allow(unused_unsafe, clippy::all)]
         /// Set the `value` associated with the specified `key` overwriting any existing value.
-        pub fn set(&self,processor: &str,key: &str,value: &[u8],) -> Result<bool,DatastoreError>{
+        pub fn set(&self,processor: &str,key: &str,value: &[u8],) -> Result<(),DatastoreError>{
           unsafe {
             #[repr(align(1))]
             struct RetArea([::core::mem::MaybeUninit::<u8>; 2]);
@@ -1057,26 +1028,22 @@ pub mod wasmvision {
             extern "C" fn wit_import4(_: i32, _: *mut u8, _: usize, _: *mut u8, _: usize, _: *mut u8, _: usize, _: *mut u8, ){ unreachable!() }
             wit_import4((self).handle() as i32, ptr0.cast_mut(), len0, ptr1.cast_mut(), len1, ptr2.cast_mut(), len2, ptr3);
             let l5 = i32::from(*ptr3.add(0).cast::<u8>());
-            let result8 = match l5 {
+            let result7 = match l5 {
               0 => {
-                let e = {
-                  let l6 = i32::from(*ptr3.add(1).cast::<u8>());
-
-                  _rt::bool_lift(l6 as u8)
-                };
+                let e = ();
                 Ok(e)
               }
               1 => {
                 let e = {
-                  let l7 = i32::from(*ptr3.add(1).cast::<u8>());
+                  let l6 = i32::from(*ptr3.add(1).cast::<u8>());
 
-                  DatastoreError::_lift(l7 as u8)
+                  DatastoreError::_lift(l6 as u8)
                 };
                 Err(e)
               }
               _ => _rt::invalid_enum_discriminant(),
             };
-            result8
+            result7
           }
         }
       }
@@ -1085,7 +1052,7 @@ pub mod wasmvision {
         /// Delete the tuple with the specified `key`
         ///
         /// No error is raised if a tuple did not previously exist for `key`.
-        pub fn delete(&self,processor: &str,key: &str,) -> Result<bool,DatastoreError>{
+        pub fn delete(&self,processor: &str,key: &str,) -> Result<(),DatastoreError>{
           unsafe {
             #[repr(align(1))]
             struct RetArea([::core::mem::MaybeUninit::<u8>; 2]);
@@ -1108,32 +1075,28 @@ pub mod wasmvision {
             extern "C" fn wit_import3(_: i32, _: *mut u8, _: usize, _: *mut u8, _: usize, _: *mut u8, ){ unreachable!() }
             wit_import3((self).handle() as i32, ptr0.cast_mut(), len0, ptr1.cast_mut(), len1, ptr2);
             let l4 = i32::from(*ptr2.add(0).cast::<u8>());
-            let result7 = match l4 {
+            let result6 = match l4 {
               0 => {
-                let e = {
-                  let l5 = i32::from(*ptr2.add(1).cast::<u8>());
-
-                  _rt::bool_lift(l5 as u8)
-                };
+                let e = ();
                 Ok(e)
               }
               1 => {
                 let e = {
-                  let l6 = i32::from(*ptr2.add(1).cast::<u8>());
+                  let l5 = i32::from(*ptr2.add(1).cast::<u8>());
 
-                  DatastoreError::_lift(l6 as u8)
+                  DatastoreError::_lift(l5 as u8)
                 };
                 Err(e)
               }
               _ => _rt::invalid_enum_discriminant(),
             };
-            result7
+            result6
           }
         }
       }
       impl ProcessorStore {
         #[allow(unused_unsafe, clippy::all)]
-        /// Return whether a tuple exists for the specified `key`
+        /// Return whether data exists for the specified `processor`.
         pub fn exists(&self,processor: &str,key: &str,) -> Result<bool,DatastoreError>{
           unsafe {
             #[repr(align(1))]
@@ -1182,12 +1145,12 @@ pub mod wasmvision {
       }
       impl ProcessorStore {
         #[allow(unused_unsafe, clippy::all)]
-        /// Return a list of all the keys
-        pub fn get_keys(&self,processor: &str,) -> Result<_rt::Vec::<_rt::String>,DatastoreError>{
+        /// Return a list of all the keys. returns empty list if no keys are present.
+        pub fn get_keys(&self,processor: &str,) -> _rt::Vec::<_rt::String>{
           unsafe {
             #[repr(align(4))]
-            struct RetArea([::core::mem::MaybeUninit::<u8>; 12]);
-            let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+            struct RetArea([::core::mem::MaybeUninit::<u8>; 8]);
+            let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
             let vec0 = processor;
             let ptr0 = vec0.as_ptr().cast::<u8>();
             let len0 = vec0.len();
@@ -1202,44 +1165,26 @@ pub mod wasmvision {
             #[cfg(not(target_arch = "wasm32"))]
             extern "C" fn wit_import2(_: i32, _: *mut u8, _: usize, _: *mut u8, ){ unreachable!() }
             wit_import2((self).handle() as i32, ptr0.cast_mut(), len0, ptr1);
-            let l3 = i32::from(*ptr1.add(0).cast::<u8>());
-            let result11 = match l3 {
-              0 => {
-                let e = {
-                  let l4 = *ptr1.add(4).cast::<*mut u8>();
-                  let l5 = *ptr1.add(8).cast::<usize>();
-                  let base9 = l4;
-                  let len9 = l5;
-                  let mut result9 = _rt::Vec::with_capacity(len9);
-                  for i in 0..len9 {
-                    let base = base9.add(i * 8);
-                    let e9 = {
-                      let l6 = *base.add(0).cast::<*mut u8>();
-                      let l7 = *base.add(4).cast::<usize>();
-                      let len8 = l7;
-                      let bytes8 = _rt::Vec::from_raw_parts(l6.cast(), len8, len8);
+            let l3 = *ptr1.add(0).cast::<*mut u8>();
+            let l4 = *ptr1.add(4).cast::<usize>();
+            let base8 = l3;
+            let len8 = l4;
+            let mut result8 = _rt::Vec::with_capacity(len8);
+            for i in 0..len8 {
+              let base = base8.add(i * 8);
+              let e8 = {
+                let l5 = *base.add(0).cast::<*mut u8>();
+                let l6 = *base.add(4).cast::<usize>();
+                let len7 = l6;
+                let bytes7 = _rt::Vec::from_raw_parts(l5.cast(), len7, len7);
 
-                      _rt::string_lift(bytes8)
-                    };
-                    result9.push(e9);
-                  }
-                  _rt::cabi_dealloc(base9, len9 * 8, 4);
-
-                  result9
-                };
-                Ok(e)
-              }
-              1 => {
-                let e = {
-                  let l10 = i32::from(*ptr1.add(4).cast::<u8>());
-
-                  DatastoreError::_lift(l10 as u8)
-                };
-                Err(e)
-              }
-              _ => _rt::invalid_enum_discriminant(),
-            };
-            result11
+                _rt::string_lift(bytes7)
+              };
+              result8.push(e8);
+            }
+            _rt::cabi_dealloc(base8, len8 * 8, 4);
+            let result9 = result8;
+            result9
           }
         }
       }
@@ -1458,8 +1403,8 @@ mod _rt {
 #[unsafe(link_section = "component-type:wit-bindgen:0.38.0:wasmvision:platform:imports:encoded world")]
 #[doc(hidden)]
 #[allow(clippy::octal_escapes)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 1481] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xcb\x0a\x01A\x02\x01\
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 1525] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xf7\x0a\x01A\x02\x01\
 A\x0a\x01B\x02\x01@\x01\x02tzy\0w\x04\0\x03now\x01\0\x03\0\x18wasmvision:platfor\
 m/time\x05\0\x01B\x07\x01@\x01\x03msgs\x01\0\x04\0\x03log\x01\0\x04\0\x05error\x01\
 \0\x04\0\x04warn\x01\0\x04\0\x04info\x01\0\x04\0\x05debug\x01\0\x04\0\x07println\
@@ -1471,22 +1416,23 @@ rror\x0druntime-error\x11too-many-requests\x04\0\x0ahttp-error\x03\0\0\x01p}\x01
 j\x01\x02\x01\x01\x01@\x01\x03urls\0\x03\x04\0\x03get\x01\x04\x01@\x03\x03urls\x0c\
 content-types\x04body\x02\0\x03\x04\0\x04post\x01\x05\x01@\x05\x03urls\x0cconten\
 t-types\x10request-template\x02\x0dresponse-items\x03maty\0\x03\x04\0\x0apost-im\
-age\x01\x06\x03\0\x18wasmvision:platform/http\x05\x03\x01B#\x01m\x03\x07success\x0d\
+age\x01\x06\x03\0\x18wasmvision:platform/http\x05\x03\x01B%\x01m\x03\x07success\x0d\
 no-such-store\x0druntime-error\x04\0\x0fdatastore-error\x03\0\0\x04\0\x0bframe-s\
 tore\x03\x01\x04\0\x0fprocessor-store\x03\x01\x01i\x02\x01@\x01\x02idy\0\x04\x04\
 \0\x18[constructor]frame-store\x01\x05\x01h\x02\x01p}\x01j\x01\x07\x01\x01\x01@\x03\
 \x04self\x06\x05framey\x03keys\0\x08\x04\0\x17[method]frame-store.get\x01\x09\x01\
-j\x01\x7f\x01\x01\x01@\x04\x04self\x06\x05framey\x03keys\x05value\x07\0\x0a\x04\0\
-\x17[method]frame-store.set\x01\x0b\x01@\x03\x04self\x06\x05framey\x03keys\0\x0a\
-\x04\0\x1a[method]frame-store.delete\x01\x0c\x04\0\x1a[method]frame-store.exists\
-\x01\x0c\x01ps\x01j\x01\x0d\x01\x01\x01@\x02\x04self\x06\x05framey\0\x0e\x04\0\x1c\
-[method]frame-store.get-keys\x01\x0f\x01i\x03\x01@\x01\x02idy\0\x10\x04\0\x1c[co\
-nstructor]processor-store\x01\x11\x01h\x03\x01@\x03\x04self\x12\x09processors\x03\
-keys\0\x08\x04\0\x1b[method]processor-store.get\x01\x13\x01@\x04\x04self\x12\x09\
-processors\x03keys\x05value\x07\0\x0a\x04\0\x1b[method]processor-store.set\x01\x14\
-\x01@\x03\x04self\x12\x09processors\x03keys\0\x0a\x04\0\x1e[method]processor-sto\
-re.delete\x01\x15\x04\0\x1e[method]processor-store.exists\x01\x15\x01@\x02\x04se\
-lf\x12\x09processors\0\x0e\x04\0\x20[method]processor-store.get-keys\x01\x16\x03\
+j\0\x01\x01\x01@\x04\x04self\x06\x05framey\x03keys\x05value\x07\0\x0a\x04\0\x17[\
+method]frame-store.set\x01\x0b\x01@\x03\x04self\x06\x05framey\x03keys\0\x0a\x04\0\
+\x1a[method]frame-store.delete\x01\x0c\x01j\x01\x7f\x01\x01\x01@\x02\x04self\x06\
+\x05framey\0\x0d\x04\0\x1a[method]frame-store.exists\x01\x0e\x01ps\x01@\x02\x04s\
+elf\x06\x05framey\0\x0f\x04\0\x1c[method]frame-store.get-keys\x01\x10\x01i\x03\x01\
+@\x01\x02idy\0\x11\x04\0\x1c[constructor]processor-store\x01\x12\x01h\x03\x01@\x03\
+\x04self\x13\x09processors\x03keys\0\x08\x04\0\x1b[method]processor-store.get\x01\
+\x14\x01@\x04\x04self\x13\x09processors\x03keys\x05value\x07\0\x0a\x04\0\x1b[met\
+hod]processor-store.set\x01\x15\x01@\x03\x04self\x13\x09processors\x03keys\0\x0a\
+\x04\0\x1e[method]processor-store.delete\x01\x16\x01@\x03\x04self\x13\x09process\
+ors\x03keys\0\x0d\x04\0\x1e[method]processor-store.exists\x01\x17\x01@\x02\x04se\
+lf\x13\x09processors\0\x0f\x04\0\x20[method]processor-store.get-keys\x01\x18\x03\
 \0\x1dwasmvision:platform/datastore\x05\x04\x04\0\x1bwasmvision:platform/imports\
 \x04\0\x0b\x0d\x01\0\x07imports\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0d\
 wit-component\x070.224.0\x10wit-bindgen-rust\x060.38.0";
