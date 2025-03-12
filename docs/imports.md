@@ -257,7 +257,7 @@ Set the `value` associated with the specified `key` overwriting any existing val
 
 ##### Return values
 
-- <a id="method_frame_store_set.0"></a> result<_, [`datastore-error`](#datastore_error)>
+- <a id="method_frame_store_set.0"></a> result<`bool`, [`datastore-error`](#datastore_error)>
 
 #### <a id="method_frame_store_delete"></a>`[method]frame-store.delete: func`
 
@@ -273,7 +273,7 @@ No error is raised if a tuple did not previously exist for `key`.
 
 ##### Return values
 
-- <a id="method_frame_store_delete.0"></a> result<_, [`datastore-error`](#datastore_error)>
+- <a id="method_frame_store_delete.0"></a> result<`bool`, [`datastore-error`](#datastore_error)>
 
 #### <a id="method_frame_store_exists"></a>`[method]frame-store.exists: func`
 
@@ -343,7 +343,7 @@ Set the `value` associated with the specified `key` overwriting any existing val
 
 ##### Return values
 
-- <a id="method_processor_store_set.0"></a> result<_, [`datastore-error`](#datastore_error)>
+- <a id="method_processor_store_set.0"></a> result<`bool`, [`datastore-error`](#datastore_error)>
 
 #### <a id="method_processor_store_delete"></a>`[method]processor-store.delete: func`
 
@@ -359,7 +359,7 @@ No error is raised if a tuple did not previously exist for `key`.
 
 ##### Return values
 
-- <a id="method_processor_store_delete.0"></a> result<_, [`datastore-error`](#datastore_error)>
+- <a id="method_processor_store_delete.0"></a> result<`bool`, [`datastore-error`](#datastore_error)>
 
 #### <a id="method_processor_store_exists"></a>`[method]processor-store.exists: func`
 
