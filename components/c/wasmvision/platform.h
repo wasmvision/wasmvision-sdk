@@ -86,6 +86,13 @@ typedef struct {
 typedef struct {
   bool is_err;
   union {
+    wasmvision_platform_datastore_datastore_error_t err;
+  } val;
+} wasmvision_platform_datastore_result_void_datastore_error_t;
+
+typedef struct {
+  bool is_err;
+  union {
     bool ok;
     wasmvision_platform_datastore_datastore_error_t err;
   } val;
@@ -95,14 +102,6 @@ typedef struct {
   platform_string_t *ptr;
   size_t len;
 } platform_list_string_t;
-
-typedef struct {
-  bool is_err;
-  union {
-    platform_list_string_t ok;
-    wasmvision_platform_datastore_datastore_error_t err;
-  } val;
-} wasmvision_platform_datastore_result_list_string_datastore_error_t;
 
 // Imported Functions from `wasmvision:platform/time`
 // Get the current time in milliseconds since the Unix epoch. Use 0 for the `tz` parameter for now.
@@ -150,15 +149,15 @@ extern wasmvision_platform_datastore_own_frame_store_t wasmvision_platform_datas
 // Returns `ok(none)` if the key does not exist.
 extern bool wasmvision_platform_datastore_method_frame_store_get(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_list_u8_t *ret, wasmvision_platform_datastore_datastore_error_t *err);
 // Set the `value` associated with the specified `key` overwriting any existing value.
-extern bool wasmvision_platform_datastore_method_frame_store_set(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_list_u8_t *value, bool *ret, wasmvision_platform_datastore_datastore_error_t *err);
+extern bool wasmvision_platform_datastore_method_frame_store_set(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_list_u8_t *value, wasmvision_platform_datastore_datastore_error_t *err);
 // Delete the tuple with the specified `key`
 // 
 // No error is raised if a tuple did not previously exist for `key`.
-extern bool wasmvision_platform_datastore_method_frame_store_delete(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, bool *ret, wasmvision_platform_datastore_datastore_error_t *err);
-// Return whether a tuple exists for the specified `key`
-extern bool wasmvision_platform_datastore_method_frame_store_exists(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, bool *ret, wasmvision_platform_datastore_datastore_error_t *err);
-// Return a list of all the keys
-extern bool wasmvision_platform_datastore_method_frame_store_get_keys(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_list_string_t *ret, wasmvision_platform_datastore_datastore_error_t *err);
+extern bool wasmvision_platform_datastore_method_frame_store_delete(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, wasmvision_platform_datastore_datastore_error_t *err);
+// Return whether data exists for the specified `frame`
+extern bool wasmvision_platform_datastore_method_frame_store_exists(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, bool *ret, wasmvision_platform_datastore_datastore_error_t *err);
+// Return a list of all the keys. returns empty list if no keys are present.
+extern void wasmvision_platform_datastore_method_frame_store_get_keys(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_list_string_t *ret);
 // The id param is currently ignored
 extern wasmvision_platform_datastore_own_processor_store_t wasmvision_platform_datastore_constructor_processor_store(uint32_t id);
 // Get the value associated with the specified `key`
@@ -166,15 +165,15 @@ extern wasmvision_platform_datastore_own_processor_store_t wasmvision_platform_d
 // Returns `ok(none)` if the key does not exist.
 extern bool wasmvision_platform_datastore_method_processor_store_get(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_list_u8_t *ret, wasmvision_platform_datastore_datastore_error_t *err);
 // Set the `value` associated with the specified `key` overwriting any existing value.
-extern bool wasmvision_platform_datastore_method_processor_store_set(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_list_u8_t *value, bool *ret, wasmvision_platform_datastore_datastore_error_t *err);
+extern bool wasmvision_platform_datastore_method_processor_store_set(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_list_u8_t *value, wasmvision_platform_datastore_datastore_error_t *err);
 // Delete the tuple with the specified `key`
 // 
 // No error is raised if a tuple did not previously exist for `key`.
-extern bool wasmvision_platform_datastore_method_processor_store_delete(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, bool *ret, wasmvision_platform_datastore_datastore_error_t *err);
-// Return whether a tuple exists for the specified `key`
+extern bool wasmvision_platform_datastore_method_processor_store_delete(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, wasmvision_platform_datastore_datastore_error_t *err);
+// Return whether data exists for the specified `processor`.
 extern bool wasmvision_platform_datastore_method_processor_store_exists(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, bool *ret, wasmvision_platform_datastore_datastore_error_t *err);
-// Return a list of all the keys
-extern bool wasmvision_platform_datastore_method_processor_store_get_keys(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_list_string_t *ret, wasmvision_platform_datastore_datastore_error_t *err);
+// Return a list of all the keys. returns empty list if no keys are present.
+extern void wasmvision_platform_datastore_method_processor_store_get_keys(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_list_string_t *ret);
 
 // Helper Functions
 
@@ -194,11 +193,11 @@ extern wasmvision_platform_datastore_borrow_processor_store_t wasmvision_platfor
 
 void wasmvision_platform_datastore_result_list_u8_datastore_error_free(wasmvision_platform_datastore_result_list_u8_datastore_error_t *ptr);
 
+void wasmvision_platform_datastore_result_void_datastore_error_free(wasmvision_platform_datastore_result_void_datastore_error_t *ptr);
+
 void wasmvision_platform_datastore_result_bool_datastore_error_free(wasmvision_platform_datastore_result_bool_datastore_error_t *ptr);
 
 void platform_list_string_free(platform_list_string_t *ptr);
-
-void wasmvision_platform_datastore_result_list_string_datastore_error_free(wasmvision_platform_datastore_result_list_string_datastore_error_t *ptr);
 
 // Transfers ownership of `s` into the string `ret`
 void platform_string_set(platform_string_t *ret, const char*s);
