@@ -148,12 +148,6 @@ void wasmvision_platform_datastore_result_list_u8_datastore_error_free(wasmvisio
   }
 }
 
-void wasmvision_platform_datastore_result_void_datastore_error_free(wasmvision_platform_datastore_result_void_datastore_error_t *ptr) {
-  if (!ptr->is_err) {
-  } else {
-  }
-}
-
 void wasmvision_platform_datastore_result_bool_datastore_error_free(wasmvision_platform_datastore_result_bool_datastore_error_t *ptr) {
   if (!ptr->is_err) {
   } else {
@@ -368,15 +362,16 @@ bool wasmvision_platform_datastore_method_frame_store_get(wasmvision_platform_da
   }
 }
 
-bool wasmvision_platform_datastore_method_frame_store_set(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_list_u8_t *value, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_frame_store_set(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_list_u8_t *value, bool *ret, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(1)))
   uint8_t ret_area[2];
   uint8_t *ptr = (uint8_t *) &ret_area;
   __wasm_import_wasmvision_platform_datastore_method_frame_store_set((self).__handle, (int32_t) (frame), (uint8_t *) (*key).ptr, (*key).len, (uint8_t *) (*value).ptr, (*value).len, ptr);
-  wasmvision_platform_datastore_result_void_datastore_error_t result;
+  wasmvision_platform_datastore_result_bool_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
       result.is_err = false;
+      result.val.ok = (int32_t) *((uint8_t*) (ptr + 1));
       break;
     }
     case 1: {
@@ -386,6 +381,7 @@ bool wasmvision_platform_datastore_method_frame_store_set(wasmvision_platform_da
     }
   }
   if (!result.is_err) {
+    *ret = result.val.ok;
     return 1;
   } else {
     *err = result.val.err;
@@ -393,15 +389,16 @@ bool wasmvision_platform_datastore_method_frame_store_set(wasmvision_platform_da
   }
 }
 
-bool wasmvision_platform_datastore_method_frame_store_delete(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_frame_store_delete(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, bool *ret, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(1)))
   uint8_t ret_area[2];
   uint8_t *ptr = (uint8_t *) &ret_area;
   __wasm_import_wasmvision_platform_datastore_method_frame_store_delete((self).__handle, (int32_t) (frame), (uint8_t *) (*key).ptr, (*key).len, ptr);
-  wasmvision_platform_datastore_result_void_datastore_error_t result;
+  wasmvision_platform_datastore_result_bool_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
       result.is_err = false;
+      result.val.ok = (int32_t) *((uint8_t*) (ptr + 1));
       break;
     }
     case 1: {
@@ -411,6 +408,7 @@ bool wasmvision_platform_datastore_method_frame_store_delete(wasmvision_platform
     }
   }
   if (!result.is_err) {
+    *ret = result.val.ok;
     return 1;
   } else {
     *err = result.val.err;
@@ -504,15 +502,16 @@ bool wasmvision_platform_datastore_method_processor_store_get(wasmvision_platfor
   }
 }
 
-bool wasmvision_platform_datastore_method_processor_store_set(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_list_u8_t *value, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_processor_store_set(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_list_u8_t *value, bool *ret, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(1)))
   uint8_t ret_area[2];
   uint8_t *ptr = (uint8_t *) &ret_area;
   __wasm_import_wasmvision_platform_datastore_method_processor_store_set((self).__handle, (uint8_t *) (*processor).ptr, (*processor).len, (uint8_t *) (*key).ptr, (*key).len, (uint8_t *) (*value).ptr, (*value).len, ptr);
-  wasmvision_platform_datastore_result_void_datastore_error_t result;
+  wasmvision_platform_datastore_result_bool_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
       result.is_err = false;
+      result.val.ok = (int32_t) *((uint8_t*) (ptr + 1));
       break;
     }
     case 1: {
@@ -522,6 +521,7 @@ bool wasmvision_platform_datastore_method_processor_store_set(wasmvision_platfor
     }
   }
   if (!result.is_err) {
+    *ret = result.val.ok;
     return 1;
   } else {
     *err = result.val.err;
@@ -529,15 +529,16 @@ bool wasmvision_platform_datastore_method_processor_store_set(wasmvision_platfor
   }
 }
 
-bool wasmvision_platform_datastore_method_processor_store_delete(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_processor_store_delete(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, bool *ret, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(1)))
   uint8_t ret_area[2];
   uint8_t *ptr = (uint8_t *) &ret_area;
   __wasm_import_wasmvision_platform_datastore_method_processor_store_delete((self).__handle, (uint8_t *) (*processor).ptr, (*processor).len, (uint8_t *) (*key).ptr, (*key).len, ptr);
-  wasmvision_platform_datastore_result_void_datastore_error_t result;
+  wasmvision_platform_datastore_result_bool_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
       result.is_err = false;
+      result.val.ok = (int32_t) *((uint8_t*) (ptr + 1));
       break;
     }
     case 1: {
@@ -547,6 +548,7 @@ bool wasmvision_platform_datastore_method_processor_store_delete(wasmvision_plat
     }
   }
   if (!result.is_err) {
+    *ret = result.val.ok;
     return 1;
   } else {
     *err = result.val.err;
