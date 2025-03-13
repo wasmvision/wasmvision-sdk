@@ -58,6 +58,9 @@ extern void __wasm_import_wasmvision_platform_datastore_method_frame_store_set(i
 __attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]frame-store.delete")))
 extern void __wasm_import_wasmvision_platform_datastore_method_frame_store_delete(int32_t, int32_t, uint8_t *, size_t, uint8_t *);
 
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]frame-store.delete-all")))
+extern void __wasm_import_wasmvision_platform_datastore_method_frame_store_delete_all(int32_t, int32_t, uint8_t *);
+
 __attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]frame-store.exists")))
 extern void __wasm_import_wasmvision_platform_datastore_method_frame_store_exists(int32_t, int32_t, uint8_t *);
 
@@ -76,8 +79,11 @@ extern void __wasm_import_wasmvision_platform_datastore_method_processor_store_s
 __attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]processor-store.delete")))
 extern void __wasm_import_wasmvision_platform_datastore_method_processor_store_delete(int32_t, uint8_t *, size_t, uint8_t *, size_t, uint8_t *);
 
+__attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]processor-store.delete-all")))
+extern void __wasm_import_wasmvision_platform_datastore_method_processor_store_delete_all(int32_t, uint8_t *, size_t, uint8_t *);
+
 __attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]processor-store.exists")))
-extern void __wasm_import_wasmvision_platform_datastore_method_processor_store_exists(int32_t, uint8_t *, size_t, uint8_t *, size_t, uint8_t *);
+extern void __wasm_import_wasmvision_platform_datastore_method_processor_store_exists(int32_t, uint8_t *, size_t, uint8_t *);
 
 __attribute__((__import_module__("wasmvision:platform/datastore"), __import_name__("[method]processor-store.get-keys")))
 extern void __wasm_import_wasmvision_platform_datastore_method_processor_store_get_keys(int32_t, uint8_t *, size_t, uint8_t *);
@@ -411,6 +417,31 @@ bool wasmvision_platform_datastore_method_frame_store_delete(wasmvision_platform
   }
 }
 
+bool wasmvision_platform_datastore_method_frame_store_delete_all(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, wasmvision_platform_datastore_datastore_error_t *err) {
+  __attribute__((__aligned__(1)))
+  uint8_t ret_area[2];
+  uint8_t *ptr = (uint8_t *) &ret_area;
+  __wasm_import_wasmvision_platform_datastore_method_frame_store_delete_all((self).__handle, (int32_t) (frame), ptr);
+  wasmvision_platform_datastore_result_void_datastore_error_t result;
+  switch ((int32_t) *((uint8_t*) (ptr + 0))) {
+    case 0: {
+      result.is_err = false;
+      break;
+    }
+    case 1: {
+      result.is_err = true;
+      result.val.err = (int32_t) *((uint8_t*) (ptr + 1));
+      break;
+    }
+  }
+  if (!result.is_err) {
+    return 1;
+  } else {
+    *err = result.val.err;
+    return 0;
+  }
+}
+
 bool wasmvision_platform_datastore_method_frame_store_exists(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, bool *ret, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(1)))
   uint8_t ret_area[2];
@@ -528,11 +559,36 @@ bool wasmvision_platform_datastore_method_processor_store_delete(wasmvision_plat
   }
 }
 
-bool wasmvision_platform_datastore_method_processor_store_exists(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, bool *ret, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_processor_store_delete_all(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(1)))
   uint8_t ret_area[2];
   uint8_t *ptr = (uint8_t *) &ret_area;
-  __wasm_import_wasmvision_platform_datastore_method_processor_store_exists((self).__handle, (uint8_t *) (*processor).ptr, (*processor).len, (uint8_t *) (*key).ptr, (*key).len, ptr);
+  __wasm_import_wasmvision_platform_datastore_method_processor_store_delete_all((self).__handle, (uint8_t *) (*processor).ptr, (*processor).len, ptr);
+  wasmvision_platform_datastore_result_void_datastore_error_t result;
+  switch ((int32_t) *((uint8_t*) (ptr + 0))) {
+    case 0: {
+      result.is_err = false;
+      break;
+    }
+    case 1: {
+      result.is_err = true;
+      result.val.err = (int32_t) *((uint8_t*) (ptr + 1));
+      break;
+    }
+  }
+  if (!result.is_err) {
+    return 1;
+  } else {
+    *err = result.val.err;
+    return 0;
+  }
+}
+
+bool wasmvision_platform_datastore_method_processor_store_exists(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, bool *ret, wasmvision_platform_datastore_datastore_error_t *err) {
+  __attribute__((__aligned__(1)))
+  uint8_t ret_area[2];
+  uint8_t *ptr = (uint8_t *) &ret_area;
+  __wasm_import_wasmvision_platform_datastore_method_processor_store_exists((self).__handle, (uint8_t *) (*processor).ptr, (*processor).len, ptr);
   wasmvision_platform_datastore_result_bool_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
