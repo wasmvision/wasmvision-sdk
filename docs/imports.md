@@ -204,7 +204,8 @@ datastore errors returned by the runtime.
 ##### Enum Cases
 
 - <a id="datastore_error.success"></a>`success`
-- <a id="datastore_error.no_such_store"></a>`no-such-store`
+- <a id="datastore_error.no_such_frame"></a>`no-such-frame`
+- <a id="datastore_error.no_such_key"></a>`no-such-key`
 - <a id="datastore_error.runtime_error"></a>`runtime-error`
 #### <a id="frame_store"></a>`resource frame-store`
 
@@ -230,7 +231,7 @@ The id param is currently ignored
 
 #### <a id="method_frame_store_get"></a>`[method]frame-store.get: func`
 
-Get the value associated with the specified `key`
+Get the value associated with the specified `key` for the specific frame.
 
 Returns `ok(none)` if the key does not exist.
 
@@ -246,7 +247,8 @@ Returns `ok(none)` if the key does not exist.
 
 #### <a id="method_frame_store_set"></a>`[method]frame-store.set: func`
 
-Set the `value` associated with the specified `key` overwriting any existing value.
+Set the `value` associated with the specified `key` for the specific frame
+overwriting any existing value.
 
 ##### Params
 
@@ -257,11 +259,11 @@ Set the `value` associated with the specified `key` overwriting any existing val
 
 ##### Return values
 
-- <a id="method_frame_store_set.0"></a> result<`bool`, [`datastore-error`](#datastore_error)>
+- <a id="method_frame_store_set.0"></a> result<_, [`datastore-error`](#datastore_error)>
 
 #### <a id="method_frame_store_delete"></a>`[method]frame-store.delete: func`
 
-Delete the tuple with the specified `key`
+Delete the data with the specified `key` for the specified `frame`
 
 No error is raised if a tuple did not previously exist for `key`.
 
@@ -273,17 +275,31 @@ No error is raised if a tuple did not previously exist for `key`.
 
 ##### Return values
 
-- <a id="method_frame_store_delete.0"></a> result<`bool`, [`datastore-error`](#datastore_error)>
+- <a id="method_frame_store_delete.0"></a> result<_, [`datastore-error`](#datastore_error)>
+
+#### <a id="method_frame_store_delete_all"></a>`[method]frame-store.delete-all: func`
+
+Delete all data for the specified `frame`.
+
+No error is raised if no data exists for the `frame`.
+
+##### Params
+
+- <a id="method_frame_store_delete_all.self"></a>`self`: borrow<[`frame-store`](#frame_store)>
+- <a id="method_frame_store_delete_all.frame"></a>`frame`: `u32`
+
+##### Return values
+
+- <a id="method_frame_store_delete_all.0"></a> result<_, [`datastore-error`](#datastore_error)>
 
 #### <a id="method_frame_store_exists"></a>`[method]frame-store.exists: func`
 
-Return whether a tuple exists for the specified `key`
+Return whether data exists for the specified `frame`
 
 ##### Params
 
 - <a id="method_frame_store_exists.self"></a>`self`: borrow<[`frame-store`](#frame_store)>
 - <a id="method_frame_store_exists.frame"></a>`frame`: `u32`
-- <a id="method_frame_store_exists.key"></a>`key`: `string`
 
 ##### Return values
 
@@ -291,7 +307,7 @@ Return whether a tuple exists for the specified `key`
 
 #### <a id="method_frame_store_get_keys"></a>`[method]frame-store.get-keys: func`
 
-Return a list of all the keys
+Return a list of all the keys. returns empty list if no keys are present.
 
 ##### Params
 
@@ -300,7 +316,7 @@ Return a list of all the keys
 
 ##### Return values
 
-- <a id="method_frame_store_get_keys.0"></a> result<list<`string`>, [`datastore-error`](#datastore_error)>
+- <a id="method_frame_store_get_keys.0"></a> list<`string`>
 
 #### <a id="constructor_processor_store"></a>`[constructor]processor-store: func`
 
@@ -343,7 +359,7 @@ Set the `value` associated with the specified `key` overwriting any existing val
 
 ##### Return values
 
-- <a id="method_processor_store_set.0"></a> result<`bool`, [`datastore-error`](#datastore_error)>
+- <a id="method_processor_store_set.0"></a> result<_, [`datastore-error`](#datastore_error)>
 
 #### <a id="method_processor_store_delete"></a>`[method]processor-store.delete: func`
 
@@ -359,17 +375,31 @@ No error is raised if a tuple did not previously exist for `key`.
 
 ##### Return values
 
-- <a id="method_processor_store_delete.0"></a> result<`bool`, [`datastore-error`](#datastore_error)>
+- <a id="method_processor_store_delete.0"></a> result<_, [`datastore-error`](#datastore_error)>
+
+#### <a id="method_processor_store_delete_all"></a>`[method]processor-store.delete-all: func`
+
+Delete all the data for the specified `processor`.
+
+No error is raised if no data exists for the `processor`.
+
+##### Params
+
+- <a id="method_processor_store_delete_all.self"></a>`self`: borrow<[`processor-store`](#processor_store)>
+- <a id="method_processor_store_delete_all.processor"></a>`processor`: `string`
+
+##### Return values
+
+- <a id="method_processor_store_delete_all.0"></a> result<_, [`datastore-error`](#datastore_error)>
 
 #### <a id="method_processor_store_exists"></a>`[method]processor-store.exists: func`
 
-Return whether a tuple exists for the specified `key`
+Return whether data exists for the specified `processor`.
 
 ##### Params
 
 - <a id="method_processor_store_exists.self"></a>`self`: borrow<[`processor-store`](#processor_store)>
 - <a id="method_processor_store_exists.processor"></a>`processor`: `string`
-- <a id="method_processor_store_exists.key"></a>`key`: `string`
 
 ##### Return values
 
@@ -377,7 +407,7 @@ Return whether a tuple exists for the specified `key`
 
 #### <a id="method_processor_store_get_keys"></a>`[method]processor-store.get-keys: func`
 
-Return a list of all the keys
+Return a list of all the keys. returns empty list if no keys are present.
 
 ##### Params
 
@@ -386,5 +416,5 @@ Return a list of all the keys
 
 ##### Return values
 
-- <a id="method_processor_store_get_keys.0"></a> result<list<`string`>, [`datastore-error`](#datastore_error)>
+- <a id="method_processor_store_get_keys.0"></a> list<`string`>
 

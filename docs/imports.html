@@ -158,7 +158,8 @@ Mat is the reference to to the Mat to use.</p>
 <h5>Enum Cases</h5>
 <ul>
 <li><a id="datastore_error.success"></a><code>success</code></li>
-<li><a id="datastore_error.no_such_store"></a><code>no-such-store</code></li>
+<li><a id="datastore_error.no_such_frame"></a><code>no-such-frame</code></li>
+<li><a id="datastore_error.no_such_key"></a><code>no-such-key</code></li>
 <li><a id="datastore_error.runtime_error"></a><code>runtime-error</code></li>
 </ul>
 <h4><a id="frame_store"></a><code>resource frame-store</code></h4>
@@ -177,7 +178,7 @@ Mat is the reference to to the Mat to use.</p>
 <li><a id="constructor_frame_store.0"></a> own&lt;<a href="#frame_store"><a href="#frame_store"><code>frame-store</code></a></a>&gt;</li>
 </ul>
 <h4><a id="method_frame_store_get"></a><code>[method]frame-store.get: func</code></h4>
-<p>Get the value associated with the specified <code>key</code></p>
+<p>Get the value associated with the specified <code>key</code> for the specific frame.</p>
 <p>Returns <code>ok(none)</code> if the key does not exist.</p>
 <h5>Params</h5>
 <ul>
@@ -190,7 +191,8 @@ Mat is the reference to to the Mat to use.</p>
 <li><a id="method_frame_store_get.0"></a> result&lt;list&lt;<code>u8</code>&gt;, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
 </ul>
 <h4><a id="method_frame_store_set"></a><code>[method]frame-store.set: func</code></h4>
-<p>Set the <code>value</code> associated with the specified <code>key</code> overwriting any existing value.</p>
+<p>Set the <code>value</code> associated with the specified <code>key</code> for the specific frame
+overwriting any existing value.</p>
 <h5>Params</h5>
 <ul>
 <li><a id="method_frame_store_set.self"></a><code>self</code>: borrow&lt;<a href="#frame_store"><a href="#frame_store"><code>frame-store</code></a></a>&gt;</li>
@@ -200,10 +202,10 @@ Mat is the reference to to the Mat to use.</p>
 </ul>
 <h5>Return values</h5>
 <ul>
-<li><a id="method_frame_store_set.0"></a> result&lt;<code>bool</code>, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+<li><a id="method_frame_store_set.0"></a> result&lt;_, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
 </ul>
 <h4><a id="method_frame_store_delete"></a><code>[method]frame-store.delete: func</code></h4>
-<p>Delete the tuple with the specified <code>key</code></p>
+<p>Delete the data with the specified <code>key</code> for the specified <code>frame</code></p>
 <p>No error is raised if a tuple did not previously exist for <code>key</code>.</p>
 <h5>Params</h5>
 <ul>
@@ -213,22 +215,33 @@ Mat is the reference to to the Mat to use.</p>
 </ul>
 <h5>Return values</h5>
 <ul>
-<li><a id="method_frame_store_delete.0"></a> result&lt;<code>bool</code>, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+<li><a id="method_frame_store_delete.0"></a> result&lt;_, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+</ul>
+<h4><a id="method_frame_store_delete_all"></a><code>[method]frame-store.delete-all: func</code></h4>
+<p>Delete all data for the specified <code>frame</code>.</p>
+<p>No error is raised if no data exists for the <code>frame</code>.</p>
+<h5>Params</h5>
+<ul>
+<li><a id="method_frame_store_delete_all.self"></a><code>self</code>: borrow&lt;<a href="#frame_store"><a href="#frame_store"><code>frame-store</code></a></a>&gt;</li>
+<li><a id="method_frame_store_delete_all.frame"></a><code>frame</code>: <code>u32</code></li>
+</ul>
+<h5>Return values</h5>
+<ul>
+<li><a id="method_frame_store_delete_all.0"></a> result&lt;_, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
 </ul>
 <h4><a id="method_frame_store_exists"></a><code>[method]frame-store.exists: func</code></h4>
-<p>Return whether a tuple exists for the specified <code>key</code></p>
+<p>Return whether data exists for the specified <code>frame</code></p>
 <h5>Params</h5>
 <ul>
 <li><a id="method_frame_store_exists.self"></a><code>self</code>: borrow&lt;<a href="#frame_store"><a href="#frame_store"><code>frame-store</code></a></a>&gt;</li>
 <li><a id="method_frame_store_exists.frame"></a><code>frame</code>: <code>u32</code></li>
-<li><a id="method_frame_store_exists.key"></a><code>key</code>: <code>string</code></li>
 </ul>
 <h5>Return values</h5>
 <ul>
 <li><a id="method_frame_store_exists.0"></a> result&lt;<code>bool</code>, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
 </ul>
 <h4><a id="method_frame_store_get_keys"></a><code>[method]frame-store.get-keys: func</code></h4>
-<p>Return a list of all the keys</p>
+<p>Return a list of all the keys. returns empty list if no keys are present.</p>
 <h5>Params</h5>
 <ul>
 <li><a id="method_frame_store_get_keys.self"></a><code>self</code>: borrow&lt;<a href="#frame_store"><a href="#frame_store"><code>frame-store</code></a></a>&gt;</li>
@@ -236,7 +249,7 @@ Mat is the reference to to the Mat to use.</p>
 </ul>
 <h5>Return values</h5>
 <ul>
-<li><a id="method_frame_store_get_keys.0"></a> result&lt;list&lt;<code>string</code>&gt;, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+<li><a id="method_frame_store_get_keys.0"></a> list&lt;<code>string</code>&gt;</li>
 </ul>
 <h4><a id="constructor_processor_store"></a><code>[constructor]processor-store: func</code></h4>
 <p>The id param is currently ignored</p>
@@ -272,7 +285,7 @@ Mat is the reference to to the Mat to use.</p>
 </ul>
 <h5>Return values</h5>
 <ul>
-<li><a id="method_processor_store_set.0"></a> result&lt;<code>bool</code>, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+<li><a id="method_processor_store_set.0"></a> result&lt;_, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
 </ul>
 <h4><a id="method_processor_store_delete"></a><code>[method]processor-store.delete: func</code></h4>
 <p>Delete the tuple with the specified <code>key</code></p>
@@ -285,22 +298,33 @@ Mat is the reference to to the Mat to use.</p>
 </ul>
 <h5>Return values</h5>
 <ul>
-<li><a id="method_processor_store_delete.0"></a> result&lt;<code>bool</code>, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+<li><a id="method_processor_store_delete.0"></a> result&lt;_, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+</ul>
+<h4><a id="method_processor_store_delete_all"></a><code>[method]processor-store.delete-all: func</code></h4>
+<p>Delete all the data for the specified <code>processor</code>.</p>
+<p>No error is raised if no data exists for the <code>processor</code>.</p>
+<h5>Params</h5>
+<ul>
+<li><a id="method_processor_store_delete_all.self"></a><code>self</code>: borrow&lt;<a href="#processor_store"><a href="#processor_store"><code>processor-store</code></a></a>&gt;</li>
+<li><a id="method_processor_store_delete_all.processor"></a><code>processor</code>: <code>string</code></li>
+</ul>
+<h5>Return values</h5>
+<ul>
+<li><a id="method_processor_store_delete_all.0"></a> result&lt;_, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
 </ul>
 <h4><a id="method_processor_store_exists"></a><code>[method]processor-store.exists: func</code></h4>
-<p>Return whether a tuple exists for the specified <code>key</code></p>
+<p>Return whether data exists for the specified <code>processor</code>.</p>
 <h5>Params</h5>
 <ul>
 <li><a id="method_processor_store_exists.self"></a><code>self</code>: borrow&lt;<a href="#processor_store"><a href="#processor_store"><code>processor-store</code></a></a>&gt;</li>
 <li><a id="method_processor_store_exists.processor"></a><code>processor</code>: <code>string</code></li>
-<li><a id="method_processor_store_exists.key"></a><code>key</code>: <code>string</code></li>
 </ul>
 <h5>Return values</h5>
 <ul>
 <li><a id="method_processor_store_exists.0"></a> result&lt;<code>bool</code>, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
 </ul>
 <h4><a id="method_processor_store_get_keys"></a><code>[method]processor-store.get-keys: func</code></h4>
-<p>Return a list of all the keys</p>
+<p>Return a list of all the keys. returns empty list if no keys are present.</p>
 <h5>Params</h5>
 <ul>
 <li><a id="method_processor_store_get_keys.self"></a><code>self</code>: borrow&lt;<a href="#processor_store"><a href="#processor_store"><code>processor-store</code></a></a>&gt;</li>
@@ -308,5 +332,5 @@ Mat is the reference to to the Mat to use.</p>
 </ul>
 <h5>Return values</h5>
 <ul>
-<li><a id="method_processor_store_get_keys.0"></a> result&lt;list&lt;<code>string</code>&gt;, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+<li><a id="method_processor_store_get_keys.0"></a> list&lt;<code>string</code>&gt;</li>
 </ul>
