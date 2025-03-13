@@ -56,8 +56,9 @@ typedef struct {
 typedef uint8_t wasmvision_platform_datastore_datastore_error_t;
 
 #define WASMVISION_PLATFORM_DATASTORE_DATASTORE_ERROR_SUCCESS 0
-#define WASMVISION_PLATFORM_DATASTORE_DATASTORE_ERROR_NO_SUCH_STORE 1
-#define WASMVISION_PLATFORM_DATASTORE_DATASTORE_ERROR_RUNTIME_ERROR 2
+#define WASMVISION_PLATFORM_DATASTORE_DATASTORE_ERROR_NO_SUCH_FRAME 1
+#define WASMVISION_PLATFORM_DATASTORE_DATASTORE_ERROR_NO_SUCH_KEY 2
+#define WASMVISION_PLATFORM_DATASTORE_DATASTORE_ERROR_RUNTIME_ERROR 3
 
 typedef struct wasmvision_platform_datastore_own_frame_store_t {
   int32_t __handle;
@@ -144,16 +145,21 @@ extern bool wasmvision_platform_http_post_image(platform_string_t *url, platform
 // Imported Functions from `wasmvision:platform/datastore`
 // The id param is currently ignored
 extern wasmvision_platform_datastore_own_frame_store_t wasmvision_platform_datastore_constructor_frame_store(uint32_t id);
-// Get the value associated with the specified `key`
+// Get the value associated with the specified `key` for the specific frame.
 // 
 // Returns `ok(none)` if the key does not exist.
 extern bool wasmvision_platform_datastore_method_frame_store_get(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_list_u8_t *ret, wasmvision_platform_datastore_datastore_error_t *err);
-// Set the `value` associated with the specified `key` overwriting any existing value.
+// Set the `value` associated with the specified `key` for the specific frame
+// overwriting any existing value.
 extern bool wasmvision_platform_datastore_method_frame_store_set(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_list_u8_t *value, wasmvision_platform_datastore_datastore_error_t *err);
-// Delete the tuple with the specified `key`
+// Delete the data with the specified `key` for the specified `frame`
 // 
 // No error is raised if a tuple did not previously exist for `key`.
 extern bool wasmvision_platform_datastore_method_frame_store_delete(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, wasmvision_platform_datastore_datastore_error_t *err);
+// Delete all data for the specified `frame`.
+// 
+// No error is raised if no data exists for the `frame`.
+extern bool wasmvision_platform_datastore_method_frame_store_delete_all(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, wasmvision_platform_datastore_datastore_error_t *err);
 // Return whether data exists for the specified `frame`
 extern bool wasmvision_platform_datastore_method_frame_store_exists(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, bool *ret, wasmvision_platform_datastore_datastore_error_t *err);
 // Return a list of all the keys. returns empty list if no keys are present.
@@ -170,8 +176,12 @@ extern bool wasmvision_platform_datastore_method_processor_store_set(wasmvision_
 // 
 // No error is raised if a tuple did not previously exist for `key`.
 extern bool wasmvision_platform_datastore_method_processor_store_delete(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, wasmvision_platform_datastore_datastore_error_t *err);
+// Delete all the data for the specified `processor`.
+// 
+// No error is raised if no data exists for the `processor`.
+extern bool wasmvision_platform_datastore_method_processor_store_delete_all(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, wasmvision_platform_datastore_datastore_error_t *err);
 // Return whether data exists for the specified `processor`.
-extern bool wasmvision_platform_datastore_method_processor_store_exists(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, bool *ret, wasmvision_platform_datastore_datastore_error_t *err);
+extern bool wasmvision_platform_datastore_method_processor_store_exists(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, bool *ret, wasmvision_platform_datastore_datastore_error_t *err);
 // Return a list of all the keys. returns empty list if no keys are present.
 extern void wasmvision_platform_datastore_method_processor_store_get_keys(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_list_string_t *ret);
 
