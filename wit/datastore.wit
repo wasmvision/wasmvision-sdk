@@ -2,7 +2,8 @@ interface datastore {
     /// datastore errors returned by the runtime.
     enum datastore-error {
         success,
-        no-such-store,
+        no-such-frame,
+        no-such-key,
         runtime-error,
     }
     
@@ -11,18 +12,24 @@ interface datastore {
         // The id param is currently ignored
         constructor(id: u32);
 
-        /// Get the value associated with the specified `key`
+        /// Get the value associated with the specified `key` for the specific frame.
         ///
         /// Returns `ok(none)` if the key does not exist.
         get: func(frame: u32, key: string) -> result<list<u8>, datastore-error>;
 
-        /// Set the `value` associated with the specified `key` overwriting any existing value.
+        /// Set the `value` associated with the specified `key` for the specific frame
+        /// overwriting any existing value.
         set: func(frame: u32, key: string, value: list<u8>) -> result<_, datastore-error>;
 
-        /// Delete the tuple with the specified `key`
+        /// Delete the data with the specified `key` for the specified `frame`
         ///
         /// No error is raised if a tuple did not previously exist for `key`.
         delete: func(frame: u32, key: string) -> result<_, datastore-error>;
+
+        /// Delete all data for the specified `frame`.
+        ///
+        /// No error is raised if no data exists for the `frame`.
+        delete-all: func(frame: u32) -> result<_, datastore-error>;
 
         /// Return whether data exists for the specified `frame`
         exists: func(frame: u32) -> result<bool, datastore-error>;
@@ -49,8 +56,13 @@ interface datastore {
         /// No error is raised if a tuple did not previously exist for `key`.
         delete: func(processor: string, key: string) -> result<_, datastore-error>;
 
+        /// Delete all the data for the specified `processor`.
+        ///
+        /// No error is raised if no data exists for the `processor`.
+        delete-all: func(processor: string) -> result<_, datastore-error>;
+
         /// Return whether data exists for the specified `processor`.
-        exists: func(processor: string, key: string) -> result<bool, datastore-error>;
+        exists: func(processor: string) -> result<bool, datastore-error>;
 
         /// Return a list of all the keys. returns empty list if no keys are present.
         get-keys: func(processor: string) -> list<string>;
