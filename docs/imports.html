@@ -115,7 +115,7 @@ Returns either the content or an error.</p>
 </ul>
 <h5>Return values</h5>
 <ul>
-<li><a id="get.0"></a> result&lt;list&lt;<code>u8</code>&gt;, <a href="#http_error"><a href="#http_error"><code>http-error</code></a></a>&gt;</li>
+<li><a id="get.0"></a> result&lt;<code>string</code>, <a href="#http_error"><a href="#http_error"><code>http-error</code></a></a>&gt;</li>
 </ul>
 <h4><a id="post"></a><code>post: func</code></h4>
 <p>Post the content to the specified URL.
@@ -128,7 +128,7 @@ Returns either the response content or an error.</p>
 </ul>
 <h5>Return values</h5>
 <ul>
-<li><a id="post.0"></a> result&lt;list&lt;<code>u8</code>&gt;, <a href="#http_error"><a href="#http_error"><code>http-error</code></a></a>&gt;</li>
+<li><a id="post.0"></a> result&lt;<code>string</code>, <a href="#http_error"><a href="#http_error"><code>http-error</code></a></a>&gt;</li>
 </ul>
 <h4><a id="post_image"></a><code>post-image: func</code></h4>
 <p>Post the image to the specified URL.
@@ -148,7 +148,7 @@ Mat is the reference to to the Mat to use.</p>
 </ul>
 <h5>Return values</h5>
 <ul>
-<li><a id="post_image.0"></a> result&lt;list&lt;<code>u8</code>&gt;, <a href="#http_error"><a href="#http_error"><code>http-error</code></a></a>&gt;</li>
+<li><a id="post_image.0"></a> result&lt;<code>string</code>, <a href="#http_error"><a href="#http_error"><code>http-error</code></a></a>&gt;</li>
 </ul>
 <h2><a id="wasmvision_platform_datastore"></a>Import interface wasmvision:platform/datastore</h2>
 <hr />
@@ -188,7 +188,7 @@ Mat is the reference to to the Mat to use.</p>
 </ul>
 <h5>Return values</h5>
 <ul>
-<li><a id="method_frame_store_get.0"></a> result&lt;list&lt;<code>u8</code>&gt;, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+<li><a id="method_frame_store_get.0"></a> result&lt;<code>string</code>, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
 </ul>
 <h4><a id="method_frame_store_set"></a><code>[method]frame-store.set: func</code></h4>
 <p>Set the <code>value</code> associated with the specified <code>key</code> for the specific frame
@@ -198,7 +198,7 @@ overwriting any existing value.</p>
 <li><a id="method_frame_store_set.self"></a><code>self</code>: borrow&lt;<a href="#frame_store"><a href="#frame_store"><code>frame-store</code></a></a>&gt;</li>
 <li><a id="method_frame_store_set.frame"></a><code>frame</code>: <code>u32</code></li>
 <li><a id="method_frame_store_set.key"></a><code>key</code>: <code>string</code></li>
-<li><a id="method_frame_store_set.value"></a><code>value</code>: list&lt;<code>u8</code>&gt;</li>
+<li><a id="method_frame_store_set.value"></a><code>value</code>: <code>string</code></li>
 </ul>
 <h5>Return values</h5>
 <ul>
@@ -272,7 +272,7 @@ overwriting any existing value.</p>
 </ul>
 <h5>Return values</h5>
 <ul>
-<li><a id="method_processor_store_get.0"></a> result&lt;list&lt;<code>u8</code>&gt;, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
+<li><a id="method_processor_store_get.0"></a> result&lt;<code>string</code>, <a href="#datastore_error"><a href="#datastore_error"><code>datastore-error</code></a></a>&gt;</li>
 </ul>
 <h4><a id="method_processor_store_set"></a><code>[method]processor-store.set: func</code></h4>
 <p>Set the <code>value</code> associated with the specified <code>key</code> overwriting any existing value.</p>
@@ -281,7 +281,7 @@ overwriting any existing value.</p>
 <li><a id="method_processor_store_set.self"></a><code>self</code>: borrow&lt;<a href="#processor_store"><a href="#processor_store"><code>processor-store</code></a></a>&gt;</li>
 <li><a id="method_processor_store_set.processor"></a><code>processor</code>: <code>string</code></li>
 <li><a id="method_processor_store_set.key"></a><code>key</code>: <code>string</code></li>
-<li><a id="method_processor_store_set.value"></a><code>value</code>: list&lt;<code>u8</code>&gt;</li>
+<li><a id="method_processor_store_set.value"></a><code>value</code>: <code>string</code></li>
 </ul>
 <h5>Return values</h5>
 <ul>

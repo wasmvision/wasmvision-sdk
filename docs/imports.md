@@ -151,7 +151,7 @@ Returns either the content or an error.
 
 ##### Return values
 
-- <a id="get.0"></a> result<list<`u8`>, [`http-error`](#http_error)>
+- <a id="get.0"></a> result<`string`, [`http-error`](#http_error)>
 
 #### <a id="post"></a>`post: func`
 
@@ -166,7 +166,7 @@ Returns either the response content or an error.
 
 ##### Return values
 
-- <a id="post.0"></a> result<list<`u8`>, [`http-error`](#http_error)>
+- <a id="post.0"></a> result<`string`, [`http-error`](#http_error)>
 
 #### <a id="post_image"></a>`post-image: func`
 
@@ -188,7 +188,7 @@ Mat is the reference to to the Mat to use.
 
 ##### Return values
 
-- <a id="post_image.0"></a> result<list<`u8`>, [`http-error`](#http_error)>
+- <a id="post_image.0"></a> result<`string`, [`http-error`](#http_error)>
 
 ## <a id="wasmvision_platform_datastore"></a>Import interface wasmvision:platform/datastore
 
@@ -243,7 +243,7 @@ Returns `ok(none)` if the key does not exist.
 
 ##### Return values
 
-- <a id="method_frame_store_get.0"></a> result<list<`u8`>, [`datastore-error`](#datastore_error)>
+- <a id="method_frame_store_get.0"></a> result<`string`, [`datastore-error`](#datastore_error)>
 
 #### <a id="method_frame_store_set"></a>`[method]frame-store.set: func`
 
@@ -255,7 +255,7 @@ overwriting any existing value.
 - <a id="method_frame_store_set.self"></a>`self`: borrow<[`frame-store`](#frame_store)>
 - <a id="method_frame_store_set.frame"></a>`frame`: `u32`
 - <a id="method_frame_store_set.key"></a>`key`: `string`
-- <a id="method_frame_store_set.value"></a>`value`: list<`u8`>
+- <a id="method_frame_store_set.value"></a>`value`: `string`
 
 ##### Return values
 
@@ -344,7 +344,7 @@ Returns `ok(none)` if the key does not exist.
 
 ##### Return values
 
-- <a id="method_processor_store_get.0"></a> result<list<`u8`>, [`datastore-error`](#datastore_error)>
+- <a id="method_processor_store_get.0"></a> result<`string`, [`datastore-error`](#datastore_error)>
 
 #### <a id="method_processor_store_set"></a>`[method]processor-store.set: func`
 
@@ -355,7 +355,7 @@ Set the `value` associated with the specified `key` overwriting any existing val
 - <a id="method_processor_store_set.self"></a>`self`: borrow<[`processor-store`](#processor_store)>
 - <a id="method_processor_store_set.processor"></a>`processor`: `string`
 - <a id="method_processor_store_set.key"></a>`key`: `string`
-- <a id="method_processor_store_set.value"></a>`value`: list<`u8`>
+- <a id="method_processor_store_set.value"></a>`value`: `string`
 
 ##### Return values
 
