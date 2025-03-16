@@ -360,7 +360,7 @@ pub mod wasmvision {
       #[allow(unused_unsafe, clippy::all)]
       /// Get the content at the specified URL.
       /// Returns either the content or an error.
-      pub fn get(url: &str,) -> Result<_rt::Vec::<u8>,HttpError>{
+      pub fn get(url: &str,) -> Result<_rt::String,HttpError>{
         unsafe {
           #[repr(align(4))]
           struct RetArea([::core::mem::MaybeUninit::<u8>; 12]);
@@ -386,8 +386,9 @@ pub mod wasmvision {
                 let l4 = *ptr1.add(4).cast::<*mut u8>();
                 let l5 = *ptr1.add(8).cast::<usize>();
                 let len6 = l5;
+                let bytes6 = _rt::Vec::from_raw_parts(l4.cast(), len6, len6);
 
-                _rt::Vec::from_raw_parts(l4.cast(), len6, len6)
+                _rt::string_lift(bytes6)
               };
               Ok(e)
             }
@@ -407,7 +408,7 @@ pub mod wasmvision {
       #[allow(unused_unsafe, clippy::all)]
       /// Post the content to the specified URL.
       /// Returns either the response content or an error.
-      pub fn post(url: &str,content_type: &str,body: &[u8],) -> Result<_rt::Vec::<u8>,HttpError>{
+      pub fn post(url: &str,content_type: &str,body: &[u8],) -> Result<_rt::String,HttpError>{
         unsafe {
           #[repr(align(4))]
           struct RetArea([::core::mem::MaybeUninit::<u8>; 12]);
@@ -439,8 +440,9 @@ pub mod wasmvision {
                 let l6 = *ptr3.add(4).cast::<*mut u8>();
                 let l7 = *ptr3.add(8).cast::<usize>();
                 let len8 = l7;
+                let bytes8 = _rt::Vec::from_raw_parts(l6.cast(), len8, len8);
 
-                _rt::Vec::from_raw_parts(l6.cast(), len8, len8)
+                _rt::string_lift(bytes8)
               };
               Ok(e)
             }
@@ -465,7 +467,7 @@ pub mod wasmvision {
       /// after base64 encoding the image.
       /// The response-item is the item in the response to return. Usually this will be a JSON element that will be parsed.
       /// Mat is the reference to to the Mat to use.
-      pub fn post_image(url: &str,content_type: &str,request_template: &[u8],response_item: &str,mat: u32,) -> Result<_rt::Vec::<u8>,HttpError>{
+      pub fn post_image(url: &str,content_type: &str,request_template: &[u8],response_item: &str,mat: u32,) -> Result<_rt::String,HttpError>{
         unsafe {
           #[repr(align(4))]
           struct RetArea([::core::mem::MaybeUninit::<u8>; 12]);
@@ -500,8 +502,9 @@ pub mod wasmvision {
                 let l7 = *ptr4.add(4).cast::<*mut u8>();
                 let l8 = *ptr4.add(8).cast::<usize>();
                 let len9 = l8;
+                let bytes9 = _rt::Vec::from_raw_parts(l7.cast(), len9, len9);
 
-                _rt::Vec::from_raw_parts(l7.cast(), len9, len9)
+                _rt::string_lift(bytes9)
               };
               Ok(e)
             }
@@ -711,7 +714,7 @@ pub mod wasmvision {
         /// Get the value associated with the specified `key` for the specific frame.
         ///
         /// Returns `ok(none)` if the key does not exist.
-        pub fn get(&self,frame: u32,key: &str,) -> Result<_rt::Vec::<u8>,DatastoreError>{
+        pub fn get(&self,frame: u32,key: &str,) -> Result<_rt::String,DatastoreError>{
           unsafe {
             #[repr(align(4))]
             struct RetArea([::core::mem::MaybeUninit::<u8>; 12]);
@@ -737,8 +740,9 @@ pub mod wasmvision {
                   let l4 = *ptr1.add(4).cast::<*mut u8>();
                   let l5 = *ptr1.add(8).cast::<usize>();
                   let len6 = l5;
+                  let bytes6 = _rt::Vec::from_raw_parts(l4.cast(), len6, len6);
 
-                  _rt::Vec::from_raw_parts(l4.cast(), len6, len6)
+                  _rt::string_lift(bytes6)
                 };
                 Ok(e)
               }
@@ -760,7 +764,7 @@ pub mod wasmvision {
         #[allow(unused_unsafe, clippy::all)]
         /// Set the `value` associated with the specified `key` for the specific frame
         /// overwriting any existing value.
-        pub fn set(&self,frame: u32,key: &str,value: &[u8],) -> Result<(),DatastoreError>{
+        pub fn set(&self,frame: u32,key: &str,value: &str,) -> Result<(),DatastoreError>{
           unsafe {
             #[repr(align(1))]
             struct RetArea([::core::mem::MaybeUninit::<u8>; 2]);
@@ -997,7 +1001,7 @@ pub mod wasmvision {
         /// Get the value associated with the specified `key`
         ///
         /// Returns `ok(none)` if the key does not exist.
-        pub fn get(&self,processor: &str,key: &str,) -> Result<_rt::Vec::<u8>,DatastoreError>{
+        pub fn get(&self,processor: &str,key: &str,) -> Result<_rt::String,DatastoreError>{
           unsafe {
             #[repr(align(4))]
             struct RetArea([::core::mem::MaybeUninit::<u8>; 12]);
@@ -1026,8 +1030,9 @@ pub mod wasmvision {
                   let l5 = *ptr2.add(4).cast::<*mut u8>();
                   let l6 = *ptr2.add(8).cast::<usize>();
                   let len7 = l6;
+                  let bytes7 = _rt::Vec::from_raw_parts(l5.cast(), len7, len7);
 
-                  _rt::Vec::from_raw_parts(l5.cast(), len7, len7)
+                  _rt::string_lift(bytes7)
                 };
                 Ok(e)
               }
@@ -1048,7 +1053,7 @@ pub mod wasmvision {
       impl ProcessorStore {
         #[allow(unused_unsafe, clippy::all)]
         /// Set the `value` associated with the specified `key` overwriting any existing value.
-        pub fn set(&self,processor: &str,key: &str,value: &[u8],) -> Result<(),DatastoreError>{
+        pub fn set(&self,processor: &str,key: &str,value: &str,) -> Result<(),DatastoreError>{
           unsafe {
             #[repr(align(1))]
             struct RetArea([::core::mem::MaybeUninit::<u8>; 2]);
@@ -1490,8 +1495,8 @@ mod _rt {
 #[unsafe(link_section = "component-type:wit-bindgen:0.38.0:wasmvision:platform:imports:encoded world")]
 #[doc(hidden)]
 #[allow(clippy::octal_escapes)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 1646] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xf0\x0b\x01A\x02\x01\
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 1643] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xed\x0b\x01A\x02\x01\
 A\x0a\x01B\x02\x01@\x01\x02tzy\0w\x04\0\x03now\x01\0\x03\0\x18wasmvision:platfor\
 m/time\x05\0\x01B\x07\x01@\x01\x03msgs\x01\0\x04\0\x03log\x01\0\x04\0\x05error\x01\
 \0\x04\0\x04warn\x01\0\x04\0\x04info\x01\0\x04\0\x05debug\x01\0\x04\0\x07println\
@@ -1499,32 +1504,32 @@ m/time\x05\0\x01B\x07\x01@\x01\x03msgs\x01\0\x04\0\x03log\x01\0\x04\0\x05error\x
 \x0bno-such-key\x04\0\x0cconfig-error\x03\0\0\x01j\x01s\x01\x01\x01@\x01\x03keys\
 \0\x02\x04\0\x0aget-config\x01\x03\x03\0\x1awasmvision:platform/config\x05\x02\x01\
 B\x0a\x01m\x06\x07success\x17destination-not-allowed\x0binvalid-url\x0drequest-e\
-rror\x0druntime-error\x11too-many-requests\x04\0\x0ahttp-error\x03\0\0\x01p}\x01\
-j\x01\x02\x01\x01\x01@\x01\x03urls\0\x03\x04\0\x03get\x01\x04\x01@\x03\x03urls\x0c\
-content-types\x04body\x02\0\x03\x04\0\x04post\x01\x05\x01@\x05\x03urls\x0cconten\
-t-types\x10request-template\x02\x0dresponse-items\x03maty\0\x03\x04\0\x0apost-im\
-age\x01\x06\x03\0\x18wasmvision:platform/http\x05\x03\x01B)\x01m\x04\x07success\x0d\
+rror\x0druntime-error\x11too-many-requests\x04\0\x0ahttp-error\x03\0\0\x01j\x01s\
+\x01\x01\x01@\x01\x03urls\0\x02\x04\0\x03get\x01\x03\x01p}\x01@\x03\x03urls\x0cc\
+ontent-types\x04body\x04\0\x02\x04\0\x04post\x01\x05\x01@\x05\x03urls\x0ccontent\
+-types\x10request-template\x04\x0dresponse-items\x03maty\0\x02\x04\0\x0apost-ima\
+ge\x01\x06\x03\0\x18wasmvision:platform/http\x05\x03\x01B(\x01m\x04\x07success\x0d\
 no-such-frame\x0bno-such-key\x0druntime-error\x04\0\x0fdatastore-error\x03\0\0\x04\
 \0\x0bframe-store\x03\x01\x04\0\x0fprocessor-store\x03\x01\x01i\x02\x01@\x01\x02\
-idy\0\x04\x04\0\x18[constructor]frame-store\x01\x05\x01h\x02\x01p}\x01j\x01\x07\x01\
-\x01\x01@\x03\x04self\x06\x05framey\x03keys\0\x08\x04\0\x17[method]frame-store.g\
-et\x01\x09\x01j\0\x01\x01\x01@\x04\x04self\x06\x05framey\x03keys\x05value\x07\0\x0a\
-\x04\0\x17[method]frame-store.set\x01\x0b\x01@\x03\x04self\x06\x05framey\x03keys\
-\0\x0a\x04\0\x1a[method]frame-store.delete\x01\x0c\x01@\x02\x04self\x06\x05frame\
-y\0\x0a\x04\0\x1e[method]frame-store.delete-all\x01\x0d\x01j\x01\x7f\x01\x01\x01\
-@\x02\x04self\x06\x05framey\0\x0e\x04\0\x1a[method]frame-store.exists\x01\x0f\x01\
-ps\x01@\x02\x04self\x06\x05framey\0\x10\x04\0\x1c[method]frame-store.get-keys\x01\
-\x11\x01i\x03\x01@\x01\x02idy\0\x12\x04\0\x1c[constructor]processor-store\x01\x13\
-\x01h\x03\x01@\x03\x04self\x14\x09processors\x03keys\0\x08\x04\0\x1b[method]proc\
-essor-store.get\x01\x15\x01@\x04\x04self\x14\x09processors\x03keys\x05value\x07\0\
-\x0a\x04\0\x1b[method]processor-store.set\x01\x16\x01@\x03\x04self\x14\x09proces\
-sors\x03keys\0\x0a\x04\0\x1e[method]processor-store.delete\x01\x17\x01@\x02\x04s\
-elf\x14\x09processors\0\x0a\x04\0\"[method]processor-store.delete-all\x01\x18\x01\
-@\x02\x04self\x14\x09processors\0\x0e\x04\0\x1e[method]processor-store.exists\x01\
-\x19\x01@\x02\x04self\x14\x09processors\0\x10\x04\0\x20[method]processor-store.g\
-et-keys\x01\x1a\x03\0\x1dwasmvision:platform/datastore\x05\x04\x04\0\x1bwasmvisi\
-on:platform/imports\x04\0\x0b\x0d\x01\0\x07imports\x03\0\0\0G\x09producers\x01\x0c\
-processed-by\x02\x0dwit-component\x070.224.0\x10wit-bindgen-rust\x060.38.0";
+idy\0\x04\x04\0\x18[constructor]frame-store\x01\x05\x01h\x02\x01j\x01s\x01\x01\x01\
+@\x03\x04self\x06\x05framey\x03keys\0\x07\x04\0\x17[method]frame-store.get\x01\x08\
+\x01j\0\x01\x01\x01@\x04\x04self\x06\x05framey\x03keys\x05values\0\x09\x04\0\x17\
+[method]frame-store.set\x01\x0a\x01@\x03\x04self\x06\x05framey\x03keys\0\x09\x04\
+\0\x1a[method]frame-store.delete\x01\x0b\x01@\x02\x04self\x06\x05framey\0\x09\x04\
+\0\x1e[method]frame-store.delete-all\x01\x0c\x01j\x01\x7f\x01\x01\x01@\x02\x04se\
+lf\x06\x05framey\0\x0d\x04\0\x1a[method]frame-store.exists\x01\x0e\x01ps\x01@\x02\
+\x04self\x06\x05framey\0\x0f\x04\0\x1c[method]frame-store.get-keys\x01\x10\x01i\x03\
+\x01@\x01\x02idy\0\x11\x04\0\x1c[constructor]processor-store\x01\x12\x01h\x03\x01\
+@\x03\x04self\x13\x09processors\x03keys\0\x07\x04\0\x1b[method]processor-store.g\
+et\x01\x14\x01@\x04\x04self\x13\x09processors\x03keys\x05values\0\x09\x04\0\x1b[\
+method]processor-store.set\x01\x15\x01@\x03\x04self\x13\x09processors\x03keys\0\x09\
+\x04\0\x1e[method]processor-store.delete\x01\x16\x01@\x02\x04self\x13\x09process\
+ors\0\x09\x04\0\"[method]processor-store.delete-all\x01\x17\x01@\x02\x04self\x13\
+\x09processors\0\x0d\x04\0\x1e[method]processor-store.exists\x01\x18\x01@\x02\x04\
+self\x13\x09processors\0\x0f\x04\0\x20[method]processor-store.get-keys\x01\x19\x03\
+\0\x1dwasmvision:platform/datastore\x05\x04\x04\0\x1bwasmvision:platform/imports\
+\x04\0\x0b\x0d\x01\0\x07imports\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0d\
+wit-component\x070.224.0\x10wit-bindgen-rust\x060.38.0";
 
 #[inline(never)]
 #[doc(hidden)]
