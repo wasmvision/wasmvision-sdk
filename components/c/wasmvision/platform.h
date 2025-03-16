@@ -40,17 +40,17 @@ typedef uint8_t wasmvision_platform_http_http_error_t;
 #define WASMVISION_PLATFORM_HTTP_HTTP_ERROR_TOO_MANY_REQUESTS 5
 
 typedef struct {
+  bool is_err;
+  union {
+    platform_string_t ok;
+    wasmvision_platform_http_http_error_t err;
+  } val;
+} wasmvision_platform_http_result_string_http_error_t;
+
+typedef struct {
   uint8_t *ptr;
   size_t len;
 } platform_list_u8_t;
-
-typedef struct {
-  bool is_err;
-  union {
-    platform_list_u8_t ok;
-    wasmvision_platform_http_http_error_t err;
-  } val;
-} wasmvision_platform_http_result_list_u8_http_error_t;
 
 // datastore errors returned by the runtime.
 typedef uint8_t wasmvision_platform_datastore_datastore_error_t;
@@ -79,10 +79,10 @@ typedef struct wasmvision_platform_datastore_borrow_processor_store_t {
 typedef struct {
   bool is_err;
   union {
-    platform_list_u8_t ok;
+    platform_string_t ok;
     wasmvision_platform_datastore_datastore_error_t err;
   } val;
-} wasmvision_platform_datastore_result_list_u8_datastore_error_t;
+} wasmvision_platform_datastore_result_string_datastore_error_t;
 
 typedef struct {
   bool is_err;
@@ -129,10 +129,10 @@ extern bool wasmvision_platform_config_get_config(platform_string_t *key, platfo
 // Imported Functions from `wasmvision:platform/http`
 // Get the content at the specified URL.
 // Returns either the content or an error.
-extern bool wasmvision_platform_http_get(platform_string_t *url, platform_list_u8_t *ret, wasmvision_platform_http_http_error_t *err);
+extern bool wasmvision_platform_http_get(platform_string_t *url, platform_string_t *ret, wasmvision_platform_http_http_error_t *err);
 // Post the content to the specified URL.
 // Returns either the response content or an error.
-extern bool wasmvision_platform_http_post(platform_string_t *url, platform_string_t *content_type, platform_list_u8_t *body, platform_list_u8_t *ret, wasmvision_platform_http_http_error_t *err);
+extern bool wasmvision_platform_http_post(platform_string_t *url, platform_string_t *content_type, platform_list_u8_t *body, platform_string_t *ret, wasmvision_platform_http_http_error_t *err);
 // Post the image to the specified URL.
 // Template is the template to use to send the image.
 // If the content-type is image/jpeg or image/png, the template is ignored, and the image is simply converted and sent in that format.
@@ -140,7 +140,7 @@ extern bool wasmvision_platform_http_post(platform_string_t *url, platform_strin
 // after base64 encoding the image.
 // The response-item is the item in the response to return. Usually this will be a JSON element that will be parsed.
 // Mat is the reference to to the Mat to use.
-extern bool wasmvision_platform_http_post_image(platform_string_t *url, platform_string_t *content_type, platform_list_u8_t *request_template, platform_string_t *response_item, uint32_t mat, platform_list_u8_t *ret, wasmvision_platform_http_http_error_t *err);
+extern bool wasmvision_platform_http_post_image(platform_string_t *url, platform_string_t *content_type, platform_list_u8_t *request_template, platform_string_t *response_item, uint32_t mat, platform_string_t *ret, wasmvision_platform_http_http_error_t *err);
 
 // Imported Functions from `wasmvision:platform/datastore`
 // The id param is currently ignored
@@ -148,10 +148,10 @@ extern wasmvision_platform_datastore_own_frame_store_t wasmvision_platform_datas
 // Get the value associated with the specified `key` for the specific frame.
 // 
 // Returns `ok(none)` if the key does not exist.
-extern bool wasmvision_platform_datastore_method_frame_store_get(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_list_u8_t *ret, wasmvision_platform_datastore_datastore_error_t *err);
+extern bool wasmvision_platform_datastore_method_frame_store_get(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_string_t *ret, wasmvision_platform_datastore_datastore_error_t *err);
 // Set the `value` associated with the specified `key` for the specific frame
 // overwriting any existing value.
-extern bool wasmvision_platform_datastore_method_frame_store_set(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_list_u8_t *value, wasmvision_platform_datastore_datastore_error_t *err);
+extern bool wasmvision_platform_datastore_method_frame_store_set(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_string_t *value, wasmvision_platform_datastore_datastore_error_t *err);
 // Delete the data with the specified `key` for the specified `frame`
 // 
 // No error is raised if a tuple did not previously exist for `key`.
@@ -169,9 +169,9 @@ extern wasmvision_platform_datastore_own_processor_store_t wasmvision_platform_d
 // Get the value associated with the specified `key`
 // 
 // Returns `ok(none)` if the key does not exist.
-extern bool wasmvision_platform_datastore_method_processor_store_get(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_list_u8_t *ret, wasmvision_platform_datastore_datastore_error_t *err);
+extern bool wasmvision_platform_datastore_method_processor_store_get(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_string_t *ret, wasmvision_platform_datastore_datastore_error_t *err);
 // Set the `value` associated with the specified `key` overwriting any existing value.
-extern bool wasmvision_platform_datastore_method_processor_store_set(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_list_u8_t *value, wasmvision_platform_datastore_datastore_error_t *err);
+extern bool wasmvision_platform_datastore_method_processor_store_set(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_string_t *value, wasmvision_platform_datastore_datastore_error_t *err);
 // Delete the tuple with the specified `key`
 // 
 // No error is raised if a tuple did not previously exist for `key`.
@@ -189,9 +189,9 @@ extern void wasmvision_platform_datastore_method_processor_store_get_keys(wasmvi
 
 void wasmvision_platform_config_result_string_config_error_free(wasmvision_platform_config_result_string_config_error_t *ptr);
 
-void platform_list_u8_free(platform_list_u8_t *ptr);
+void wasmvision_platform_http_result_string_http_error_free(wasmvision_platform_http_result_string_http_error_t *ptr);
 
-void wasmvision_platform_http_result_list_u8_http_error_free(wasmvision_platform_http_result_list_u8_http_error_t *ptr);
+void platform_list_u8_free(platform_list_u8_t *ptr);
 
 extern void wasmvision_platform_datastore_frame_store_drop_own(wasmvision_platform_datastore_own_frame_store_t handle);
 
@@ -201,7 +201,7 @@ extern void wasmvision_platform_datastore_processor_store_drop_own(wasmvision_pl
 
 extern wasmvision_platform_datastore_borrow_processor_store_t wasmvision_platform_datastore_borrow_processor_store(wasmvision_platform_datastore_own_processor_store_t handle);
 
-void wasmvision_platform_datastore_result_list_u8_datastore_error_free(wasmvision_platform_datastore_result_list_u8_datastore_error_t *ptr);
+void wasmvision_platform_datastore_result_string_datastore_error_free(wasmvision_platform_datastore_result_string_datastore_error_t *ptr);
 
 void wasmvision_platform_datastore_result_void_datastore_error_free(wasmvision_platform_datastore_result_void_datastore_error_t *ptr);
 

@@ -108,6 +108,13 @@ void wasmvision_platform_config_result_string_config_error_free(wasmvision_platf
   }
 }
 
+void wasmvision_platform_http_result_string_http_error_free(wasmvision_platform_http_result_string_http_error_t *ptr) {
+  if (!ptr->is_err) {
+    platform_string_free(&ptr->val.ok);
+  } else {
+  }
+}
+
 void platform_list_u8_free(platform_list_u8_t *ptr) {
   size_t list_len = ptr->len;
   if (list_len > 0) {
@@ -115,13 +122,6 @@ void platform_list_u8_free(platform_list_u8_t *ptr) {
     for (size_t i = 0; i < list_len; i++) {
     }
     free(list_ptr);
-  }
-}
-
-void wasmvision_platform_http_result_list_u8_http_error_free(wasmvision_platform_http_result_list_u8_http_error_t *ptr) {
-  if (!ptr->is_err) {
-    platform_list_u8_free(&ptr->val.ok);
-  } else {
   }
 }
 
@@ -147,9 +147,9 @@ wasmvision_platform_datastore_borrow_processor_store_t wasmvision_platform_datas
   return (wasmvision_platform_datastore_borrow_processor_store_t) { arg.__handle };
 }
 
-void wasmvision_platform_datastore_result_list_u8_datastore_error_free(wasmvision_platform_datastore_result_list_u8_datastore_error_t *ptr) {
+void wasmvision_platform_datastore_result_string_datastore_error_free(wasmvision_platform_datastore_result_string_datastore_error_t *ptr) {
   if (!ptr->is_err) {
-    platform_list_u8_free(&ptr->val.ok);
+    platform_string_free(&ptr->val.ok);
   } else {
   }
 }
@@ -254,16 +254,16 @@ bool wasmvision_platform_config_get_config(platform_string_t *key, platform_stri
   }
 }
 
-bool wasmvision_platform_http_get(platform_string_t *url, platform_list_u8_t *ret, wasmvision_platform_http_http_error_t *err) {
+bool wasmvision_platform_http_get(platform_string_t *url, platform_string_t *ret, wasmvision_platform_http_http_error_t *err) {
   __attribute__((__aligned__(4)))
   uint8_t ret_area[12];
   uint8_t *ptr = (uint8_t *) &ret_area;
   __wasm_import_wasmvision_platform_http_get((uint8_t *) (*url).ptr, (*url).len, ptr);
-  wasmvision_platform_http_result_list_u8_http_error_t result;
+  wasmvision_platform_http_result_string_http_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
       result.is_err = false;
-      result.val.ok = (platform_list_u8_t) { (uint8_t*)(*((uint8_t **) (ptr + 4))), (*((size_t*) (ptr + 8))) };
+      result.val.ok = (platform_string_t) { (uint8_t*)(*((uint8_t **) (ptr + 4))), (*((size_t*) (ptr + 8))) };
       break;
     }
     case 1: {
@@ -281,16 +281,16 @@ bool wasmvision_platform_http_get(platform_string_t *url, platform_list_u8_t *re
   }
 }
 
-bool wasmvision_platform_http_post(platform_string_t *url, platform_string_t *content_type, platform_list_u8_t *body, platform_list_u8_t *ret, wasmvision_platform_http_http_error_t *err) {
+bool wasmvision_platform_http_post(platform_string_t *url, platform_string_t *content_type, platform_list_u8_t *body, platform_string_t *ret, wasmvision_platform_http_http_error_t *err) {
   __attribute__((__aligned__(4)))
   uint8_t ret_area[12];
   uint8_t *ptr = (uint8_t *) &ret_area;
   __wasm_import_wasmvision_platform_http_post((uint8_t *) (*url).ptr, (*url).len, (uint8_t *) (*content_type).ptr, (*content_type).len, (uint8_t *) (*body).ptr, (*body).len, ptr);
-  wasmvision_platform_http_result_list_u8_http_error_t result;
+  wasmvision_platform_http_result_string_http_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
       result.is_err = false;
-      result.val.ok = (platform_list_u8_t) { (uint8_t*)(*((uint8_t **) (ptr + 4))), (*((size_t*) (ptr + 8))) };
+      result.val.ok = (platform_string_t) { (uint8_t*)(*((uint8_t **) (ptr + 4))), (*((size_t*) (ptr + 8))) };
       break;
     }
     case 1: {
@@ -308,16 +308,16 @@ bool wasmvision_platform_http_post(platform_string_t *url, platform_string_t *co
   }
 }
 
-bool wasmvision_platform_http_post_image(platform_string_t *url, platform_string_t *content_type, platform_list_u8_t *request_template, platform_string_t *response_item, uint32_t mat, platform_list_u8_t *ret, wasmvision_platform_http_http_error_t *err) {
+bool wasmvision_platform_http_post_image(platform_string_t *url, platform_string_t *content_type, platform_list_u8_t *request_template, platform_string_t *response_item, uint32_t mat, platform_string_t *ret, wasmvision_platform_http_http_error_t *err) {
   __attribute__((__aligned__(4)))
   uint8_t ret_area[12];
   uint8_t *ptr = (uint8_t *) &ret_area;
   __wasm_import_wasmvision_platform_http_post_image((uint8_t *) (*url).ptr, (*url).len, (uint8_t *) (*content_type).ptr, (*content_type).len, (uint8_t *) (*request_template).ptr, (*request_template).len, (uint8_t *) (*response_item).ptr, (*response_item).len, (int32_t) (mat), ptr);
-  wasmvision_platform_http_result_list_u8_http_error_t result;
+  wasmvision_platform_http_result_string_http_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
       result.is_err = false;
-      result.val.ok = (platform_list_u8_t) { (uint8_t*)(*((uint8_t **) (ptr + 4))), (*((size_t*) (ptr + 8))) };
+      result.val.ok = (platform_string_t) { (uint8_t*)(*((uint8_t **) (ptr + 4))), (*((size_t*) (ptr + 8))) };
       break;
     }
     case 1: {
@@ -340,16 +340,16 @@ wasmvision_platform_datastore_own_frame_store_t wasmvision_platform_datastore_co
   return (wasmvision_platform_datastore_own_frame_store_t) { ret };
 }
 
-bool wasmvision_platform_datastore_method_frame_store_get(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_list_u8_t *ret, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_frame_store_get(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_string_t *ret, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(4)))
   uint8_t ret_area[12];
   uint8_t *ptr = (uint8_t *) &ret_area;
   __wasm_import_wasmvision_platform_datastore_method_frame_store_get((self).__handle, (int32_t) (frame), (uint8_t *) (*key).ptr, (*key).len, ptr);
-  wasmvision_platform_datastore_result_list_u8_datastore_error_t result;
+  wasmvision_platform_datastore_result_string_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
       result.is_err = false;
-      result.val.ok = (platform_list_u8_t) { (uint8_t*)(*((uint8_t **) (ptr + 4))), (*((size_t*) (ptr + 8))) };
+      result.val.ok = (platform_string_t) { (uint8_t*)(*((uint8_t **) (ptr + 4))), (*((size_t*) (ptr + 8))) };
       break;
     }
     case 1: {
@@ -367,7 +367,7 @@ bool wasmvision_platform_datastore_method_frame_store_get(wasmvision_platform_da
   }
 }
 
-bool wasmvision_platform_datastore_method_frame_store_set(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_list_u8_t *value, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_frame_store_set(wasmvision_platform_datastore_borrow_frame_store_t self, uint32_t frame, platform_string_t *key, platform_string_t *value, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(1)))
   uint8_t ret_area[2];
   uint8_t *ptr = (uint8_t *) &ret_area;
@@ -482,16 +482,16 @@ wasmvision_platform_datastore_own_processor_store_t wasmvision_platform_datastor
   return (wasmvision_platform_datastore_own_processor_store_t) { ret };
 }
 
-bool wasmvision_platform_datastore_method_processor_store_get(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_list_u8_t *ret, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_processor_store_get(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_string_t *ret, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(4)))
   uint8_t ret_area[12];
   uint8_t *ptr = (uint8_t *) &ret_area;
   __wasm_import_wasmvision_platform_datastore_method_processor_store_get((self).__handle, (uint8_t *) (*processor).ptr, (*processor).len, (uint8_t *) (*key).ptr, (*key).len, ptr);
-  wasmvision_platform_datastore_result_list_u8_datastore_error_t result;
+  wasmvision_platform_datastore_result_string_datastore_error_t result;
   switch ((int32_t) *((uint8_t*) (ptr + 0))) {
     case 0: {
       result.is_err = false;
-      result.val.ok = (platform_list_u8_t) { (uint8_t*)(*((uint8_t **) (ptr + 4))), (*((size_t*) (ptr + 8))) };
+      result.val.ok = (platform_string_t) { (uint8_t*)(*((uint8_t **) (ptr + 4))), (*((size_t*) (ptr + 8))) };
       break;
     }
     case 1: {
@@ -509,7 +509,7 @@ bool wasmvision_platform_datastore_method_processor_store_get(wasmvision_platfor
   }
 }
 
-bool wasmvision_platform_datastore_method_processor_store_set(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_list_u8_t *value, wasmvision_platform_datastore_datastore_error_t *err) {
+bool wasmvision_platform_datastore_method_processor_store_set(wasmvision_platform_datastore_borrow_processor_store_t self, platform_string_t *processor, platform_string_t *key, platform_string_t *value, wasmvision_platform_datastore_datastore_error_t *err) {
   __attribute__((__aligned__(1)))
   uint8_t ret_area[2];
   uint8_t *ptr = (uint8_t *) &ret_area;
