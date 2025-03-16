@@ -15,11 +15,11 @@ interface datastore {
         /// Get the value associated with the specified `key` for the specific frame.
         ///
         /// Returns `ok(none)` if the key does not exist.
-        get: func(frame: u32, key: string) -> result<list<u8>, datastore-error>;
+        get: func(frame: u32, key: string) -> result<string, datastore-error>;
 
         /// Set the `value` associated with the specified `key` for the specific frame
         /// overwriting any existing value.
-        set: func(frame: u32, key: string, value: list<u8>) -> result<_, datastore-error>;
+        set: func(frame: u32, key: string, value: string) -> result<_, datastore-error>;
 
         /// Delete the data with the specified `key` for the specified `frame`
         ///
@@ -46,10 +46,10 @@ interface datastore {
         /// Get the value associated with the specified `key`
         ///
         /// Returns `ok(none)` if the key does not exist.
-        get: func(processor: string, key: string) -> result<list<u8>, datastore-error>;
+        get: func(processor: string, key: string) -> result<string, datastore-error>;
 
         /// Set the `value` associated with the specified `key` overwriting any existing value.
-        set: func(processor: string, key: string, value: list<u8>) -> result<_, datastore-error>;
+        set: func(processor: string, key: string, value: string) -> result<_, datastore-error>;
 
         /// Delete the tuple with the specified `key`
         ///
