@@ -7,4 +7,5 @@ world imports {
     import config;
     import http;
     import datastore;
+    import vlm;
 }
