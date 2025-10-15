@@ -10,6 +10,14 @@ interface vlm {
         /// It will return either the text result from calling the model or else an error.
         prompt: func(text: string, mat: u32) -> result<string, vlm-error>;
 
+        /// Prompt the model using a text query along with an image mat, then save the result
+        /// into the processor datastore.
+        /// This function returns immediately and then saves the results into the datastore
+        /// location asynchronously.
+        ///
+        /// It will return either success or an error from starting the operation.
+        prompt-and-save: func(text: string, mat: u32, processor: string, key: string) -> result<bool, vlm-error>;
+
         /// Clear the model history.
 		clear: func();
 
