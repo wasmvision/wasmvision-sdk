@@ -135,6 +135,14 @@ typedef struct {
   } val;
 } wasmvision_platform_vlm_result_string_vlm_error_t;
 
+typedef struct {
+  bool is_err;
+  union {
+    bool ok;
+    wasmvision_platform_vlm_vlm_error_t err;
+  } val;
+} wasmvision_platform_vlm_result_bool_vlm_error_t;
+
 // Imported Functions from `wasmvision:platform/time`
 // Get the current time in milliseconds since the Unix epoch. Use 0 for the `tz` parameter for now.
 extern uint64_t wasmvision_platform_time_now(uint32_t tz);
@@ -223,6 +231,13 @@ extern bool wasmvision_platform_vlm_static_model_init_from_file(platform_string_
 // 
 // It will return either the text result from calling the model or else an error.
 extern bool wasmvision_platform_vlm_method_model_prompt(wasmvision_platform_vlm_borrow_model_t self, platform_string_t *text, uint32_t mat, platform_string_t *ret, wasmvision_platform_vlm_vlm_error_t *err);
+// Prompt the model using a text query along with an image mat, then save the result
+// into the processor datastore.
+// This function returns immediately and then saves the results into the datastore
+// location asynchronously.
+// 
+// It will return either success or an error from starting the operation.
+extern bool wasmvision_platform_vlm_method_model_prompt_and_save(wasmvision_platform_vlm_borrow_model_t self, platform_string_t *text, uint32_t mat, platform_string_t *processor, platform_string_t *key, bool *ret, wasmvision_platform_vlm_vlm_error_t *err);
 // Clear the model history.
 extern void wasmvision_platform_vlm_method_model_clear(wasmvision_platform_vlm_borrow_model_t self);
 // Close the model
@@ -265,6 +280,8 @@ extern wasmvision_platform_vlm_borrow_model_t wasmvision_platform_vlm_borrow_mod
 void wasmvision_platform_vlm_result_own_model_vlm_error_free(wasmvision_platform_vlm_result_own_model_vlm_error_t *ptr);
 
 void wasmvision_platform_vlm_result_string_vlm_error_free(wasmvision_platform_vlm_result_string_vlm_error_t *ptr);
+
+void wasmvision_platform_vlm_result_bool_vlm_error_free(wasmvision_platform_vlm_result_bool_vlm_error_t *ptr);
 
 // Sets the string `ret` to reference the input string `s` without copying it
 void platform_string_set(platform_string_t *ret, const char*s);

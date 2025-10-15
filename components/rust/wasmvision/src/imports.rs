@@ -1550,6 +1550,65 @@ pub mod wasmvision {
       }
       impl Model {
         #[allow(unused_unsafe, clippy::all)]
+        /// Prompt the model using a text query along with an image mat, then save the result
+        /// into the processor datastore.
+        /// This function returns immediately and then saves the results into the datastore
+        /// location asynchronously.
+        ///
+        /// It will return either success or an error from starting the operation.
+        #[allow(async_fn_in_trait)]
+        pub fn prompt_and_save(&self,text: &str,mat: u32,processor: &str,key: &str,) -> Result<bool,VlmError>{
+          unsafe {
+
+            #[repr(align(1))]
+            struct RetArea([::core::mem::MaybeUninit::<u8>; 2]);
+            let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+            let vec0 = text;
+            let ptr0 = vec0.as_ptr().cast::<u8>();
+            let len0 = vec0.len();
+            let vec1 = processor;
+            let ptr1 = vec1.as_ptr().cast::<u8>();
+            let len1 = vec1.len();
+            let vec2 = key;
+            let ptr2 = vec2.as_ptr().cast::<u8>();
+            let len2 = vec2.len();
+            let ptr3 = ret_area.0.as_mut_ptr().cast::<u8>();
+            #[cfg(target_arch = "wasm32")]
+            #[link(wasm_import_module = "wasmvision:platform/vlm")]
+            unsafe extern "C" {
+              #[link_name = "[method]model.prompt-and-save"]
+              fn wit_import4(_: i32, _: *mut u8, _: usize, _: i32, _: *mut u8, _: usize, _: *mut u8, _: usize, _: *mut u8, );
+            }
+
+            #[cfg(not(target_arch = "wasm32"))]
+            unsafe extern "C" fn wit_import4(_: i32, _: *mut u8, _: usize, _: i32, _: *mut u8, _: usize, _: *mut u8, _: usize, _: *mut u8, ) { unreachable!() }
+            wit_import4((self).handle() as i32, ptr0.cast_mut(), len0, _rt::as_i32(&mat), ptr1.cast_mut(), len1, ptr2.cast_mut(), len2, ptr3);
+            let l5 = i32::from(*ptr3.add(0).cast::<u8>());
+            let result8 = match l5 {
+              0 => {
+                let e = {
+                  let l6 = i32::from(*ptr3.add(1).cast::<u8>());
+
+                  _rt::bool_lift(l6 as u8)
+                };
+                Ok(e)
+              }
+              1 => {
+                let e = {
+                  let l7 = i32::from(*ptr3.add(1).cast::<u8>());
+
+                  VlmError::_lift(l7 as u8)
+                };
+                Err(e)
+              }
+              _ => _rt::invalid_enum_discriminant(),
+            };
+            result8
+          }
+        }
+      }
+      impl Model {
+        #[allow(unused_unsafe, clippy::all)]
         /// Clear the model history.
         #[allow(async_fn_in_trait)]
         pub fn clear(&self,) -> (){
@@ -1805,8 +1864,8 @@ mod _rt {
 #[unsafe(link_section = "component-type:wit-bindgen:0.43.0:wasmvision:platform:imports:encoded world")]
 #[doc(hidden)]
 #[allow(clippy::octal_escapes)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 1929] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\x8b\x0e\x01A\x02\x01\
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 2007] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xd9\x0e\x01A\x02\x01\
 A\x0c\x01B\x02\x01@\x01\x02tzy\0w\x04\0\x03now\x01\0\x03\0\x18wasmvision:platfor\
 m/time\x05\0\x01B\x07\x01@\x01\x03msgs\x01\0\x04\0\x03log\x01\0\x04\0\x05error\x01\
 \0\x04\0\x04warn\x01\0\x04\0\x04info\x01\0\x04\0\x05debug\x01\0\x04\0\x07println\
@@ -1837,15 +1896,17 @@ method]processor-store.set\x01\x15\x01@\x03\x04self\x13\x09processors\x03keys\0\
 ors\0\x09\x04\0\"[method]processor-store.delete-all\x01\x17\x01@\x02\x04self\x13\
 \x09processors\0\x0d\x04\0\x1e[method]processor-store.exists\x01\x18\x01@\x02\x04\
 self\x13\x09processors\0\x0f\x04\0\x20[method]processor-store.get-keys\x01\x19\x03\
-\0\x1dwasmvision:platform/datastore\x05\x04\x01B\x0e\x04\0\x05model\x03\x01\x01m\
+\0\x1dwasmvision:platform/datastore\x05\x04\x01B\x11\x04\0\x05model\x03\x01\x01m\
 \x03\x07success\x0drequest-error\x0druntime-error\x04\0\x09vlm-error\x03\0\x01\x01\
 i\0\x01j\x01\x03\x01\x02\x01@\x02\x0atext-models\x0fprojector-models\0\x04\x04\0\
 \x1c[static]model.init-from-file\x01\x05\x01h\0\x01j\x01s\x01\x02\x01@\x03\x04se\
-lf\x06\x04texts\x03maty\0\x07\x04\0\x14[method]model.prompt\x01\x08\x01@\x01\x04\
-self\x06\x01\0\x04\0\x13[method]model.clear\x01\x09\x04\0\x13[method]model.close\
-\x01\x09\x03\0\x17wasmvision:platform/vlm\x05\x05\x04\0\x1bwasmvision:platform/i\
-mports\x04\0\x0b\x0d\x01\0\x07imports\x03\0\0\0G\x09producers\x01\x0cprocessed-b\
-y\x02\x0dwit-component\x070.235.0\x10wit-bindgen-rust\x060.43.0";
+lf\x06\x04texts\x03maty\0\x07\x04\0\x14[method]model.prompt\x01\x08\x01j\x01\x7f\
+\x01\x02\x01@\x05\x04self\x06\x04texts\x03maty\x09processors\x03keys\0\x09\x04\0\
+\x1d[method]model.prompt-and-save\x01\x0a\x01@\x01\x04self\x06\x01\0\x04\0\x13[m\
+ethod]model.clear\x01\x0b\x04\0\x13[method]model.close\x01\x0b\x03\0\x17wasmvisi\
+on:platform/vlm\x05\x05\x04\0\x1bwasmvision:platform/imports\x04\0\x0b\x0d\x01\0\
+\x07imports\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x07\
+0.235.0\x10wit-bindgen-rust\x060.43.0";
 
 #[inline(never)]
 #[doc(hidden)]

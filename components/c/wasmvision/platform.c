@@ -96,6 +96,9 @@ extern void __wasm_import_wasmvision_platform_vlm_static_model_init_from_file(ui
 __attribute__((__import_module__("wasmvision:platform/vlm"), __import_name__("[method]model.prompt")))
 extern void __wasm_import_wasmvision_platform_vlm_method_model_prompt(int32_t, uint8_t *, size_t, int32_t, uint8_t *);
 
+__attribute__((__import_module__("wasmvision:platform/vlm"), __import_name__("[method]model.prompt-and-save")))
+extern void __wasm_import_wasmvision_platform_vlm_method_model_prompt_and_save(int32_t, uint8_t *, size_t, int32_t, uint8_t *, size_t, uint8_t *, size_t, uint8_t *);
+
 __attribute__((__import_module__("wasmvision:platform/vlm"), __import_name__("[method]model.clear")))
 extern void __wasm_import_wasmvision_platform_vlm_method_model_clear(int32_t);
 
@@ -223,6 +226,12 @@ void wasmvision_platform_vlm_result_own_model_vlm_error_free(wasmvision_platform
 void wasmvision_platform_vlm_result_string_vlm_error_free(wasmvision_platform_vlm_result_string_vlm_error_t *ptr) {
   if (!ptr->is_err) {
     platform_string_free(&ptr->val.ok);
+  } else {
+  }
+}
+
+void wasmvision_platform_vlm_result_bool_vlm_error_free(wasmvision_platform_vlm_result_bool_vlm_error_t *ptr) {
+  if (!ptr->is_err) {
   } else {
   }
 }
@@ -711,6 +720,33 @@ bool wasmvision_platform_vlm_method_model_prompt(wasmvision_platform_vlm_borrow_
     case 1: {
       result.is_err = true;
       result.val.err = (int32_t) *((uint8_t*) (ptr + sizeof(void*)));
+      break;
+    }
+  }
+  if (!result.is_err) {
+    *ret = result.val.ok;
+    return 1;
+  } else {
+    *err = result.val.err;
+    return 0;
+  }
+}
+
+bool wasmvision_platform_vlm_method_model_prompt_and_save(wasmvision_platform_vlm_borrow_model_t self, platform_string_t *text, uint32_t mat, platform_string_t *processor, platform_string_t *key, bool *ret, wasmvision_platform_vlm_vlm_error_t *err) {
+  __attribute__((__aligned__(1)))
+  uint8_t ret_area[2];
+  uint8_t *ptr = (uint8_t *) &ret_area;
+  __wasm_import_wasmvision_platform_vlm_method_model_prompt_and_save((self).__handle, (uint8_t *) (*text).ptr, (*text).len, (int32_t) (mat), (uint8_t *) (*processor).ptr, (*processor).len, (uint8_t *) (*key).ptr, (*key).len, ptr);
+  wasmvision_platform_vlm_result_bool_vlm_error_t result;
+  switch ((int32_t) *((uint8_t*) (ptr + 0))) {
+    case 0: {
+      result.is_err = false;
+      result.val.ok = (int32_t) *((uint8_t*) (ptr + 1));
+      break;
+    }
+    case 1: {
+      result.is_err = true;
+      result.val.err = (int32_t) *((uint8_t*) (ptr + 1));
       break;
     }
   }
